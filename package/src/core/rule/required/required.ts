@@ -1,5 +1,5 @@
 import { createRule } from '../createRule';
-import { REQUIRED_ERROR_INFO } from '../errors';
+import { REQUIRED_ERROR_INFO } from '../../errors';
 
 /**
  * @description Проверяет value на пустоту. Если значение пустое, то возвращает ошибку.

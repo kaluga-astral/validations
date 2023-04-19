@@ -1,11 +1,14 @@
-import { ValidationError } from '../types';
-import { createError } from '../createError';
+import { ValidationSimpleError, createSimpleError } from '../../errors';
 
 import { createContext } from './createContext';
 
 describe('createContext', () => {
   it('Не создает новый контекст, если был старый', () => {
-    const ctx = { values: undefined, isOptional: true, createError };
+    const ctx = {
+      values: undefined,
+      isOptional: true,
+      createError: createSimpleError,
+    };
 
     const resultCtx = createContext(ctx, '');
 
@@ -25,11 +28,11 @@ describe('createContext', () => {
     expect(resultCtx.values).toBe('value');
   });
 
-  it('В контексте доступна фабрика для создания ошибок валидации', () => {
+  it('В контексте доступна фабрика для создания SimpleError валидации', () => {
     const ctx = createContext(undefined, 'value');
 
     const error = ctx.createError({ code: Symbol(), message: 'error' });
 
-    expect(error instanceof ValidationError).toBeTruthy();
+    expect(error instanceof ValidationSimpleError).toBeTruthy();
   });
 });

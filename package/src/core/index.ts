@@ -1,11 +1,11 @@
 export * from './types';
 
-export * from './createError';
+export * from './errors';
 
-export * from './createContext';
+export * from './context';
 
 export * from './errors';
 
-export * from './createGuard';
+export * from './guard';
 
-export * from './createRule';
+export * from './rule';

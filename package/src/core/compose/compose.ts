@@ -1,4 +1,5 @@
-import { ValidationResult, ValidationRule } from '../types';
+import { ValidationResult } from '../types';
+import { ValidationRule } from '../rule';
 
 /**
  * @description Объединяет переданные правила в цепочку правил, останавливает выполнение цепочки, если появилась ошибка. Выполняет правила слева направо

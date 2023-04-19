@@ -17,7 +17,3 @@ export const optional = (rule: UniversalValidationRule) =>
 
     return rule(value, ctx);
   });
-
-optional((value, ctx) => {
-  return ctx?.createError();
-});

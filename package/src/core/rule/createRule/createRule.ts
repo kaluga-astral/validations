@@ -1,10 +1,6 @@
-import {
-  ValidationContext,
-  ValidationResult,
-  ValidationRule,
-  ValidationTypes,
-} from '../types';
-import { createContext } from '../createContext';
+import { ValidationResult, ValidationTypes } from '../../types';
+import { ValidationContext, createContext } from '../../context';
+import { ValidationRule } from '../types';
 
 /**
  * @description Единые параметры для всех правил

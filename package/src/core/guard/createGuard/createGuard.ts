@@ -1,12 +1,7 @@
-import {
-  ValidationContext,
-  ValidationResult,
-  ValidationResult,
-  ValidationTypes,
-} from '../types';
-import { required } from '../required';
-import { createContext } from '../createContext';
-import { compose } from '../compose';
+import { ValidationResult, ValidationTypes } from '../../types';
+import { required } from '../../rule';
+import { ValidationContext, createContext } from '../../context';
+import { compose } from '../../compose';
 
 type DefOptions = {
   /**
