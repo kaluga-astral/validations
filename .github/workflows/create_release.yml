@@ -49,11 +49,11 @@ jobs:
           RELEASE_TAG: ${{ env.NEXT_VERSION }}
 
       # Паблишинг всех пакетов
-      - name: Publish packages
-        if: env.CURRENT_VERSION != env.NEXT_VERSION
-        run: npm publish ./package/lib
-        env:
-          NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+#      - name: Publish packages
+#        if: env.CURRENT_VERSION != env.NEXT_VERSION
+#        run: npm publish ./package/lib
+#        env:
+#          NPM_PUBLISH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       # Нотификация в telegram
       - name: send telegram message on release
