@@ -1,7 +1,7 @@
-import { CreateError, ValidationError } from '../types';
+import { CreateSimpleError, ValidationSimpleError } from '../errors';
 
 /**
  * @description Создает ошибки валидации
  */
-export const createError: CreateError = ({ message, code }) =>
-  new ValidationError(message, { cause: { code } });
+export const createError: CreateSimpleError = ({ message, code }) =>
+  new ValidationSimpleError(message, { cause: { code } });

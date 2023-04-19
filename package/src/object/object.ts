@@ -7,9 +7,10 @@ import { OBJECT_TYPE_ERROR_INFO, ValidationRule, createGuard } from '../core';
  */
 type NeverSchema = Record<'__never', never>;
 
-type Schema<TValues extends object> = {
-  [P in keyof TValues]: ValidationRule<TValues[P], TValues>;
-};
+type Schema<TValues extends Record<string, unknown>> = Record<
+  keyof TValues,
+  ValidationRule<unknown, unknown>
+>;
 
 /**
  * @description Guard для объекта

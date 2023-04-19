@@ -1,7 +1,7 @@
 import {
   ValidationContext,
-  ValidationRule,
   ValidationResult,
+  ValidationRule,
   ValidationTypes,
 } from '../types';
 import { createContext } from '../createContext';
