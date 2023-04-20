@@ -36,6 +36,10 @@ export const required = ({
       return value ? undefined : createRequiredError();
     }
 
+    if (typeof value === 'symbol') {
+      return undefined;
+    }
+
     if (!isEmpty(value)) {
       return undefined;
     }

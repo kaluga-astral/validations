@@ -12,18 +12,26 @@ describe('required', () => {
     [undefined],
     NaN,
     new Date(),
+    Symbol(),
   ])('Valid for: %s', (value) => {
     expect(required()(value)).toBe(undefined);
   });
 
-  it.each<unknown>(['', '     ', false, [], {}, null, undefined])(
-    'Invalid for: %j',
-    (value) => {
-      const error = required()(value);
+  it.each<unknown>([
+    '',
+    '     ',
+    false,
+    [],
+    {},
+    Object.create({}),
+    Object.create(null),
+    null,
+    undefined,
+  ])('Invalid for: %j', (value) => {
+    const error = required()(value);
 
-      expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
-    },
-  );
+    expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
+  });
 
   it('params.message: подставляется кастомное сообщение об ошибке', () => {
     const error = required({ message: 'custom message' })(undefined);

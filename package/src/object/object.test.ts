@@ -1,15 +1,15 @@
-import { expect } from 'vitest';
-
 import { ValidationErrorMap, createErrorMap, createSimpleError } from '../core';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
 
-class TestClass {}
+class TestClass {
+  value = 22;
+}
 
 describe('object', () => {
-  it.each<unknown>([null, undefined, NaN, Symbol(), () => {}, true, false])(
-    'Возвращает ошибку, если value не объект - %s',
+  it.each<unknown>([NaN, Symbol(), true])(
+    'Возвращает ошибку типа, если value не пустое и не объект - %s',
     (value) => {
       const validate = object<{}>({});
 
@@ -19,8 +19,8 @@ describe('object', () => {
     },
   );
 
-  it.each<unknown>([new Date(), new TestClass(), Object.create({}), []])(
-    'Возвращает ошибку, если value не простой объект - %j',
+  it.each<unknown>([new Date(), [1, 2], new TestClass()])(
+    'Возвращает ошибку, если value не простой объект - %s',
     (value) => {
       const validate = object<{}>({});
 
@@ -30,7 +30,7 @@ describe('object', () => {
     },
   );
 
-  it.each<unknown>([{}, { value: 'value' }, Object.create(null)])(
+  it.each<unknown>([{ value: 'value' }])(
     'Не возвращает ошибку, если value простой объект - %j',
     (value) => {
       const validate = object<{}>({});
@@ -64,7 +64,7 @@ describe('object', () => {
       surname: createSimpleError({ message: 'surname error', code: Symbol() }),
     });
 
-    const error = validate({}) as ValidationErrorMap;
+    const error = validate({ name: 'name' }) as ValidationErrorMap;
 
     expect(error).toEqual(expectError);
     expect(error?.cause.errorMap.name?.message).toBe('name error');
