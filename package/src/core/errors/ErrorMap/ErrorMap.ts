@@ -4,7 +4,7 @@ import { ValidationResult } from '../../types';
 /**
  * @description Доп. поля для ошибки в объекте
  */
-type ValidationObjectErrorCause = {
+export type ValidationObjectErrorCause = {
   /**
    * @description Map, которое содержит результат валидации свойств
    */
