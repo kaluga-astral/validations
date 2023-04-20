@@ -5,9 +5,14 @@ import { createSimpleError } from '../errors';
  */
 export type ValidationContext<TValues> = {
   /**
-   * @description Значения, которые валидируется guard самого высоко порядка
+   * @description Глобальные значения, идущие от самого верхнего правила к самому нижнему
    */
-  values: TValues;
+  global: {
+    /**
+     * @description Значения, которые валидируется guard самого высоко порядка
+     */
+    values: TValues;
+  };
   /**
    * @description Флаг, указывающий на то, что guard должен выключить проверку на required
    */

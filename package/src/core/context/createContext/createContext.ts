@@ -3,9 +3,9 @@ import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
 
 /**
- * @description Создает context валидации
- * Если не было предыдущего контекста, то создает новый. При этом в values записывает текщее валидируемое значение. Это означает, что в ctx.values попадает value самого верхнего guard или rule
- * При создании контекста устанавливает isOptional в false для того, чтобы по-дефолту все правило были required
+ * @description Создает context валидации. Используется внутри фабрик guard и rule
+ * При создании нового контекста устанавливает isOptional в false для того, чтобы по-дефолту все правило были required
+ * Если контекст уже был создан, то сбрасывает isOptional в false для того, чтобы isOptional не стал сквозным
  */
 export function createContext<Value extends ValidationTypes>(
   prevCtx: ValidationContext<Value> | undefined,
@@ -22,8 +22,12 @@ export function createContext<Value extends ValidationTypes, Values>(
   value: Value,
 ): ValidationContext<Values | Value> {
   if (prevCtx) {
-    return prevCtx;
+    return { ...prevCtx, isOptional: false };
   }
 
-  return { values: value, isOptional: false, createError: createSimpleError };
+  return {
+    global: { values: value },
+    isOptional: false,
+    createError: createSimpleError,
+  };
 }

@@ -74,8 +74,9 @@ export const createGuard = <ValidationType extends ValidationTypes, TValues>(
         value as ValidationType,
       );
 
-      // делает guard required, если в контексте isOptional false. Контекст модифицируется вышестоящими правилами
-      if (!currentCtx.isOptional) {
+      // делает guard required, если в предыдущем контексте isOptional false. Контекст модифицируется вышестоящими правилами
+      // не используется новый ctx потому, что createContext сбрасывает isOptional для того, чтобы флаг не проник во все дерево нижестоящих правил
+      if (!ctx?.isOptional) {
         return compose<unknown, TValues>(
           // возможность переопределить дефолтный message для required
           required({ message: defOptions.requiredErrorMessage }),

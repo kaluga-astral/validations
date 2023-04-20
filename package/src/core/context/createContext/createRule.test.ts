@@ -3,17 +3,26 @@ import { ValidationSimpleError, createSimpleError } from '../../errors';
 import { createContext } from './createContext';
 
 describe('createContext', () => {
-  it('Не создает новый контекст, если был старый', () => {
+  it('Копирует старый контекст', () => {
     const ctx = {
-      values: undefined,
+      global: {
+        values: undefined,
+      },
       isOptional: true,
       createError: createSimpleError,
     };
 
     const resultCtx = createContext(ctx, '');
 
-    // ссылка на объект не меняется
-    expect(resultCtx).toBe(ctx);
+    const expectedCtx = {
+      global: {
+        values: undefined,
+      },
+      isOptional: false,
+      createError: createSimpleError,
+    };
+
+    expect(resultCtx).toEqual(expectedCtx);
   });
 
   it('При создании контекста устанавливает isOptional в false', () => {
@@ -25,7 +34,7 @@ describe('createContext', () => {
   it('При создании контекста в values устанавливается value', () => {
     const resultCtx = createContext(undefined, 'value');
 
-    expect(resultCtx.values).toBe('value');
+    expect(resultCtx.global.values).toBe('value');
   });
 
   it('В контексте доступна фабрика для создания SimpleError валидации', () => {
@@ -34,5 +43,19 @@ describe('createContext', () => {
     const error = ctx.createError({ code: Symbol(), message: 'error' });
 
     expect(error instanceof ValidationSimpleError).toBeTruthy();
+  });
+
+  it('При копировании контекста сбрасывает isOptional', () => {
+    const ctx = {
+      global: {
+        values: undefined,
+      },
+      isOptional: true,
+      createError: createSimpleError,
+    };
+
+    const resultCtx = createContext(ctx, '');
+
+    expect(resultCtx.isOptional).toBeFalsy();
   });
 });
