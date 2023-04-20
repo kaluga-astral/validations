@@ -5,7 +5,7 @@ import { ValidationTypes } from '../../types';
 /**
  * @description Создает context валидации
  * Если не было предыдущего контекста, то создает новый. При этом в values записывает текщее валидируемое значение. Это означает, что в ctx.values попадает value самого верхнего guard или rule
- * При создании контекста устанавливает isOptional в true для того, чтобы по-дефолту все правило были required
+ * При создании контекста устанавливает isOptional в false для того, чтобы по-дефолту все правило были required
  */
 export function createContext<Value extends ValidationTypes>(
   prevCtx: ValidationContext<Value> | undefined,
@@ -25,5 +25,5 @@ export function createContext<Value extends ValidationTypes, Values>(
     return prevCtx;
   }
 
-  return { values: value, isOptional: true, createError: createSimpleError };
+  return { values: value, isOptional: false, createError: createSimpleError };
 }

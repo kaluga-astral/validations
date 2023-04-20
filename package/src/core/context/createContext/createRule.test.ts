@@ -16,10 +16,10 @@ describe('createContext', () => {
     expect(resultCtx).toBe(ctx);
   });
 
-  it('При создании контекста устанавливает isOptional в true', () => {
+  it('При создании контекста устанавливает isOptional в false', () => {
     const resultCtx = createContext(undefined, '');
 
-    expect(resultCtx.isOptional).toBeTruthy();
+    expect(resultCtx.isOptional).toBeFalsy();
   });
 
   it('При создании контекста в values устанавливается value', () => {

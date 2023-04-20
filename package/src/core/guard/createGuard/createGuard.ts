@@ -9,7 +9,6 @@ type DefOptions = {
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
   requiredErrorMessage?: string;
-  typeErrorMessage?: string;
 };
 
 type GuardValue<ValidationType> = ValidationType | undefined | null | unknown;
