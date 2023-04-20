@@ -3,12 +3,12 @@ import isPlainObject from 'is-plain-obj';
 import {
   CompositionalValidationRule,
   ErrorMap,
-  OBJECT_TYPE_ERROR_INFO,
   createErrorMap,
   createGuard,
 } from '../core';
 
 import { isEmptyErrors } from './isEmptyErrors';
+import { OBJECT_TYPE_ERROR_INFO } from './constants';
 
 /**
  * @description Тип, который необходим для того, чтобы object невозможно было использовать без использования generic

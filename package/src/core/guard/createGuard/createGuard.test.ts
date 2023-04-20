@@ -1,4 +1,5 @@
-import { REQUIRED_ERROR_INFO, createSimpleError } from '../../errors';
+import { createSimpleError } from '../../errors';
+import { REQUIRED_ERROR_INFO } from '../../rule';
 import { createContext } from '../../context';
 
 import { createGuard } from './createGuard';

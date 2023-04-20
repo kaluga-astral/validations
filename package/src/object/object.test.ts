@@ -1,13 +1,9 @@
 import { expect } from 'vitest';
 
-import {
-  OBJECT_TYPE_ERROR_INFO,
-  ValidationErrorMap,
-  createErrorMap,
-  createSimpleError,
-} from '../core';
+import { ValidationErrorMap, createErrorMap, createSimpleError } from '../core';
 
 import { object } from './object';
+import { OBJECT_TYPE_ERROR_INFO } from './constants';
 
 class TestClass {}
 
