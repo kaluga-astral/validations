@@ -2,9 +2,13 @@ import isPlainObject from 'is-plain-obj';
 
 import {
   CompositionalValidationRule,
+  ErrorMap,
   OBJECT_TYPE_ERROR_INFO,
+  createErrorMap,
   createGuard,
 } from '../core';
+
+import { isEmptyErrors } from './isEmptyErrors';
 
 /**
  * @description Тип, который необходим для того, чтобы object невозможно было использовать без использования generic
@@ -50,7 +54,22 @@ export const object = <
       });
     }
 
-    Object.entries(schema).reduce((errorObject) => {}, {});
+    const generateErrorMap = () => {
+      const schemaEntries =
+        Object.entries<CompositionalValidationRule<unknown, unknown>>(schema);
+
+      return schemaEntries.reduce<ErrorMap>((errorMap, [key, callRule]) => {
+        errorMap[key] = callRule(value, ctx);
+
+        return errorMap;
+      }, {});
+    };
+
+    const errorMap = generateErrorMap();
+
+    if (!isEmptyErrors(errorMap)) {
+      return createErrorMap(errorMap);
+    }
 
     return undefined;
   });

@@ -1,6 +1,11 @@
 import { expect } from 'vitest';
 
-import { OBJECT_TYPE_ERROR_INFO } from '../core';
+import {
+  OBJECT_TYPE_ERROR_INFO,
+  ValidationErrorMap,
+  createErrorMap,
+  createSimpleError,
+} from '../core';
 
 import { object } from './object';
 
@@ -39,4 +44,23 @@ describe('object', () => {
       expect(result).toBeUndefined();
     },
   );
+
+  it('Генерирует ошибку для object', () => {
+    const validate = object<{ name: string; surname: string }>({
+      name: (_, ctx) =>
+        ctx.createError({ message: 'name error', code: Symbol() }),
+      surname: (_, ctx) =>
+        ctx.createError({ message: 'surname error', code: Symbol() }),
+    });
+
+    const expectError = createErrorMap({
+      name: createSimpleError({ message: 'name error', code: Symbol() }),
+      surname: createSimpleError({ message: 'surname error', code: Symbol() }),
+    });
+
+    const error = validate({}) as ValidationErrorMap;
+
+    expect(error).toEqual(expectError);
+    expect(error?.cause.errorMap.name?.message).toBe('name error');
+  });
 });

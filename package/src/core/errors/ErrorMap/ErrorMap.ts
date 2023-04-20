@@ -2,6 +2,11 @@ import { ValidationErrorData, ValidationSimpleError } from '../SimpleError';
 import { ValidationResult } from '../../types';
 
 /**
+ * @description Map, которое содержит результат валидации свойств
+ */
+export type ErrorMap = Record<string, ValidationResult>;
+
+/**
  * @description Доп. поля для ошибки в объекте
  */
 export type ValidationObjectErrorCause = {
