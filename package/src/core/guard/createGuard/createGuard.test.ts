@@ -1,6 +1,5 @@
 import { createSimpleError } from '../../errors';
 import { REQUIRED_ERROR_INFO } from '../../rule';
-import { createContext } from '../../context';
 
 import { createGuard } from './createGuard';
 
@@ -12,7 +11,7 @@ describe('createGuard', () => {
       return ctx.createError({ message: 'myerror', code: errorCode });
     });
 
-    const error = guard('');
+    const error = guard('value');
 
     expect(error?.message).toBe('myerror');
     expect(error?.cause.code).toBe(errorCode);
@@ -26,20 +25,14 @@ describe('createGuard', () => {
     expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
 
-  it('ctx.isOptional=false: отключается проверка на required', () => {
+  it('ctx.isOptional=true: отключается проверка на required', () => {
     const guard = createGuard<string, string>(() => undefined);
 
-    const error = guard(
-      undefined,
-      createContext(
-        {
-          isOptional: true,
-          createError: createSimpleError,
-          values: '',
-        },
-        '',
-      ),
-    );
+    const error = guard(undefined, {
+      isOptional: true,
+      createError: createSimpleError,
+      global: { values: '' },
+    });
 
     expect(error).toBeUndefined();
   });
