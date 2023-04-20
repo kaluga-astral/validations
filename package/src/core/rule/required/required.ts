@@ -24,7 +24,11 @@ export const required = ({
         message: message || REQUIRED_ERROR_INFO.message,
       });
 
-    if (typeof value === 'number' || value instanceof Date) {
+    if (
+      typeof value === 'number' ||
+      typeof value === 'symbol' ||
+      value instanceof Date
+    ) {
       return undefined;
     }
 
@@ -34,10 +38,6 @@ export const required = ({
 
     if (typeof value === 'boolean') {
       return value ? undefined : createRequiredError();
-    }
-
-    if (typeof value === 'symbol') {
-      return undefined;
     }
 
     if (!isEmpty(value)) {
