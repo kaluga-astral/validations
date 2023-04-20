@@ -1,6 +1,10 @@
 import isPlainObject from 'is-plain-obj';
 
-import { OBJECT_TYPE_ERROR_INFO, ValidationRule, createGuard } from '../core';
+import {
+  CompositionalValidationRule,
+  OBJECT_TYPE_ERROR_INFO,
+  createGuard,
+} from '../core';
 
 /**
  * @description Тип, который необходим для того, чтобы object невозможно было использовать без использования generic
@@ -9,7 +13,7 @@ type NeverSchema = Record<'__never', never>;
 
 type Schema<TValues extends Record<string, unknown>> = Record<
   keyof TValues,
-  ValidationRule<unknown, unknown>
+  CompositionalValidationRule<unknown, unknown>
 >;
 
 /**

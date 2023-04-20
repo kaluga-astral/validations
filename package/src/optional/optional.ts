@@ -1,5 +1,5 @@
 import {
-  UniversalValidationRule,
+  UniversalCompositionalValidationRule,
   ValidationTypes,
   createContext,
   createRule,
@@ -9,7 +9,7 @@ import {
  * @description Позволяет выключить проверку на required в guard
  * @example object({ name: optional(string(min(22))) })
  */
-export const optional = (rule: UniversalValidationRule) =>
+export const optional = (rule: UniversalCompositionalValidationRule) =>
   createRule<ValidationTypes, unknown>((value, ctx) => {
     const currentCtx = createContext(ctx, value);
 
