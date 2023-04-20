@@ -15,5 +15,5 @@ export const optional = (rule: UniversalCompositionalValidationRule) =>
 
     currentCtx.isOptional = true;
 
-    return rule(value, ctx);
+    return rule(value, currentCtx);
   });
