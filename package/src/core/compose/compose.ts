@@ -3,7 +3,7 @@ import { ValidationRule } from '../rule';
 
 /**
  * @description Объединяет переданные правила в цепочку правил, останавливает выполнение цепочки, если появилась ошибка. Выполняет правила слева направо
- * @example composeRules(min(), max());
+ * @example compose(min(), max());
  */
 export const compose =
   <ValidationType, TValues>(

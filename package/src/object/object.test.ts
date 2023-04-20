@@ -45,6 +45,16 @@ describe('object', () => {
     },
   );
 
+  it('object.define:typeErrorMessage: позволяет переопределить сообщение ошибки типа', () => {
+    const validate = object<{}>({}).define({
+      typeErrorMessage: 'custom type error',
+    });
+
+    const error = validate('string');
+
+    expect(error?.message).toBe('custom type error');
+  });
+
   it('Генерирует ошибку для object', () => {
     const validate = object<{ name: string; surname: string }>({
       name: (_, ctx) =>

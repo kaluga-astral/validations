@@ -9,6 +9,11 @@ type DefOptions = {
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
   requiredErrorMessage?: string;
+  /**
+   * @description Переопределяет сообщение об ошибке типа
+   * @example string.define({ typeErrorMessage: 'ИНН не может быть числом' })(inn())
+   */
+  typeErrorMessage?: string;
 };
 
 type GuardValue<ValidationType> = ValidationType | undefined | null | unknown;
@@ -44,7 +49,7 @@ type GuardExecutor<TValues> = (
  * После первого вызова guard в прототипу функции становится доступен метод define, который позволяет переопределить дефолтное поведение guard (например, изменить текст для required правила)
  * @example
  * ```ts
- * const string = <TValues>(...rules: ValidationRule<string, TValues>[]) =>
+ * const string = <TValues>(...rules: CompositionalValidationRule<string, TValues>[]) =>
  *   createGuard<string, TValues>((value, ctx) => {
  *     if (typeof value !== 'string') {
  *       return ctx.createError({ code: Symbol(), message: 'Не строка' });
