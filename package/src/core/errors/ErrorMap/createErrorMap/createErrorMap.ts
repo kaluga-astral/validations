@@ -2,7 +2,7 @@ import { ValidationErrorMap, ValidationObjectErrorCause } from '../ErrorMap';
 import { ValidationSimpleError } from '../../SimpleError';
 
 /**
- * @description Создает map ошибок валидаций
+ * @description Создает map ошибок валидаций. Ошибка предназначена для генерации результата валидации объекта
  */
 export const createErrorMap = (
   errorMap: ValidationObjectErrorCause['errorMap'],

@@ -4,7 +4,7 @@ import { ValidationErrorData, ValidationSimpleError } from '../SimpleError';
 /**
  * @description Доп. поля для ошибок элементов массива
  */
-type ValidationArrayErrorCause = {
+export type ValidationArrayErrorCause = {
   /**
    * @description Массив ошибок элементов валидируемого массива.
    * Индекс errorArray соответвует индексу валидируемого элемента массива

@@ -5,6 +5,7 @@ import { createErrorMap } from './createErrorMap';
 describe('createErrorMap', () => {
   it('Подставляет в error.message текст от первой ошибки из map', () => {
     const errorMap = {
+      age: undefined,
       name: createSimpleError({ message: 'name error', code: Symbol() }),
       surname: createSimpleError({ message: 'surname error', code: Symbol() }),
     };
