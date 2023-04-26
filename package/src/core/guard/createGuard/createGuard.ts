@@ -80,12 +80,8 @@ export const createGuard = <ValidationType extends ValidationTypes, TValues>(
         return compose<unknown, TValues>(
           // возможность переопределить дефолтный message для required
           required({ message: defOptions.requiredErrorMessage }),
-          (interValue, interCtx) =>
-            executeGuard(
-              interValue,
-              interCtx as ValidationContext<TValues>,
-              defOptions,
-            ),
+          (interValue: unknown, interCtx: ValidationContext<TValues>) =>
+            executeGuard(interValue, interCtx, defOptions),
         )(value, currentCtx);
       }
 
