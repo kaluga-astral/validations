@@ -1,5 +1,3 @@
-import isEmpty from 'lodash.isempty';
-
 import { createRule } from '../createRule';
 
 import { REQUIRED_ERROR_INFO } from './constants';
@@ -24,11 +22,15 @@ export const required = ({
         message: message || REQUIRED_ERROR_INFO.message,
       });
 
-    if (
-      typeof value === 'number' ||
-      typeof value === 'symbol' ||
-      value instanceof Date
-    ) {
+    if (value === null) {
+      return createRequiredError();
+    }
+
+    if (typeof value === 'object') {
+      return undefined;
+    }
+
+    if (typeof value === 'number' || typeof value === 'symbol') {
       return undefined;
     }
 
@@ -38,10 +40,6 @@ export const required = ({
 
     if (typeof value === 'boolean') {
       return value ? undefined : createRequiredError();
-    }
-
-    if (!isEmpty(value)) {
-      return undefined;
     }
 
     return createRequiredError();
