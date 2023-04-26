@@ -14,7 +14,6 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
@@ -25,8 +24,8 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": false,
     "noFallthroughCasesInSwitch": true,
+    "types": ["vitest/globals"]
   },
-  "types": ["vitest/globals"],
   "include": [
     "./declarations",
     "./*.js",
