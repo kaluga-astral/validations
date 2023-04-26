@@ -18,7 +18,7 @@ import { ARRAY_TYPE_ERROR_INFO } from './constants';
  *
  * const values: Values = [{ name: 'Vasya' }, { name: 'Vasya', age: 22 }];
  *
- * const validateArray = array<Item>(object({
+ * const validateArray = array(object({
  *   name: string(min(2)),
  *   age: optional(number()),
  * }));
