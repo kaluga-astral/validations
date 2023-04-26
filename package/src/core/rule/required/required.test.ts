@@ -10,9 +10,11 @@ describe('required', () => {
     ['v'],
     { a: 1 },
     [undefined],
+    [null],
     NaN,
     new Date(),
     Symbol(),
+    new Set([22]),
   ])('Valid for: %s', (value) => {
     expect(required()(value)).toBe(undefined);
   });
@@ -27,6 +29,7 @@ describe('required', () => {
     Object.create(null),
     null,
     undefined,
+    new Set([]),
   ])('Invalid for: %j', (value) => {
     const error = required()(value);
 
