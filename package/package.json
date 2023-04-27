@@ -13,10 +13,6 @@
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
   },
   "dependencies": {
-    "is-plain-obj": "^4.1.0",
-    "lodash.isempty": "^4.4.0"
-  },
-  "devDependencies": {
-    "@types/lodash.isempty": "^4.4.7"
+    "is-plain-obj": "^4.1.0"
   }
 }
