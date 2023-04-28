@@ -14,8 +14,6 @@ describe('array', () => {
   it.each<Array<unknown>>([Array([1, 2]), Array([])])(
     'Нет ошибки, если массив: %j',
     (value) => {
-      console.log('value', value);
-
       const result = array()(value);
 
       expect(result).toBeUndefined();
