@@ -1,33 +1,28 @@
 import {
-  UniversalCompositionalValidationRule,
-  createArrayError,
+  CompositionalValidationRule,
+  ValidationTypes,
+  compose,
   createGuard,
 } from '../core';
 
 import { ARRAY_TYPE_ERROR_INFO } from './constants';
 
 /**
- * @description Guard для массива
- * @param rule - правило валидации, которое применится к каждому элементу массива
+ * @description Guard для массива. Проверяет value на соответствие типу array
+ * @param rules - правила валидаций, применяющиеся ко всему массиву
  * @example
  * ```ts
- * type Item = {
- *   name: string;
- *   age?: number;
- * };
+ * const value = ['Vasya', 'Ivan'];
  *
- * const values: Values = [{ name: 'Vasya' }, { name: 'Vasya', age: 22 }];
- *
- * const validateArray = array(object({
- *   name: string(min(2)),
- *   age: optional(number()),
- * }));
+ * const validateArray = array(min(1), arrayItem(string()));
  *
  * // undefined
- * validateArray(values);
+ * validateArray(value);
  * ```
  */
-export const array = <TValues>(rule?: UniversalCompositionalValidationRule) =>
+export const array = <TItem extends ValidationTypes, TValues = unknown>(
+  ...rules: CompositionalValidationRule<Array<TItem>, TValues>[]
+) =>
   createGuard<Array<unknown>, TValues>((value, ctx, { typeErrorMessage }) => {
     if (!Array.isArray(value)) {
       return ctx.createError({
@@ -36,15 +31,5 @@ export const array = <TValues>(rule?: UniversalCompositionalValidationRule) =>
       });
     }
 
-    if (!rule) {
-      return undefined;
-    }
-
-    const errorArray = value.map((item) => rule(item, ctx));
-
-    if (errorArray.every((item) => item === undefined)) {
-      return undefined;
-    }
-
-    return createArrayError(errorArray);
+    return compose<Array<TItem>, TValues>(...rules)(value, ctx);
   });

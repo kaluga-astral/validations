@@ -6,6 +6,8 @@ export { string, STRING_TYPE_ERROR_INFO } from './string';
 
 export { array, ARRAY_TYPE_ERROR_INFO } from './array';
 
+export { arrayItem } from './arrayItem';
+
 export {
   min,
   STRING_MIN_ERROR_CODE,

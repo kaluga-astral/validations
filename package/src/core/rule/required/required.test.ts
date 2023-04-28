@@ -21,6 +21,7 @@ describe('required', () => {
     Object.create({}),
     Object.create(null),
   ])('Valid for: %s', (value) => {
+    console.log('value', value);
     expect(required()(value)).toBe(undefined);
   });
 
