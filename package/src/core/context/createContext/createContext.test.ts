@@ -3,32 +3,25 @@ import { ValidationSimpleError, createSimpleError } from '../../errors';
 import { createContext } from './createContext';
 
 describe('createContext', () => {
-  it('Копирует старый контекст', () => {
+  it('Возвращает старый контекст', () => {
     const ctx = {
       global: {
         values: undefined,
+        overrides: { objectIsPartial: true },
       },
-      isOptional: true,
       createError: createSimpleError,
     };
 
     const resultCtx = createContext(ctx, '');
 
-    const expectedCtx = {
-      global: {
-        values: undefined,
-      },
-      isOptional: false,
-      createError: createSimpleError,
-    };
-
-    expect(resultCtx).toEqual(expectedCtx);
+    // ссылки равны
+    expect(ctx === resultCtx).toBeTruthy();
   });
 
-  it('При создании контекста устанавливает isOptional в false', () => {
+  it('global.overrides.objectIsPartial: при создании контекста устанавливается в false', () => {
     const resultCtx = createContext(undefined, '');
 
-    expect(resultCtx.isOptional).toBeFalsy();
+    expect(resultCtx.global.overrides.objectIsPartial).toBeFalsy();
   });
 
   it('При создании контекста в values устанавливается value', () => {
@@ -43,19 +36,5 @@ describe('createContext', () => {
     const error = ctx.createError({ code: Symbol(), message: 'error' });
 
     expect(error instanceof ValidationSimpleError).toBeTruthy();
-  });
-
-  it('При копировании контекста сбрасывает isOptional', () => {
-    const ctx = {
-      global: {
-        values: undefined,
-      },
-      isOptional: true,
-      createError: createSimpleError,
-    };
-
-    const resultCtx = createContext(ctx, '');
-
-    expect(resultCtx.isOptional).toBeFalsy();
   });
 });

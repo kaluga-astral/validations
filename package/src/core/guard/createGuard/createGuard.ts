@@ -14,6 +14,11 @@ type DefOptions = {
    * @example string.define({ typeErrorMessage: 'ИНН не может быть числом' })(inn())
    */
   typeErrorMessage?: string;
+  /**
+   * @description Позволяет выключчать проверку на required
+   * @default false
+   */
+  isOptional?: boolean;
 };
 
 type GuardValue<ValidationType> = ValidationType | undefined | null | unknown;
@@ -66,26 +71,26 @@ export const createGuard = <ValidationType extends ValidationTypes, TValues>(
   const createInnerGuard = (
     defOptions: DefOptions = {},
   ): Guard<ValidationType, TValues> => {
-    const guard: Guard<ValidationType, TValues> = (value, ctx) => {
-      // контекст создается, если он не был создан раннее
-      const currentCtx = createContext<ValidationType, TValues>(
-        ctx,
+    const guard: Guard<ValidationType, TValues> = (value, prevCtx) => {
+      const ctx = createContext<ValidationType, TValues>(
+        prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
         value as ValidationType,
       );
 
-      // делает guard required, если в предыдущем контексте isOptional false. Контекст модифицируется вышестоящими правилами
-      // не используется новый ctx потому, что createContext сбрасывает isOptional для того, чтобы флаг не проник во все дерево нижестоящих правил
-      if (!ctx?.isOptional) {
+      const { isOptional } = defOptions;
+
+      // включает required правило, если не включен isOptional режим
+      if (!isOptional) {
         return compose<unknown, TValues>(
           // возможность переопределить дефолтный message для required
           required({ message: defOptions.requiredErrorMessage }),
           (interValue: unknown, interCtx: ValidationContext<TValues>) =>
             executeGuard(interValue, interCtx, defOptions),
-        )(value, currentCtx);
+        )(value, ctx);
       }
 
-      return executeGuard(value, currentCtx, defOptions);
+      return executeGuard(value, ctx, defOptions);
     };
 
     guard.define = (overridesDefOptions) =>

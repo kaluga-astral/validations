@@ -1,4 +1,3 @@
-import { createSimpleError } from '../../errors';
 import { REQUIRED_ERROR_INFO } from '../../rule';
 
 import { createGuard } from './createGuard';
@@ -25,18 +24,6 @@ describe('createGuard', () => {
     expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
 
-  it('ctx.isOptional=true: отключается проверка на required', () => {
-    const guard = createGuard<string, string>(() => undefined);
-
-    const error = guard(undefined, {
-      isOptional: true,
-      createError: createSimpleError,
-      global: { values: '' },
-    });
-
-    expect(error).toBeUndefined();
-  });
-
   it('guard.define: создает копию guard', () => {
     const guard = createGuard<string, string>(() => undefined);
 
@@ -55,9 +42,17 @@ describe('createGuard', () => {
     expect(error?.message).toBe('custom message');
   });
 
+  it('guard.define:isOptional=true: выключает required', () => {
+    const guard = createGuard<string, string>(() => undefined);
+
+    const error = guard.define({ isOptional: true })(undefined);
+
+    expect(error?.message).toBeUndefined();
+  });
+
   it('Создает новый контекст, если его не было', () => {
     const guard = createGuard<string, string>((_, ctx) => {
-      expect(ctx.isOptional).toBeTruthy();
+      expect(ctx.global.values).toBe('');
 
       return undefined;
     });

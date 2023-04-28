@@ -16,14 +16,4 @@ describe('optional', () => {
     expect(optionalError?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     expect(requiredError?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
-
-  it('В результирующем ctx устанавливает isOptional в true', () => {
-    const callOptional = optional((_, ctx) => {
-      expect(ctx.isOptional).toBeTruthy();
-
-      return undefined;
-    });
-
-    callOptional(undefined);
-  });
 });
