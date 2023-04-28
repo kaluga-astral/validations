@@ -1,23 +1,28 @@
 import isPlainObject from 'is-plain-obj';
 
-import {
-  CompositionalValidationRule,
-  ErrorMap,
-  createErrorMap,
-  createGuard,
-} from '../core';
+import { ErrorMap, Guard, createErrorMap, createGuard } from '../core';
+import { optional } from '../optional';
 
 import { isEmptyErrors } from './isEmptyErrors';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
+
+type AdditionalDefOptions = {
+  /**
+   * @description Делает все свойства объекта partial
+   */
+  isPartial?: boolean;
+};
 
 /**
  * @description Тип, который необходим для того, чтобы object невозможно было использовать без использования generic
  */
 type NeverSchema = Record<'__never', never>;
 
+type SchemaValue = Guard<unknown, unknown>;
+
 type Schema<TValues extends Record<string, unknown>> = Record<
   keyof TValues,
-  CompositionalValidationRule<unknown, unknown>
+  SchemaValue
 >;
 
 /**
@@ -46,30 +51,33 @@ export const object = <
 >(
   schema: Schema<Value>,
 ) =>
-  createGuard<Value, TValues>((value, ctx, { typeErrorMessage }) => {
-    if (!isPlainObject(value)) {
-      return ctx.createError({
-        ...OBJECT_TYPE_ERROR_INFO,
-        message: typeErrorMessage || OBJECT_TYPE_ERROR_INFO.message,
-      });
-    }
+  createGuard<Value, TValues, AdditionalDefOptions>(
+    (value, ctx, { typeErrorMessage, isPartial }) => {
+      if (!isPlainObject(value)) {
+        return ctx.createError({
+          ...OBJECT_TYPE_ERROR_INFO,
+          message: typeErrorMessage || OBJECT_TYPE_ERROR_INFO.message,
+        });
+      }
 
-    const generateErrorMap = () => {
-      const schemaEntries =
-        Object.entries<CompositionalValidationRule<unknown, unknown>>(schema);
+      const generateErrorMap = () => {
+        const schemaEntries = Object.entries<SchemaValue>(schema);
 
-      return schemaEntries.reduce<ErrorMap>((errorMap, [key, callRule]) => {
-        errorMap[key] = callRule(value, ctx);
+        return schemaEntries.reduce<ErrorMap>((errorMap, [key, guard]) => {
+          const callGuard = isPartial ? optional(guard) : guard;
 
-        return errorMap;
-      }, {});
-    };
+          errorMap[key] = callGuard(value[key], ctx);
 
-    const errorMap = generateErrorMap();
+          return errorMap;
+        }, {});
+      };
 
-    if (!isEmptyErrors(errorMap)) {
-      return createErrorMap(errorMap);
-    }
+      const errorMap = generateErrorMap();
 
-    return undefined;
-  });
+      if (!isEmptyErrors(errorMap)) {
+        return createErrorMap(errorMap);
+      }
+
+      return undefined;
+    },
+  );

@@ -6,7 +6,7 @@ describe('compose', () => {
   it('Выполняет правила слева направо', () => {
     const validate = compose(
       () => createSimpleError({ code: Symbol(), message: 'error1' }),
-      () => createSimpleError({ code: Symbol(), message: 'error1' }),
+      () => createSimpleError({ code: Symbol(), message: 'error2' }),
     );
 
     expect(validate(null)?.message).toBe('error1');

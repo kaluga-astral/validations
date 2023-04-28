@@ -1,32 +1,37 @@
 import { ValidationResult, ValidationTypes } from '../../types';
-import { required } from '../../rule';
+import { REQUIRED_ERROR_INFO, required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
 import { compose } from '../../compose';
 
-type DefOptions = {
-  /**
-   * @description Переопределяет дефолтное сообщения ошибки для required
-   * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
-   */
-  requiredErrorMessage?: string;
-  /**
-   * @description Переопределяет сообщение об ошибке типа
-   * @example string.define({ typeErrorMessage: 'ИНН не может быть числом' })(inn())
-   */
-  typeErrorMessage?: string;
-  /**
-   * @description Позволяет выключчать проверку на required
-   * @default false
-   */
-  isOptional?: boolean;
-};
+type DefOptions<AddDefOptions extends Record<string, unknown>> =
+  Partial<AddDefOptions> & {
+    /**
+     * @description Переопределяет дефолтное сообщения ошибки для required
+     * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
+     */
+    requiredErrorMessage?: string;
+    /**
+     * @description Переопределяет сообщение об ошибке типа
+     * @example string.define({ typeErrorMessage: 'ИНН не может быть числом' })(inn())
+     */
+    typeErrorMessage?: string;
+    /**
+     * @description Позволяет выключчать проверку на required
+     * @default false
+     */
+    isOptional?: boolean;
+  };
 
 type GuardValue<ValidationType> = ValidationType | undefined | null | unknown;
 
 /**
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
  */
-export interface Guard<ValidationType extends ValidationTypes, TValues> {
+export interface Guard<
+  ValidationType extends ValidationTypes,
+  TValues,
+  AddDefOptions extends Record<string, unknown> = {},
+> {
   (
     value: GuardValue<ValidationType>,
     ctx?: ValidationContext<TValues>,
@@ -36,16 +41,16 @@ export interface Guard<ValidationType extends ValidationTypes, TValues> {
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
-  define(options: DefOptions): Guard<ValidationType, TValues>;
+  define(options: DefOptions<AddDefOptions>): Guard<ValidationType, TValues>;
 }
 
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type GuardExecutor<TValues> = (
+type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
   value: unknown,
   ctx: ValidationContext<TValues>,
-  defOptions: DefOptions,
+  defOptions: DefOptions<AddDefOptions>,
 ) => ValidationResult;
 
 /**
@@ -64,12 +69,16 @@ type GuardExecutor<TValues> = (
  *   });
  * ```
  */
-export const createGuard = <ValidationType extends ValidationTypes, TValues>(
-  executeGuard: GuardExecutor<TValues>,
-): Guard<ValidationType, TValues> => {
+export const createGuard = <
+  ValidationType extends ValidationTypes,
+  TValues,
+  AddDefOptions extends Record<string, unknown> = {},
+>(
+  executeGuard: GuardExecutor<TValues, AddDefOptions>,
+): Guard<ValidationType, TValues, AddDefOptions> => {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (
-    defOptions: DefOptions = {},
+    defOptions: DefOptions<AddDefOptions> = {},
   ): Guard<ValidationType, TValues> => {
     const guard: Guard<ValidationType, TValues> = (value, prevCtx) => {
       const ctx = createContext<ValidationType, TValues>(
@@ -78,19 +87,22 @@ export const createGuard = <ValidationType extends ValidationTypes, TValues>(
         value as ValidationType,
       );
 
-      const { isOptional } = defOptions;
+      const validationResult = compose<unknown, TValues>(
+        // возможность переопределить дефолтный message для required
+        required({ message: defOptions?.requiredErrorMessage }),
+        (interValue: unknown, interCtx: ValidationContext<TValues>) =>
+          executeGuard(interValue, interCtx, defOptions),
+      )(value, ctx);
 
-      // включает required правило, если не включен isOptional режим
-      if (!isOptional) {
-        return compose<unknown, TValues>(
-          // возможность переопределить дефолтный message для required
-          required({ message: defOptions.requiredErrorMessage }),
-          (interValue: unknown, interCtx: ValidationContext<TValues>) =>
-            executeGuard(interValue, interCtx, defOptions),
-        )(value, ctx);
+      // если включен isOptional режим и required упал с ошибкой, то необходимо проигорировашь ошибку
+      if (
+        defOptions?.isOptional &&
+        validationResult?.cause.code === REQUIRED_ERROR_INFO.code
+      ) {
+        return undefined;
       }
 
-      return executeGuard(value, ctx, defOptions);
+      return validationResult;
     };
 
     guard.define = (overridesDefOptions) =>

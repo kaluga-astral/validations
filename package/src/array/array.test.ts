@@ -5,6 +5,7 @@ import {
   createSimpleError,
 } from '../core';
 import { object } from '../object';
+import { STRING_TYPE_ERROR_INFO, string } from '../string';
 
 import { array } from './array';
 import { ARRAY_TYPE_ERROR_INFO } from './constants';
@@ -42,15 +43,6 @@ describe('array', () => {
   });
 
   it('Возвращает ошибку, содержащую массив ошибок для каждого item', () => {
-    const nameError = createSimpleError({
-      message: 'invalid name',
-      code: Symbol(),
-    });
-    const ageError = createSimpleError({
-      message: 'invalid age',
-      code: Symbol(),
-    });
-
     const value = [
       { name: 'name', age: 22 },
       { name: 'name', age: 22 },
@@ -58,16 +50,22 @@ describe('array', () => {
 
     const validateArray = array(
       object<{ name: string; age?: number }>({
-        name: () => nameError,
-        age: () => ageError,
+        name: string(),
+        age: string(),
       }),
     );
 
     const error = validateArray(value);
 
     const expectedError = createArrayError([
-      createErrorMap({ name: nameError, age: ageError }),
-      createErrorMap({ name: nameError, age: ageError }),
+      createErrorMap({
+        name: undefined,
+        age: createSimpleError(STRING_TYPE_ERROR_INFO),
+      }),
+      createErrorMap({
+        name: undefined,
+        age: createSimpleError(STRING_TYPE_ERROR_INFO),
+      }),
     ]);
 
     expect(error).toEqual(expectedError);

@@ -50,6 +50,18 @@ describe('createGuard', () => {
     expect(error?.message).toBeUndefined();
   });
 
+  it('guard.define:isOptional=true: если required не вернул ошибку, то пропускает валидацию дальше', () => {
+    const errorCode = Symbol();
+
+    const guard = createGuard<string, string>((_, ctx) =>
+      ctx.createError({ message: '', code: errorCode }),
+    );
+
+    const error = guard.define({ isOptional: true })('value');
+
+    expect(error?.cause.code).toBe(errorCode);
+  });
+
   it('Создает новый контекст, если его не было', () => {
     const guard = createGuard<string, string>((_, ctx) => {
       expect(ctx.global.values).toBe('');

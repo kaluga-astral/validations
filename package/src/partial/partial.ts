@@ -1,12 +1,9 @@
-import { Guard, createRule } from '../core';
+import { object } from '../object';
 
-export const partial = <TValues>(objectRule: Guard<object, TValues>) =>
-  createRule<unknown, TValues>((value, ctx) =>
-    objectRule.define({ isPartial: true })(value, {
-      ...ctx,
-      overrides: {
-        ...ctx.overrides,
-        object: { ...ctx.overrides.object, isPartial: true },
-      },
-    }),
-  );
+/**
+ * @description Выключает проверку на required для всех полей объекта
+ * @param objectGuard
+ * @example partial(object({ name: string() }))
+ */
+export const partial = (objectGuard: ReturnType<typeof object>) =>
+  objectGuard.define({ isPartial: true });
