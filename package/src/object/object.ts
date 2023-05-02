@@ -1,10 +1,29 @@
 import isPlainObject from 'is-plain-obj';
 
-import { ErrorMap, Guard, createErrorMap, createGuard } from '../core';
+import {
+  CompositionalValidationRule,
+  ErrorMap,
+  Guard,
+  ValidationContext,
+  createErrorMap,
+  createGuard,
+} from '../core';
 import { optional } from '../optional';
 
 import { isEmptyErrors } from './isEmptyErrors';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
+
+/**
+ * @description Специальный итерфейс Guard для object. В данном интерфейсе ctx required
+ * Переопределение необходимо для того, чтобы ts показывал, что ctx required в кастомных правилах
+ */
+interface ObjectPropGuard<TValues> {
+  (
+    value: Parameters<Guard<unknown, TValues>>[0],
+    ctx: ValidationContext<TValues>,
+  ): ReturnType<Guard<unknown, TValues>>;
+  define: Guard<unknown, TValues>['define'];
+}
 
 type AdditionalDefOptions = {
   /**
@@ -18,11 +37,13 @@ type AdditionalDefOptions = {
  */
 type NeverSchema = Record<'__never', never>;
 
-type SchemaValue = Guard<unknown, unknown>;
+type SchemaValue<TValues> =
+  | ObjectPropGuard<TValues>
+  | CompositionalValidationRule<unknown, TValues>;
 
-type Schema<TValues extends Record<string, unknown>> = Record<
-  keyof TValues,
-  SchemaValue
+type Schema<TValue extends Record<string, unknown>, TValues> = Record<
+  keyof TValue,
+  SchemaValue<TValues>
 >;
 
 /**
@@ -42,6 +63,9 @@ type Schema<TValues extends Record<string, unknown>> = Record<
  *   name: string(min(2)),
  *   age: optional(number()),
  *   info: object<Values['info']>({ surname: string(min(2)) }),
+ *   customField: (value, ctx) => {
+ *     return ctx.createError({ message: 'error', code: Symbol() })
+ *   }
  * });
  * ```
  */
@@ -49,7 +73,7 @@ export const object = <
   Value extends Record<string, unknown> = NeverSchema,
   TValues = unknown,
 >(
-  schema: Schema<Value>,
+  schema: Schema<Value, TValues>,
 ) =>
   createGuard<Value, TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
@@ -61,12 +85,17 @@ export const object = <
       }
 
       const generateErrorMap = () => {
-        const schemaEntries = Object.entries<SchemaValue>(schema);
+        const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
 
-        return schemaEntries.reduce<ErrorMap>((errorMap, [key, guard]) => {
-          const callGuard = isPartial ? optional(guard) : guard;
+        return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
+          const isGuard = 'define' in rule;
 
-          errorMap[key] = callGuard(value[key], ctx);
+          const callRule =
+            isGuard && isPartial
+              ? optional(rule as Guard<unknown, TValues>)
+              : rule;
+
+          errorMap[key] = callRule(value[key], ctx);
 
           return errorMap;
         }, {});

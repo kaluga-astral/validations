@@ -85,4 +85,15 @@ describe('object', () => {
 
     expect(error).toEqual(expectError);
   });
+
+  it('Поддерживает кастомные валидации для полей объекта', () => {
+    const validate = object<{ name: string }>({
+      name: (_, ctx) =>
+        ctx.createError({ message: 'name error', code: Symbol() }),
+    });
+
+    const error = validate({}) as ValidationErrorMap;
+
+    expect(error.cause.errorMap.name?.message).toBe('name error');
+  });
 });

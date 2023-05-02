@@ -41,7 +41,9 @@ export interface Guard<
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
-  define(options: DefOptions<AddDefOptions>): Guard<ValidationType, TValues>;
+  define(
+    options: DefOptions<AddDefOptions>,
+  ): Guard<ValidationType, TValues, AddDefOptions>;
 }
 
 /**
