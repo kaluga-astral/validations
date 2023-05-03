@@ -15,9 +15,9 @@ export type CommonRuleParams<ValidationType extends ValidationTypes> = {
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type RuleExecutor<ValidationType extends ValidationTypes> = (
+type RuleExecutor<ValidationType extends ValidationTypes, TValues> = (
   value: ValidationType,
-  ctx: ValidationContext<unknown>,
+  ctx: ValidationContext<TValues>,
 ) => ValidationResult;
 
 /**
@@ -38,7 +38,7 @@ type RuleExecutor<ValidationType extends ValidationTypes> = (
  */
 export const createRule =
   <ValidationType extends ValidationTypes, TValues = unknown>(
-    executor: RuleExecutor<ValidationType>,
+    executor: RuleExecutor<ValidationType, TValues>,
     commonParams?: CommonRuleParams<ValidationType>,
   ) =>
   (
