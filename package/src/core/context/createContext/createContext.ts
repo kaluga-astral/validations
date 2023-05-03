@@ -4,8 +4,7 @@ import { ValidationTypes } from '../../types';
 
 /**
  * @description Создает context валидации. Используется внутри фабрик guard и rule
- * При создании нового контекста устанавливает isOptional в false для того, чтобы по-дефолту все правило были required
- * Если контекст уже был создан, то сбрасывает isOptional в false для того, чтобы isOptional не стал сквозным
+ * @default по-дефолту сбрасывает все флаги в false
  */
 export function createContext<Value extends ValidationTypes>(
   prevCtx: ValidationContext<Value> | undefined,
@@ -22,12 +21,16 @@ export function createContext<Value extends ValidationTypes, Values>(
   value: Value,
 ): ValidationContext<Values | Value> {
   if (prevCtx) {
-    return { ...prevCtx, isOptional: false };
+    return prevCtx;
   }
 
   return {
-    global: { values: value },
-    isOptional: false,
+    global: {
+      values: value,
+      overrides: {
+        objectIsPartial: false,
+      },
+    },
     createError: createSimpleError,
   };
 }

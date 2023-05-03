@@ -1,19 +1,10 @@
-import {
-  UniversalCompositionalValidationRule,
-  ValidationTypes,
-  createContext,
-  createRule,
-} from '../core';
+import { Guard, ValidationTypes } from '../core';
 
 /**
- * @description Позволяет выключить проверку на required в guard
+ * @description Выключает проверку на required в guard
+ * @param guard - правило, проверяющее тип значения
  * @example object({ name: optional(string(min(22))) })
  */
-export const optional = (rule: UniversalCompositionalValidationRule) =>
-  createRule<ValidationTypes, unknown>((value, ctx) => {
-    const currentCtx = createContext(ctx, value);
-
-    currentCtx.isOptional = true;
-
-    return rule(value, currentCtx);
-  });
+export const optional = <ValidationType extends ValidationTypes, TValues>(
+  guard: Guard<ValidationType, TValues>,
+) => guard.define({ isOptional: true });

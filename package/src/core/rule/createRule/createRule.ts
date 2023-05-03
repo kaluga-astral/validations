@@ -43,15 +43,15 @@ export const createRule =
   ) =>
   (
     value: Parameters<ValidationRule<ValidationType, TValues>>[0],
-    ctx?: Parameters<ValidationRule<ValidationType, TValues>>[1],
+    prevCtx?: Parameters<ValidationRule<ValidationType, TValues>>[1],
   ): ReturnType<ValidationRule<ValidationType, TValues>> => {
-    // создается контекст, если он не был создан раннее
-    const currentCtx = createContext<ValidationType, TValues>(ctx, value);
+    // контекст создается, если он не был создан раннее
+    const ctx = createContext<ValidationType, TValues>(prevCtx, value);
 
     // если value попало под исключения из правил, то дальше валидацию не продолжаем
-    if (commonParams?.exclude?.(value, currentCtx)) {
+    if (commonParams?.exclude?.(value, ctx)) {
       return undefined;
     }
 
-    return executor(value, currentCtx);
+    return executor(value, ctx);
   };

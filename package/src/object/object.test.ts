@@ -1,4 +1,10 @@
-import { ValidationErrorMap, createErrorMap, createSimpleError } from '../core';
+import {
+  REQUIRED_ERROR_INFO,
+  ValidationErrorMap,
+  createErrorMap,
+  createSimpleError,
+} from '../core';
+import { string } from '../string';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
@@ -51,22 +57,43 @@ describe('object', () => {
     expect(error?.message).toBe('custom type error');
   });
 
+  it('object.define:isPartial: выключает required для всех свойств объекта', () => {
+    const validate = object<{ name: string; surname: string }>({
+      name: string(),
+      surname: string(),
+    }).define({
+      isPartial: true,
+    });
+
+    const result = validate({});
+
+    expect(result).toBeUndefined();
+  });
+
   it('Генерирует ошибку для object', () => {
     const validate = object<{ name: string; surname: string }>({
-      name: (_, ctx) =>
-        ctx.createError({ message: 'name error', code: Symbol() }),
-      surname: (_, ctx) =>
-        ctx.createError({ message: 'surname error', code: Symbol() }),
+      name: string(),
+      surname: string(),
     });
 
     const expectError = createErrorMap({
-      name: createSimpleError({ message: 'name error', code: Symbol() }),
-      surname: createSimpleError({ message: 'surname error', code: Symbol() }),
+      name: createSimpleError(REQUIRED_ERROR_INFO),
+      surname: createSimpleError(REQUIRED_ERROR_INFO),
     });
 
-    const error = validate({ name: 'name' }) as ValidationErrorMap;
+    const error = validate({}) as ValidationErrorMap;
 
     expect(error).toEqual(expectError);
-    expect(error?.cause.errorMap.name?.message).toBe('name error');
+  });
+
+  it('Поддерживает кастомные валидации для полей объекта', () => {
+    const validate = object<{ name: string }>({
+      name: (_, ctx) =>
+        ctx.createError({ message: 'name error', code: Symbol() }),
+    });
+
+    const error = validate({}) as ValidationErrorMap;
+
+    expect(error.cause.errorMap.name?.message).toBe('name error');
   });
 });
