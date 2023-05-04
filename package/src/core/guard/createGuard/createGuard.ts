@@ -16,7 +16,7 @@ type DefOptions<AddDefOptions extends Record<string, unknown>> =
      */
     typeErrorMessage?: string;
     /**
-     * @description Позволяет выключчать проверку на required
+     * @description Позволяет выключать проверку на required
      * @default false
      */
     isOptional?: boolean;
@@ -96,7 +96,7 @@ export const createGuard = <
           executeGuard(interValue, interCtx, defOptions),
       )(value, ctx);
 
-      // если включен isOptional режим и required упал с ошибкой, то необходимо проигорировашь ошибку
+      // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
       if (
         defOptions?.isOptional &&
         validationResult?.cause.code === REQUIRED_ERROR_INFO.code
