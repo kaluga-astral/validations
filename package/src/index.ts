@@ -8,6 +8,8 @@ export { array, ARRAY_TYPE_ERROR_INFO } from './array';
 
 export { arrayItem } from './arrayItem';
 
+export { deepPartial } from './deepPartial';
+
 export {
   min,
   STRING_MIN_ERROR_CODE,
