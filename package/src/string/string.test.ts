@@ -24,7 +24,7 @@ describe('string', () => {
   it('Вызывает переданные rules', () => {
     const validate = string(
       () => undefined,
-      () => ({ message: 'stringerror', code: 'error' }),
+      (_, ctx) => ctx.createError({ message: 'stringerror', code: 'error' }),
     );
 
     const result = validate('string');

@@ -89,10 +89,11 @@ describe('object', () => {
 
   it('Поддерживает кастомные валидации для полей объекта', () => {
     const validate = object<{ name: string }>({
-      name: () => ({
-        message: 'name error',
-        code: createErrorCode('error'),
-      }),
+      name: (_, ctx) =>
+        ctx.createError({
+          message: 'name error',
+          code: createErrorCode('error'),
+        }),
     });
 
     const error = validate({}) as ValidationErrorMap;

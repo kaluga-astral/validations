@@ -25,10 +25,10 @@ export const array = <TItem extends ValidationTypes, TValues = unknown>(
 ) =>
   createGuard<Array<unknown>, TValues>((value, ctx, { typeErrorMessage }) => {
     if (!Array.isArray(value)) {
-      return {
+      return ctx.createError({
         ...ARRAY_TYPE_ERROR_INFO,
         message: typeErrorMessage || ARRAY_TYPE_ERROR_INFO.message,
-      };
+      });
     }
 
     return compose<Array<TItem>, TValues>(...rules)(value, ctx);

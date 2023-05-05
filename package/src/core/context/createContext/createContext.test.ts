@@ -1,4 +1,4 @@
-import { createSimpleError } from '../../errors';
+import { createErrorCode, createSimpleError } from '../../errors';
 
 import { createContext } from './createContext';
 
@@ -28,5 +28,16 @@ describe('createContext', () => {
     const resultCtx = createContext(undefined, 'value');
 
     expect(resultCtx.global.values).toBe('value');
+  });
+
+  it('В контексте доступна фабрика для создания SimpleError валидации', () => {
+    const ctx = createContext(undefined, 'value');
+
+    const error = ctx.createError({
+      code: createErrorCode('error'),
+      message: 'error',
+    });
+
+    expect(error).toEqual({ code: createErrorCode('error'), message: 'error' });
   });
 });
