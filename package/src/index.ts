@@ -17,3 +17,5 @@ export {
   DATE_MIN_ERROR_CODE,
   NUMBER_MIN_ERROR_CODE,
 } from './min';
+
+export { or } from './or';
