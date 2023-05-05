@@ -86,12 +86,13 @@ export const object = <
 
       const generateErrorMap = () => {
         const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
+        const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
 
         return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
           const isGuard = 'define' in rule;
 
           const callRule =
-            isGuard && isPartial
+            isGuard && isOptional
               ? optional(rule as Guard<unknown, TValues>)
               : rule;
 
