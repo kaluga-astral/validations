@@ -1,8 +1,13 @@
 import { expect } from 'vitest';
 
 import { string } from '../string';
+import { array } from '../array';
 
-import { NUMBER_MIN_ERROR_CODE, STRING_MIN_ERROR_CODE } from './constants';
+import {
+  ARRAY_MIN_ERROR_CODE,
+  NUMBER_MIN_ERROR_CODE,
+  STRING_MIN_ERROR_CODE,
+} from './constants';
 import { min } from './min';
 
 describe('min', () => {
@@ -61,27 +66,26 @@ describe('min', () => {
     expect(error?.message).toBe('my message');
   });
 
-  // TODO: расскоментировать после модификации array
-  // it.each<{ value: Array<number>; threshold: number }>([
-  //   { value: [], threshold: 0 },
-  //   { value: [1, 2], threshold: 1 },
-  //   { value: [], threshold: -1 },
-  // ])('array:params:%j: valid', ({ value, threshold }) => {
-  //   const validate = array(min(threshold));
-  //
-  //   const result = validate(value);
-  //
-  //   expect(result).toBeUndefined();
-  // });
-  //
-  // it.each<{ value: Array<number>; threshold: number }>([
-  //   { value: [1, 2], threshold: 3 },
-  //   { value: [], threshold: 1 },
-  // ])('array:params:%j: invalid', ({ value, threshold }) => {
-  //   const validate = array(min(threshold));
-  //
-  //   const error = validate(value);
-  //
-  //   expect(error?.cause.code).toBe(ARRAY_MIN_ERROR_CODE);
-  // });
+  it.each<{ value: Array<number>; threshold: number }>([
+    { value: [], threshold: 0 },
+    { value: [1, 2], threshold: 1 },
+    { value: [], threshold: -1 },
+  ])('array:params:%j: valid', ({ value, threshold }) => {
+    const validate = array(min(threshold));
+
+    const result = validate(value);
+
+    expect(result).toBeUndefined();
+  });
+
+  it.each<{ value: Array<number>; threshold: number }>([
+    { value: [1, 2], threshold: 3 },
+    { value: [], threshold: 1 },
+  ])('array:params:%j: invalid', ({ value, threshold }) => {
+    const validate = array(min(threshold));
+
+    const error = validate(value);
+
+    expect(error?.cause.code).toBe(ARRAY_MIN_ERROR_CODE);
+  });
 });
