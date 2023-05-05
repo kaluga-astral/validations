@@ -12,9 +12,9 @@ describe('arrayItem', () => {
     const errorCode = createErrorCode('error');
 
     const validateArray = array(
-      arrayItem<string | number>((value, ctx) => {
+      arrayItem<string | number>((value) => {
         if (typeof value === 'number') {
-          return ctx.createError({ message: 'number error', code: errorCode });
+          return { message: 'number error', code: errorCode };
         }
 
         return undefined;

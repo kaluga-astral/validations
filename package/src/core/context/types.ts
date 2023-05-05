@@ -1,5 +1,3 @@
-import { createSimpleError } from '../errors';
-
 /**
  * @description Контекст, который доступен в каждом правиле
  */
@@ -22,8 +20,4 @@ export type ValidationContext<TValues> = Readonly<{
       objectIsPartial: boolean;
     }>;
   }>;
-  /**
-   * @description Фабрика ошибок. Возвращает новую ошибку валидации
-   */
-  createError: typeof createSimpleError;
 }>;

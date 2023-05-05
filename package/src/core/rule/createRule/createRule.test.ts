@@ -7,9 +7,10 @@ import { CommonRuleParams, createRule } from './createRule';
 describe('createRule', () => {
   it('Создает правило валидации, которое возвращает ошибку', () => {
     const rule = () =>
-      createRule<string>((_, ctx) =>
-        ctx.createError({ code: createErrorCode('test'), message: 'error' }),
-      );
+      createRule<string>(() => ({
+        code: createErrorCode('test'),
+        message: 'error',
+      }));
 
     const error = rule()('');
 
@@ -30,8 +31,7 @@ describe('createRule', () => {
   it('Params.exclude: пропускает исключения, если exclude возвращает true', () => {
     const rule = ({ exclude }: CommonRuleParams<string>) =>
       createRule<string>(
-        (_, ctx) =>
-          ctx.createError({ code: createErrorCode('test'), message: 'error' }),
+        () => ({ code: createErrorCode('test'), message: 'error' }),
         { exclude },
       );
 
