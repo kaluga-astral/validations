@@ -68,11 +68,7 @@ function generatePlainError(
     return toPlainArrayResult(validationResult);
   }
 
-  if (validationResult instanceof ValidationSimpleError) {
-    return toPlainSimpleError(validationResult);
-  }
-
-  return undefined;
+  return toPlainSimpleError(validationResult);
 }
 
 /**
