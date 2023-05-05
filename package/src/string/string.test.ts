@@ -9,7 +9,7 @@ describe('string', () => {
 
       const result = validate(value);
 
-      expect(result?.cause.code).toBe(STRING_TYPE_ERROR_INFO.code);
+      expect(result?.code).toBe(STRING_TYPE_ERROR_INFO.code);
     },
   );
 
@@ -24,7 +24,7 @@ describe('string', () => {
   it('Вызывает переданные rules', () => {
     const validate = string(
       () => undefined,
-      (_, ctx) => ctx.createError({ message: 'stringerror', code: Symbol() }),
+      (_, ctx) => ctx.createError({ message: 'stringerror', code: 'error' }),
     );
 
     const result = validate('string');

@@ -2,9 +2,9 @@ import isPlainObject from 'is-plain-obj';
 
 import {
   CompositionalValidationRule,
-  ErrorMap,
   Guard,
   ValidationContext,
+  ValidationErrorMap,
   createErrorMap,
   createGuard,
 } from '../core';
@@ -88,18 +88,21 @@ export const object = <
         const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
         const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
 
-        return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
-          const isGuard = 'define' in rule;
+        return schemaEntries.reduce<ValidationErrorMap['errorMap']>(
+          (errorMap, [key, rule]) => {
+            const isGuard = 'define' in rule;
 
-          const callRule =
-            isGuard && isOptional
-              ? optional(rule as Guard<unknown, TValues>)
-              : rule;
+            const callRule =
+              isGuard && isOptional
+                ? optional(rule as Guard<unknown, TValues>)
+                : rule;
 
-          errorMap[key] = callRule(value[key], ctx);
+            errorMap[key] = callRule(value[key], ctx);
 
-          return errorMap;
-        }, {});
+            return errorMap;
+          },
+          {},
+        );
       };
 
       const errorMap = generateErrorMap();

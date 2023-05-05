@@ -1,11 +1,15 @@
-import { ValidationArrayError, createSimpleError } from '../core';
+import {
+  ValidationArrayError,
+  createErrorCode,
+  createSimpleError,
+} from '../core';
 import { array } from '../array';
 
 import { arrayItem } from './arrayItem';
 
 describe('arrayItem', () => {
   it('Каждый элемент массива ошибок соответствует результату выполнения правила валидации для item', () => {
-    const errorCode = Symbol();
+    const errorCode = createErrorCode('error');
 
     const validateArray = array(
       arrayItem<string | number>((value, ctx) => {
@@ -25,9 +29,7 @@ describe('arrayItem', () => {
       createSimpleError({ message: 'number error', code: errorCode }),
     ];
 
-    expect((error as ValidationArrayError).cause.errorArray).toEqual(
-      expectedErrors,
-    );
+    expect((error as ValidationArrayError).errorArray).toEqual(expectedErrors);
   });
 
   it('Не возвращает ошибку, если все item валидные', () => {

@@ -99,7 +99,7 @@ export const createGuard = <
       // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
       if (
         defOptions?.isOptional &&
-        validationResult?.cause.code === REQUIRED_ERROR_INFO.code
+        validationResult?.code === REQUIRED_ERROR_INFO.code
       ) {
         return undefined;
       }
