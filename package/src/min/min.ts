@@ -1,6 +1,10 @@
 import { ValidationContext, createRule } from '../core';
 
-import { NUMBER_MIN_ERROR_CODE, STRING_MIN_ERROR_CODE } from './constants';
+import {
+  ARRAY_MIN_ERROR_CODE,
+  NUMBER_MIN_ERROR_CODE,
+  STRING_MIN_ERROR_CODE,
+} from './constants';
 
 type MinValidationTypes = number | string | Array<unknown>;
 type Threshold = number;
@@ -49,13 +53,12 @@ export const min = <ValidationType extends MinValidationTypes>(
         : undefined;
     }
 
-    // TODO: расскоментировать после модификации array
-    // if (Array.isArray(value) && value.length < threshold) {
-    //   return ctx.createError({
-    //     code: ARRAY_MIN_ERROR_CODE,
-    //     message: getMessage(`Не больше: ${threshold}`),
-    //   });
-    // }
+    if (Array.isArray(value) && value.length < threshold) {
+      return ctx.createError({
+        code: ARRAY_MIN_ERROR_CODE,
+        message: getMessage(`Не больше: ${threshold}`),
+      });
+    }
 
     if (typeof value === 'number' && value < threshold) {
       return ctx.createError({
