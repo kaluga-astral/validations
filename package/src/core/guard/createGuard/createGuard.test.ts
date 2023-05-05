@@ -7,9 +7,10 @@ describe('createGuard', () => {
   it('Создает guard, который возвращает ошибку', () => {
     const errorCode = createErrorCode('error');
 
-    const guard = createGuard<string, string>((_, ctx) => {
-      return ctx.createError({ message: 'myerror', code: errorCode });
-    });
+    const guard = createGuard<string, string>(() => ({
+      message: 'myerror',
+      code: errorCode,
+    }));
 
     const error = guard('value');
 
@@ -54,9 +55,10 @@ describe('createGuard', () => {
   it('guard.define:isOptional=true: если required не вернул ошибку, то пропускает валидацию дальше', () => {
     const errorCode = createErrorCode('error');
 
-    const guard = createGuard<string, string>((_, ctx) =>
-      ctx.createError({ message: '', code: errorCode }),
-    );
+    const guard = createGuard<string, string>(() => ({
+      message: '',
+      code: errorCode,
+    }));
 
     const error = guard.define({ isOptional: true })('value');
 
