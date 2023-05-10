@@ -2,9 +2,9 @@ import isPlainObject from 'is-plain-obj';
 
 import {
   CompositionalValidationRule,
-  ErrorMap,
   Guard,
   ValidationContext,
+  ValidationErrorMap,
   createErrorMap,
   createGuard,
 } from '../core';
@@ -63,9 +63,7 @@ type Schema<TValue extends Record<string, unknown>, TValues> = Record<
  *   name: string(min(2)),
  *   age: optional(number()),
  *   info: object<Values['info']>({ surname: string(min(2)) }),
- *   customField: (value, ctx) => {
- *     return ctx.createError({ message: 'error', code: Symbol() })
- *   }
+ *   customField: (value, ctx) => ({ message: 'error', code: Symbol() }),
  * });
  * ```
  */
@@ -78,28 +76,31 @@ export const object = <
   createGuard<Value, TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
       if (!isPlainObject(value)) {
-        return ctx.createError({
+        return {
           ...OBJECT_TYPE_ERROR_INFO,
           message: typeErrorMessage || OBJECT_TYPE_ERROR_INFO.message,
-        });
+        };
       }
 
       const generateErrorMap = () => {
         const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
         const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
 
-        return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
-          const isGuard = 'define' in rule;
+        return schemaEntries.reduce<ValidationErrorMap['errorMap']>(
+          (errorMap, [key, rule]) => {
+            const isGuard = 'define' in rule;
 
-          const callRule =
-            isGuard && isOptional
-              ? optional(rule as Guard<unknown, TValues>)
-              : rule;
+            const callRule =
+              isGuard && isOptional
+                ? optional(rule as Guard<unknown, TValues>)
+                : rule;
 
-          errorMap[key] = callRule(value[key], ctx);
+            errorMap[key] = callRule(value[key], ctx);
 
-          return errorMap;
-        }, {});
+            return errorMap;
+          },
+          {},
+        );
       };
 
       const errorMap = generateErrorMap();

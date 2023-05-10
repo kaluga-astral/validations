@@ -1,6 +1,7 @@
 import {
   REQUIRED_ERROR_INFO,
   ValidationErrorMap,
+  createErrorCode,
   createErrorMap,
   createSimpleError,
 } from '../core';
@@ -21,7 +22,7 @@ describe('object', () => {
 
       const result = validate(value);
 
-      expect(result?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
+      expect(result?.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     },
   );
 
@@ -32,7 +33,7 @@ describe('object', () => {
 
       const result = validate(value);
 
-      expect(result?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
+      expect(result?.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     },
   );
 
@@ -88,12 +89,14 @@ describe('object', () => {
 
   it('Поддерживает кастомные валидации для полей объекта', () => {
     const validate = object<{ name: string }>({
-      name: (_, ctx) =>
-        ctx.createError({ message: 'name error', code: Symbol() }),
+      name: () => ({
+        message: 'name error',
+        code: createErrorCode('error'),
+      }),
     });
 
     const error = validate({}) as ValidationErrorMap;
 
-    expect(error.cause.errorMap.name?.message).toBe('name error');
+    expect(error.errorMap.name?.message).toBe('name error');
   });
 });

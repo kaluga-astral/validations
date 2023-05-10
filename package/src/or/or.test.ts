@@ -18,6 +18,6 @@ describe('or', () => {
 
     const error = validate(new Date());
 
-    expect(error?.cause.code).toBe(ARRAY_TYPE_ERROR_INFO.code);
+    expect(error?.code).toBe(ARRAY_TYPE_ERROR_INFO.code);
   });
 });

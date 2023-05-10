@@ -29,7 +29,7 @@ type RuleExecutor<ValidationType extends ValidationTypes, TValues> = (
  * const inn = (params: CommonRuleParams<string> & { message?: string }) =>
  *   createRule<string>((value, ctx) => {
  *     if (!isInn(value)) {
- *       return ctx.createError({ code: Symbol(), message: params?.message || 'Неверный ИНН' });
+ *       return { code: Symbol(), message: params?.message || 'Неверный ИНН' };
  *     }
  *
  *     return undefined;

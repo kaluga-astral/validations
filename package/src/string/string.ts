@@ -7,10 +7,10 @@ export const string = <TValues>(
 ) =>
   createGuard<string, TValues>((value, ctx, { typeErrorMessage }) => {
     if (typeof value !== 'string') {
-      return ctx.createError({
+      return {
         ...STRING_TYPE_ERROR_INFO,
         message: typeErrorMessage || STRING_TYPE_ERROR_INFO.message,
-      });
+      };
     }
 
     return compose<string, TValues>(...rules)(value, ctx);

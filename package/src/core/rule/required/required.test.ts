@@ -29,7 +29,7 @@ describe('required', () => {
     (value) => {
       const error = required()(value);
 
-      expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
+      expect(error?.code).toBe(REQUIRED_ERROR_INFO.code);
     },
   );
 
