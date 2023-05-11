@@ -64,7 +64,7 @@ type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
  * const string = <TValues>(...rules: CompositionalValidationRule<string, TValues>[]) =>
  *   createGuard<string, TValues>((value, ctx) => {
  *     if (typeof value !== 'string') {
- *       return ctx.createError({ code: createErrorCode('error'), message: 'Не строка' });
+ *       return ctx.createError({ code: 'custom error', message: 'Не строка' });
  *     }
  *
  *     return compose<string, TValues>(...rules)(value, ctx);

@@ -64,7 +64,7 @@ type Schema<TValue extends Record<string, unknown>, TValues> = Record<
  *   age: optional(number()),
  *   info: object<Values['info']>({ surname: string(min(2)) }),
  *   customField: (value, ctx) => {
- *     return ctx.createError({ message: 'error', code: createErrorCode('error') })
+ *     return ctx.createError({ message: 'error', code: 'custom error' })
  *   }
  * });
  * ```
