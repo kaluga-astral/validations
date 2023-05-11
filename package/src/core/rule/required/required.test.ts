@@ -1,3 +1,5 @@
+import { createErrorCode } from '../../errors';
+
 import { required } from './required';
 import { REQUIRED_ERROR_INFO } from './constants';
 
@@ -13,7 +15,7 @@ describe('required', () => {
     [null],
     NaN,
     new Date(),
-    Symbol(),
+    createErrorCode('error'),
     new Set([22]),
     [],
     {},

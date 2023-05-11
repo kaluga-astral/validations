@@ -1,6 +1,7 @@
 import {
   REQUIRED_ERROR_INFO,
   ValidationErrorMap,
+  createErrorCode,
   createErrorMap,
   createSimpleError,
 } from '../core';
@@ -14,7 +15,7 @@ class TestClass {
 }
 
 describe('object', () => {
-  it.each<unknown>([NaN, Symbol(), true])(
+  it.each<unknown>([NaN, createErrorCode('error'), true])(
     'Возвращает ошибку типа, если value не пустое и не объект - %s',
     (value) => {
       const validate = object<{}>({});
@@ -89,7 +90,10 @@ describe('object', () => {
   it('Поддерживает кастомные валидации для полей объекта', () => {
     const validate = object<{ name: string }>({
       name: (_, ctx) =>
-        ctx.createError({ message: 'name error', code: Symbol() }),
+        ctx.createError({
+          message: 'name error',
+          code: createErrorCode('error'),
+        }),
     });
 
     const error = validate({}) as ValidationErrorMap;

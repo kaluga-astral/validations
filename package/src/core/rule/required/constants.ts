@@ -1,6 +1,6 @@
-import { ErrorInfo } from '../../errors';
+import { ErrorInfo, createErrorCode } from '../../errors';
 
 export const REQUIRED_ERROR_INFO: ErrorInfo = {
-  code: Symbol('required'),
+  code: createErrorCode('required'),
   message: 'Обязательно',
 };

@@ -1,4 +1,5 @@
 import { createSimpleError } from '../../SimpleError';
+import { createErrorCode } from '../../createErrorCode';
 
 import { createArrayError } from './createArrayError';
 
@@ -6,7 +7,10 @@ describe('createArrayError', () => {
   it('Подставляет в error.message текст от первой ошибки из массива', () => {
     const errorArray = [
       undefined,
-      createSimpleError({ message: 'name error', code: Symbol() }),
+      createSimpleError({
+        message: 'name error',
+        code: createErrorCode('error'),
+      }),
     ];
 
     const error = createArrayError(errorArray);
@@ -17,7 +21,10 @@ describe('createArrayError', () => {
   it('В error.code попадает код из первой ошибки map', () => {
     const errorArray = [
       undefined,
-      createSimpleError({ message: 'name error', code: Symbol() }),
+      createSimpleError({
+        message: 'name error',
+        code: createErrorCode('error'),
+      }),
     ];
 
     const error = createArrayError(errorArray);
@@ -28,7 +35,10 @@ describe('createArrayError', () => {
   it('В error.cause.errorArray записывается array из аргумента', () => {
     const errorArray = [
       undefined,
-      createSimpleError({ message: 'name error', code: Symbol() }),
+      createSimpleError({
+        message: 'name error',
+        code: createErrorCode('error'),
+      }),
     ];
 
     const error = createArrayError(errorArray);

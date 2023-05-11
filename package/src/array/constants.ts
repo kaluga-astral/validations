@@ -1,6 +1,6 @@
-import { ErrorInfo } from '../core';
+import { ErrorInfo, createErrorCode } from '../core';
 
 export const ARRAY_TYPE_ERROR_INFO: ErrorInfo = {
-  code: Symbol('array'),
+  code: createErrorCode('array'),
   message: 'Не является массивом',
 };
