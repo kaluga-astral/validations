@@ -1,21 +1,19 @@
 import { REQUIRED_ERROR_INFO } from '../../rule';
-import { createErrorCode } from '../../errors';
 
 import { createGuard } from './createGuard';
 
 describe('createGuard', () => {
   it('Создает guard, который возвращает ошибку', () => {
-    const errorCode = createErrorCode('error');
+    const errorCode = Symbol();
 
-    const guard = createGuard<string, string>(() => ({
-      message: 'myerror',
-      code: errorCode,
-    }));
+    const guard = createGuard<string, string>((_, ctx) => {
+      return ctx.createError({ message: 'myerror', code: errorCode });
+    });
 
     const error = guard('value');
 
     expect(error?.message).toBe('myerror');
-    expect(error?.code).toBe(errorCode);
+    expect(error?.cause.code).toBe(errorCode);
   });
 
   it('По-дефолту проверяет правило на required', () => {
@@ -23,7 +21,7 @@ describe('createGuard', () => {
 
     const error = guard(undefined);
 
-    expect(error?.code).toBe(REQUIRED_ERROR_INFO.code);
+    expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
 
   it('guard.define: создает копию guard', () => {
@@ -53,16 +51,15 @@ describe('createGuard', () => {
   });
 
   it('guard.define:isOptional=true: если required не вернул ошибку, то пропускает валидацию дальше', () => {
-    const errorCode = createErrorCode('error');
+    const errorCode = Symbol();
 
-    const guard = createGuard<string, string>(() => ({
-      message: '',
-      code: errorCode,
-    }));
+    const guard = createGuard<string, string>((_, ctx) =>
+      ctx.createError({ message: '', code: errorCode }),
+    );
 
     const error = guard.define({ isOptional: true })('value');
 
-    expect(error?.code).toBe(errorCode);
+    expect(error?.cause.code).toBe(errorCode);
   });
 
   it('Создает новый контекст, если его не было', () => {

@@ -5,7 +5,7 @@ import { ValidationArrayError } from './ArrayError';
 /**
  * @description Уникальный код ошибки валидации
  */
-export type ErrorCode = string;
+export type ErrorCode = Symbol;
 
 /**
  * @description Информация, которая есть для каждой ошибки

@@ -7,7 +7,7 @@ describe('array', () => {
     (value) => {
       const error = array()(value);
 
-      expect(error?.code).toBe(ARRAY_TYPE_ERROR_INFO.code);
+      expect(error?.cause.code).toBe(ARRAY_TYPE_ERROR_INFO.code);
     },
   );
 

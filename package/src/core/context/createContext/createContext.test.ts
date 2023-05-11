@@ -1,4 +1,4 @@
-import { createSimpleError } from '../../errors';
+import { ValidationSimpleError, createSimpleError } from '../../errors';
 
 import { createContext } from './createContext';
 
@@ -28,5 +28,13 @@ describe('createContext', () => {
     const resultCtx = createContext(undefined, 'value');
 
     expect(resultCtx.global.values).toBe('value');
+  });
+
+  it('В контексте доступна фабрика для создания SimpleError валидации', () => {
+    const ctx = createContext(undefined, 'value');
+
+    const error = ctx.createError({ code: Symbol(), message: 'error' });
+
+    expect(error instanceof ValidationSimpleError).toBeTruthy();
   });
 });

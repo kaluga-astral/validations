@@ -46,25 +46,25 @@ export const min = <ValidationType extends MinValidationTypes>(
       const isError = value.trim().length < threshold;
 
       return isError
-        ? {
+        ? ctx.createError({
             code: STRING_MIN_ERROR_CODE,
             message: getMessage(`Мин. символов: ${threshold}`),
-          }
+          })
         : undefined;
     }
 
     if (Array.isArray(value) && value.length < threshold) {
-      return {
+      return ctx.createError({
         code: ARRAY_MIN_ERROR_CODE,
         message: getMessage(`Не больше: ${threshold}`),
-      };
+      });
     }
 
     if (typeof value === 'number' && value < threshold) {
-      return {
+      return ctx.createError({
         code: NUMBER_MIN_ERROR_CODE,
         message: getMessage(`Не больше: ${threshold}`),
-      };
+      });
     }
 
     return undefined;

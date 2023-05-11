@@ -15,11 +15,12 @@ export const required = ({
    */
   message?: string;
 } = {}) =>
-  createRule<unknown>((value) => {
-    const createRequiredError = () => ({
-      ...REQUIRED_ERROR_INFO,
-      message: message || REQUIRED_ERROR_INFO.message,
-    });
+  createRule<unknown>((value, ctx) => {
+    const createRequiredError = () =>
+      ctx.createError({
+        ...REQUIRED_ERROR_INFO,
+        message: message || REQUIRED_ERROR_INFO.message,
+      });
 
     if (value === null) {
       return createRequiredError();

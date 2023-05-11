@@ -1,6 +1,6 @@
-import { ErrorInfo, createErrorCode } from '../core';
+import { ErrorInfo } from '../core';
 
 export const OBJECT_TYPE_ERROR_INFO: ErrorInfo = {
-  code: createErrorCode('object'),
+  code: Symbol('object'),
   message: 'Не является объектом',
 };

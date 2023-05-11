@@ -1,5 +1,4 @@
 import { createSimpleError } from '../../SimpleError';
-import { createErrorCode } from '../../createErrorCode';
 
 import { createErrorMap } from './createErrorMap';
 
@@ -7,14 +6,8 @@ describe('createErrorMap', () => {
   it('Подставляет в error.message текст от первой ошибки из map', () => {
     const errorMap = {
       age: undefined,
-      name: createSimpleError({
-        message: 'name error',
-        code: createErrorCode('name'),
-      }),
-      surname: createSimpleError({
-        message: 'surname error',
-        code: createErrorCode('surname'),
-      }),
+      name: createSimpleError({ message: 'name error', code: Symbol() }),
+      surname: createSimpleError({ message: 'surname error', code: Symbol() }),
     };
 
     const error = createErrorMap(errorMap);
@@ -24,35 +17,23 @@ describe('createErrorMap', () => {
 
   it('В error.code попадает код из первой ошибки map', () => {
     const errorMap = {
-      name: createSimpleError({
-        message: 'name error',
-        code: createErrorCode('name'),
-      }),
-      surname: createSimpleError({
-        message: 'surname error',
-        code: createErrorCode('surname'),
-      }),
+      name: createSimpleError({ message: 'name error', code: Symbol() }),
+      surname: createSimpleError({ message: 'surname error', code: Symbol() }),
     };
 
     const error = createErrorMap(errorMap);
 
-    expect(error.code).toBe(errorMap.name.code);
+    expect(error.cause.code).toBe(errorMap.name.cause.code);
   });
 
-  it('В error.errorMap записывается объект из аргумента', () => {
+  it('В error.cause.errorMap записывается объект из аргумента', () => {
     const errorMap = {
-      name: createSimpleError({
-        message: 'name error',
-        code: createErrorCode('name'),
-      }),
-      surname: createSimpleError({
-        message: 'surname error',
-        code: createErrorCode('surname'),
-      }),
+      name: createSimpleError({ message: 'name error', code: Symbol() }),
+      surname: createSimpleError({ message: 'surname error', code: Symbol() }),
     };
 
     const error = createErrorMap(errorMap);
 
-    expect(error.errorMap).toEqual(errorMap);
+    expect(error.cause.errorMap).toEqual(errorMap);
   });
 });

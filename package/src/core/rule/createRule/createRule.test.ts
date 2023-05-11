@@ -1,16 +1,13 @@
 import { expect } from 'vitest';
 
-import { createErrorCode } from '../../errors';
-
 import { CommonRuleParams, createRule } from './createRule';
 
 describe('createRule', () => {
   it('Создает правило валидации, которое возвращает ошибку', () => {
     const rule = () =>
-      createRule<string>(() => ({
-        code: createErrorCode('test'),
-        message: 'error',
-      }));
+      createRule<string>((_, ctx) =>
+        ctx.createError({ code: Symbol(), message: 'error' }),
+      );
 
     const error = rule()('');
 
@@ -31,7 +28,7 @@ describe('createRule', () => {
   it('Params.exclude: пропускает исключения, если exclude возвращает true', () => {
     const rule = ({ exclude }: CommonRuleParams<string>) =>
       createRule<string>(
-        () => ({ code: createErrorCode('test'), message: 'error' }),
+        (_, ctx) => ctx.createError({ code: Symbol(), message: 'error' }),
         { exclude },
       );
 

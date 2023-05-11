@@ -64,7 +64,7 @@ type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
  * const string = <TValues>(...rules: CompositionalValidationRule<string, TValues>[]) =>
  *   createGuard<string, TValues>((value, ctx) => {
  *     if (typeof value !== 'string') {
- *       return { code: Symbol(), message: 'Не строка' };
+ *       return ctx.createError({ code: Symbol(), message: 'Не строка' });
  *     }
  *
  *     return compose<string, TValues>(...rules)(value, ctx);
@@ -99,7 +99,7 @@ export const createGuard = <
       // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
       if (
         defOptions?.isOptional &&
-        validationResult?.code === REQUIRED_ERROR_INFO.code
+        validationResult?.cause.code === REQUIRED_ERROR_INFO.code
       ) {
         return undefined;
       }
