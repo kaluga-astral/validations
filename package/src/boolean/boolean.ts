@@ -7,10 +7,10 @@ import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
  * @param rules - правила, валидирующие number или unknown value
  * @example
  * ```ts
- *  const validate = number(min(22));
+ *  const validate = boolean();
  *
  *  // undefined
- *  validate(24);
+ *  validate(true);
  * ```
  */
 export const boolean = <TValues>(
