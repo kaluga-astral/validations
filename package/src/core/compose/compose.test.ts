@@ -7,12 +7,12 @@ describe('compose', () => {
     const validate = compose(
       () =>
         createSimpleError({
-          code: createErrorCode('error1'),
+          code: createErrorCode('error'),
           message: 'error1',
         }),
       () =>
         createSimpleError({
-          code: createErrorCode('error2'),
+          code: createErrorCode('error'),
           message: 'error2',
         }),
     );
@@ -24,12 +24,12 @@ describe('compose', () => {
     const composed1 = compose(
       () =>
         createSimpleError({
-          code: createErrorCode('error1'),
+          code: createErrorCode('error'),
           message: 'error1',
         }),
       () =>
         createSimpleError({
-          code: createErrorCode('error2'),
+          code: createErrorCode('error'),
           message: 'error1',
         }),
     );

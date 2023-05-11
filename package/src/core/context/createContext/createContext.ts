@@ -1,4 +1,5 @@
 import { ValidationContext } from '../types';
+import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
 
 /**
@@ -30,5 +31,6 @@ export function createContext<Value extends ValidationTypes, Values>(
         objectIsPartial: false,
       },
     },
+    createError: createSimpleError,
   };
 }

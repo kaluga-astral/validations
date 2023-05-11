@@ -1,3 +1,5 @@
+import { createErrorCode } from '../../errors';
+
 import { required } from './required';
 import { REQUIRED_ERROR_INFO } from './constants';
 
@@ -13,7 +15,7 @@ describe('required', () => {
     [null],
     NaN,
     new Date(),
-    Symbol(),
+    createErrorCode('error'),
     new Set([22]),
     [],
     {},
@@ -29,7 +31,7 @@ describe('required', () => {
     (value) => {
       const error = required()(value);
 
-      expect(error?.code).toBe(REQUIRED_ERROR_INFO.code);
+      expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
     },
   );
 

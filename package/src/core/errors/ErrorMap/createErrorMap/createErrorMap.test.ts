@@ -9,11 +9,11 @@ describe('createErrorMap', () => {
       age: undefined,
       name: createSimpleError({
         message: 'name error',
-        code: createErrorCode('name'),
+        code: createErrorCode('error'),
       }),
       surname: createSimpleError({
         message: 'surname error',
-        code: createErrorCode('surname'),
+        code: createErrorCode('error'),
       }),
     };
 
@@ -26,33 +26,33 @@ describe('createErrorMap', () => {
     const errorMap = {
       name: createSimpleError({
         message: 'name error',
-        code: createErrorCode('name'),
+        code: createErrorCode('error'),
       }),
       surname: createSimpleError({
         message: 'surname error',
-        code: createErrorCode('surname'),
+        code: createErrorCode('error'),
       }),
     };
 
     const error = createErrorMap(errorMap);
 
-    expect(error.code).toBe(errorMap.name.code);
+    expect(error.cause.code).toBe(errorMap.name.cause.code);
   });
 
-  it('В error.errorMap записывается объект из аргумента', () => {
+  it('В error.cause.errorMap записывается объект из аргумента', () => {
     const errorMap = {
       name: createSimpleError({
         message: 'name error',
-        code: createErrorCode('name'),
+        code: createErrorCode('error'),
       }),
       surname: createSimpleError({
         message: 'surname error',
-        code: createErrorCode('surname'),
+        code: createErrorCode('error'),
       }),
     };
 
     const error = createErrorMap(errorMap);
 
-    expect(error.errorMap).toEqual(errorMap);
+    expect(error.cause.errorMap).toEqual(errorMap);
   });
 });

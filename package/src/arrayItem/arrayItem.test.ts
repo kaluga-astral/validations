@@ -12,9 +12,9 @@ describe('arrayItem', () => {
     const errorCode = createErrorCode('error');
 
     const validateArray = array(
-      arrayItem<string | number>((value) => {
+      arrayItem<string | number>((value, ctx) => {
         if (typeof value === 'number') {
-          return { message: 'number error', code: errorCode };
+          return ctx.createError({ message: 'number error', code: errorCode });
         }
 
         return undefined;
@@ -29,7 +29,9 @@ describe('arrayItem', () => {
       createSimpleError({ message: 'number error', code: errorCode }),
     ];
 
-    expect((error as ValidationArrayError).errorArray).toEqual(expectedErrors);
+    expect((error as ValidationArrayError).cause.errorArray).toEqual(
+      expectedErrors,
+    );
   });
 
   it('Не возвращает ошибку, если все item валидные', () => {

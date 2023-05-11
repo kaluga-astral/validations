@@ -1,3 +1,5 @@
+import { createErrorCode } from '../core';
+
 import { string } from './string';
 import { STRING_TYPE_ERROR_INFO } from './constants';
 
@@ -9,7 +11,7 @@ describe('string', () => {
 
       const result = validate(value);
 
-      expect(result?.code).toBe(STRING_TYPE_ERROR_INFO.code);
+      expect(result?.cause.code).toBe(STRING_TYPE_ERROR_INFO.code);
     },
   );
 
@@ -24,7 +26,11 @@ describe('string', () => {
   it('Вызывает переданные rules', () => {
     const validate = string(
       () => undefined,
-      () => ({ message: 'stringerror', code: 'error' }),
+      (_, ctx) =>
+        ctx.createError({
+          message: 'stringerror',
+          code: createErrorCode('error'),
+        }),
     );
 
     const result = validate('string');

@@ -15,14 +15,14 @@ class TestClass {
 }
 
 describe('object', () => {
-  it.each<unknown>([NaN, Symbol(), true])(
+  it.each<unknown>([NaN, createErrorCode('error'), true])(
     'Возвращает ошибку типа, если value не пустое и не объект - %s',
     (value) => {
       const validate = object<{}>({});
 
       const result = validate(value);
 
-      expect(result?.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
+      expect(result?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     },
   );
 
@@ -33,7 +33,7 @@ describe('object', () => {
 
       const result = validate(value);
 
-      expect(result?.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
+      expect(result?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     },
   );
 
@@ -89,14 +89,15 @@ describe('object', () => {
 
   it('Поддерживает кастомные валидации для полей объекта', () => {
     const validate = object<{ name: string }>({
-      name: () => ({
-        message: 'name error',
-        code: createErrorCode('error'),
-      }),
+      name: (_, ctx) =>
+        ctx.createError({
+          message: 'name error',
+          code: createErrorCode('error'),
+        }),
     });
 
     const error = validate({}) as ValidationErrorMap;
 
-    expect(error.errorMap.name?.message).toBe('name error');
+    expect(error.cause.errorMap.name?.message).toBe('name error');
   });
 });

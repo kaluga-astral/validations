@@ -1,11 +1,7 @@
 import { ErrorCode } from '../types';
 
 /**
- * @description Создает уникальный код ошибки по переданному name
- * @param name - уникальное имя ошибки
- * @example
- * ```ts
- *  const STRING_TYPE_ERROR_CODE = createErrorCode('string-type');
- * ```
+ * @description Создает уникальный код ошибки
  */
-export const createErrorCode = (name: string): ErrorCode => `revizor-${name}`;
+export const createErrorCode = (errorName: string): ErrorCode =>
+  `revizor-${errorName}`;

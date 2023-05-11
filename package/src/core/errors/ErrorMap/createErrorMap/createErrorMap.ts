@@ -1,19 +1,20 @@
-import { ValidationErrorMap } from '../ErrorMap';
+import { ValidationErrorMap, ValidationObjectErrorCause } from '../ErrorMap';
 import { ValidationSimpleError } from '../../SimpleError';
 
 /**
  * @description Создает map ошибок валидаций. Ошибка предназначена для генерации результата валидации объекта
  */
 export const createErrorMap = (
-  errorMap: ValidationErrorMap['errorMap'],
-): ValidationErrorMap => {
+  errorMap: ValidationObjectErrorCause['errorMap'],
+) => {
   const [firstErrorPath, firstError] = Object.entries(errorMap).find(
     ([, error]) => Boolean(error),
   ) as [string, ValidationSimpleError];
 
-  return {
-    message: `Ошибка в свойстве ${firstErrorPath}: ${firstError.message}`,
-    code: firstError.code,
-    errorMap,
-  };
+  return new ValidationErrorMap(
+    `Ошибка в свойстве ${firstErrorPath}: ${firstError.message}`,
+    {
+      cause: { errorMap, code: firstError.cause.code },
+    },
+  );
 };

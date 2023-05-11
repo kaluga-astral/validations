@@ -31,7 +31,7 @@ describe('min', () => {
 
       const error = validate(value);
 
-      expect(error?.code).toBe(STRING_MIN_ERROR_CODE);
+      expect(error?.cause.code).toBe(STRING_MIN_ERROR_CODE);
     },
   );
 
@@ -55,7 +55,7 @@ describe('min', () => {
 
     const error = validate(value);
 
-    expect(error?.code).toBe(NUMBER_MIN_ERROR_CODE);
+    expect(error?.cause.code).toBe(NUMBER_MIN_ERROR_CODE);
   });
 
   it('params.getMessage: позволяет переопределить message', () => {
@@ -86,6 +86,6 @@ describe('min', () => {
 
     const error = validate(value);
 
-    expect(error?.code).toBe(ARRAY_MIN_ERROR_CODE);
+    expect(error?.cause.code).toBe(ARRAY_MIN_ERROR_CODE);
   });
 });

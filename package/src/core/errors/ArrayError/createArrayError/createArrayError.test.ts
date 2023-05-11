@@ -9,7 +9,7 @@ describe('createArrayError', () => {
       undefined,
       createSimpleError({
         message: 'name error',
-        code: createErrorCode('name'),
+        code: createErrorCode('error'),
       }),
     ];
 
@@ -23,26 +23,26 @@ describe('createArrayError', () => {
       undefined,
       createSimpleError({
         message: 'name error',
-        code: createErrorCode('name'),
+        code: createErrorCode('error'),
       }),
     ];
 
     const error = createArrayError(errorArray);
 
-    expect(error.code).toBe(errorArray[1]?.code);
+    expect(error.cause.code).toBe(errorArray[1]?.cause.code);
   });
 
-  it('В error.errorArray записывается array из аргумента', () => {
+  it('В error.cause.errorArray записывается array из аргумента', () => {
     const errorArray = [
       undefined,
       createSimpleError({
         message: 'name error',
-        code: createErrorCode('name'),
+        code: createErrorCode('error'),
       }),
     ];
 
     const error = createArrayError(errorArray);
 
-    expect(error.errorArray).toEqual(errorArray);
+    expect(error.cause.errorArray).toEqual(errorArray);
   });
 });
