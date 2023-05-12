@@ -29,7 +29,7 @@ export const date = <TValues>(
         });
       }
 
-      if (!Number.isNaN(Number(value))) {
+      if (Number.isNaN(Number(value))) {
         return ctx.createError({
           ...INVALID_DATE_ERROR_INFO,
           message: invalidDateErrorMessage || INVALID_DATE_ERROR_INFO.message,

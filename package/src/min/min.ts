@@ -1,7 +1,9 @@
 import { ValidationContext, createRule } from '../core';
 
+import { resetTime } from './utils';
 import {
   ARRAY_MIN_ERROR_CODE,
+  DATE_MIN_ERROR_CODE,
   NUMBER_MIN_ERROR_CODE,
   STRING_MIN_ERROR_CODE,
 } from './constants';
@@ -21,16 +23,6 @@ type MinParams<ValidationType> = {
   ) => string;
 };
 
-export function min<ValidationType extends Date>(
-  threshold: Date,
-  params?: MinParams<ValidationType>,
-): ReturnType<typeof createRule<Date, unknown>>;
-
-export function min<ValidationType extends BaseMinValidationTypes>(
-  threshold: number,
-  params?: MinParams<ValidationType>,
-): ReturnType<typeof createRule<BaseMinValidationTypes, unknown>>;
-
 /**
  * @description Проверяет значение на соответствие минимуму. Работает с: string, array, Date, number
  * @param threshold - нижний доступный порог value
@@ -45,6 +37,15 @@ export function min<ValidationType extends BaseMinValidationTypes>(
  *  date(min(new Date())));
  * ```
  */
+export function min<ValidationType extends Date>(
+  threshold: Date,
+  params?: MinParams<ValidationType>,
+): ReturnType<typeof createRule<Date, unknown>>;
+
+export function min<ValidationType extends BaseMinValidationTypes>(
+  threshold: number,
+  params?: MinParams<ValidationType>,
+): ReturnType<typeof createRule<BaseMinValidationTypes, unknown>>;
 
 export function min<ValidationType extends CommonMinValidationTypes>(
   threshold: CommonThreshold,
@@ -56,7 +57,18 @@ export function min<ValidationType extends CommonMinValidationTypes>(
         ? params.getMessage(threshold, value, ctx)
         : typeMessage;
 
-    if (value instanceof Date || threshold instanceof Date) {
+    if (value instanceof Date && threshold instanceof Date) {
+      return resetTime(value) >= resetTime(threshold)
+        ? undefined
+        : ctx.createError({
+            code: DATE_MIN_ERROR_CODE,
+            message: getMessage(
+              `Не раньше ${threshold.toLocaleDateString('ru')}`,
+            ),
+          });
+    }
+
+    if (threshold instanceof Date) {
       return undefined;
     }
 
@@ -74,14 +86,14 @@ export function min<ValidationType extends CommonMinValidationTypes>(
     if (Array.isArray(value) && value.length < threshold) {
       return ctx.createError({
         code: ARRAY_MIN_ERROR_CODE,
-        message: getMessage(`Не больше: ${threshold}`),
+        message: getMessage(`Не больше ${threshold}`),
       });
     }
 
     if (typeof value === 'number' && value < threshold) {
       return ctx.createError({
         code: NUMBER_MIN_ERROR_CODE,
-        message: getMessage(`Не больше: ${threshold}`),
+        message: getMessage(`Не больше ${threshold}`),
       });
     }
 

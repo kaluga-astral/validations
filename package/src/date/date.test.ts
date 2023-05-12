@@ -1,4 +1,4 @@
-import { ValidationSimpleError, createErrorCode } from '../core';
+import { createErrorCode } from '../core';
 import { date } from '../date';
 import { min } from '../min';
 
@@ -32,13 +32,13 @@ describe('date', () => {
   });
 
   it('Выполняет композицию для переданных rules', () => {
-    const validate = date(min(0), (_, ctx) =>
+    const validate = date(min(new Date()), (_, ctx) =>
       ctx.createError({
         message: 'custom error',
         code: createErrorCode('error'),
       }),
     );
-    const error = validate(22);
+    const error = validate(new Date());
 
     expect(error?.message).toBe('custom error');
   });

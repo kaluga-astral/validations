@@ -6,6 +6,7 @@ import { date } from '../date';
 
 import {
   ARRAY_MIN_ERROR_CODE,
+  DATE_MIN_ERROR_CODE,
   NUMBER_MIN_ERROR_CODE,
   STRING_MIN_ERROR_CODE,
 } from './constants';
@@ -88,5 +89,48 @@ describe('min', () => {
     const error = validate(value);
 
     expect(error?.cause.code).toBe(ARRAY_MIN_ERROR_CODE);
+  });
+
+  it.each<{ value: Date; threshold: Date }>([
+    { value: new Date('10.10.2022'), threshold: new Date('09.10.2022') },
+    { value: new Date('10.10.2022'), threshold: new Date('10.10.2022') },
+    {
+      value: new Date('2022-07-21T09:35:31.820Z'),
+      threshold: new Date('2022-07-21T08:30:31.820Z'),
+    },
+  ])('date:params:%j: valid', ({ value, threshold }) => {
+    const validate = date(min(threshold));
+
+    const result = validate(value);
+
+    expect(result).toBeUndefined();
+  });
+
+  it.each<{ value: Date; threshold: Date }>([
+    { value: new Date('08.10.2022'), threshold: new Date('09.10.2022') },
+  ])('date:params:%j: invalid', ({ value, threshold }) => {
+    const validate = date(min(threshold));
+
+    const result = validate(value);
+
+    expect(result?.cause.code).toBe(DATE_MIN_ERROR_CODE);
+  });
+
+  it.each<{ value: Date; threshold: Date }>([
+    { value: new Date('08.10.2022'), threshold: new Date('09.10.2022') },
+  ])('date:params:%j: invalid', ({ value, threshold }) => {
+    const validate = date(min(threshold));
+
+    const result = validate(value);
+
+    expect(result?.cause.code).toBe(DATE_MIN_ERROR_CODE);
+  });
+
+  it('date:message: генерирует ошибку и подставляет в нее min в читаемом формате', () => {
+    const validate = date(min(new Date('12.22.2022')));
+
+    const error = validate(new Date('09.09.2022'));
+
+    expect(error?.message).toBe('Не раньше 22.12.2022');
   });
 });
