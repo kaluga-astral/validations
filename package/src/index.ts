@@ -4,6 +4,15 @@ export { optional } from './optional';
 
 export { string, STRING_TYPE_ERROR_INFO } from './string';
 
+export {
+  number,
+  NAN_NUMBER_ERROR_INFO,
+  NUMBER_TYPE_ERROR_INFO,
+  INFINITY_NUMBER_ERROR_INFO,
+} from './number';
+
+export { boolean, BOOLEAN_TYPE_ERROR_INFO } from './boolean';
+
 export { array, ARRAY_TYPE_ERROR_INFO } from './array';
 
 export { arrayItem } from './arrayItem';
