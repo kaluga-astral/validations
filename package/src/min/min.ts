@@ -6,19 +6,30 @@ import {
   STRING_MIN_ERROR_CODE,
 } from './constants';
 
-type MinValidationTypes = number | string | Array<unknown>;
-type Threshold = number;
+type BaseMinValidationTypes = number | string | Array<unknown>;
+type CommonMinValidationTypes = BaseMinValidationTypes | Date;
+type CommonThreshold = number | Date;
 
 type MinParams<ValidationType> = {
   /**
    * @description Сообщение ошибки
    */
   getMessage?: (
-    threshold: Threshold,
+    threshold: CommonThreshold,
     value: ValidationType,
     ctx: ValidationContext<unknown>,
   ) => string;
 };
+
+export function min<ValidationType extends Date>(
+  threshold: Date,
+  params?: MinParams<ValidationType>,
+): ReturnType<typeof createRule<Date, unknown>>;
+
+export function min<ValidationType extends BaseMinValidationTypes>(
+  threshold: number,
+  params?: MinParams<ValidationType>,
+): ReturnType<typeof createRule<BaseMinValidationTypes, unknown>>;
 
 /**
  * @description Проверяет значение на соответствие минимуму. Работает с: string, array, Date, number
@@ -29,18 +40,25 @@ type MinParams<ValidationType> = {
  *
  *  number(min(22));
  *
- *  array(min(new Date()));
+ *  array(min(2)));
+ *
+ *  date(min(new Date())));
  * ```
  */
-export const min = <ValidationType extends MinValidationTypes>(
-  threshold: Threshold,
+
+export function min<ValidationType extends CommonMinValidationTypes>(
+  threshold: CommonThreshold,
   params?: MinParams<ValidationType>,
-) =>
-  createRule<ValidationType, unknown>((value, ctx) => {
+) {
+  return createRule<ValidationType, unknown>((value, ctx) => {
     const getMessage = (typeMessage: string) =>
       params?.getMessage
         ? params.getMessage(threshold, value, ctx)
         : typeMessage;
+
+    if (value instanceof Date || threshold instanceof Date) {
+      return undefined;
+    }
 
     if (typeof value === 'string') {
       const isError = value.trim().length < threshold;
@@ -69,3 +87,4 @@ export const min = <ValidationType extends MinValidationTypes>(
 
     return undefined;
   });
+}

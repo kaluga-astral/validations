@@ -2,6 +2,7 @@ import { expect } from 'vitest';
 
 import { string } from '../string';
 import { array } from '../array';
+import { date } from '../date';
 
 import {
   ARRAY_MIN_ERROR_CODE,
