@@ -1,4 +1,4 @@
-export { object, OBJECT_TYPE_ERROR_INFO } from './object';
+export { object, OBJECT_TYPE_ERROR_INFO, Schema, SchemaValue } from './object';
 
 export { optional } from './optional';
 
