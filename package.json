@@ -3,6 +3,7 @@
   "workspaces": [
     "pack",
     "package",
+    "react-hook-form-resolver",
     "PRLinter"
   ],
   "devDependencies": {

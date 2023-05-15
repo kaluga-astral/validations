@@ -28,3 +28,5 @@ export {
 } from './min';
 
 export { or } from './or';
+
+export { ValidationErrorMap } from './core';
