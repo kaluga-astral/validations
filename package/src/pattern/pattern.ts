@@ -2,16 +2,25 @@ import { createRule } from '../core';
 
 import { PATTERN_ERROR_CODE } from './constants';
 
-type PatternValidationTypes = string;
 type PatternParams = {
+  /**
+   * @description Замена стандартного сообщения ошибки.
+   */
   message?: string;
 };
 
-export const pattern = <ValidationType extends PatternValidationTypes>(
-  regex: RegExp,
-  params?: PatternParams,
-) =>
-  createRule<ValidationType, unknown>((value, ctx) => {
+/**
+ * @description Проверяет строку на соответствие регулярному выражению.
+ * @param regex - регулярное выражение
+ * @example
+ * ```ts
+ * string(pattern(/word/g))
+ *
+ * string(pattern(/[0-9]/))
+ * ```
+ */
+export const pattern = <TValues>(regex: RegExp, params?: PatternParams) =>
+  createRule<string, TValues>((value, ctx) => {
     if (!regex.test(value)) {
       return ctx.createError({
         code: PATTERN_ERROR_CODE,
