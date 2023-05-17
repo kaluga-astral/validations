@@ -1,7 +1,7 @@
 module.exports = {
   'package/**/*.{js,jsx,ts,tsx}': [
-    'npm run lint --workspace=@astral/revizor',
-    () => 'npm run lint:types --workspace=@astral/revizor',
+    'npm run lint --workspace=@astral/validations',
+    () => 'npm run lint:types --workspace=@astral/validations',
   ],
 
   'react-hook-form-resolver/**/*.{js,jsx,ts,tsx}': [
