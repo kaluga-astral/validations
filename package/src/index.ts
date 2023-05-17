@@ -29,6 +29,8 @@ export {
 
 export { or } from './or';
 
+export { pattern, PATTERN_ERROR_CODE } from './pattern';
+
 export { ValidationErrorMap, REQUIRED_ERROR_INFO } from './core';
 
 export { toPlainError, PlainValidationResult } from './toPlainError';
