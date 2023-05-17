@@ -19,7 +19,7 @@ type EmailParams = {
 };
 
 /**
- * @description Проверяет валидность email
+ * @description Проверяет валидность email. Не работает с русскими доменами
  * @example
  * ```ts
  *  const validate = string(email());
