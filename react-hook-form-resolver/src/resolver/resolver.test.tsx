@@ -11,9 +11,9 @@ import { Ref, ResolverOptions, useFieldArray, useForm } from 'react-hook-form';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import { revizorResolver } from './resolver';
+import { resolver } from './resolver';
 
-describe('revizorResolver', () => {
+describe('resolver', () => {
   it('Формирует ошибку, требуемую для rhf', () => {
     const nameFieldRef = {} as Ref;
 
@@ -35,7 +35,7 @@ describe('revizorResolver', () => {
       shouldUseNativeValidation: false,
     };
 
-    const result = revizorResolver<Values>(schema)(values, {}, rhfOptions);
+    const result = resolver<Values>(schema)(values, {}, rhfOptions);
 
     const expectedResult = {
       values: {},
@@ -68,7 +68,7 @@ describe('revizorResolver', () => {
 
     const TestForm = () => {
       const { register, handleSubmit, formState } = useForm<Values>({
-        resolver: revizorResolver(validationSchema),
+        resolver: resolver(validationSchema),
       });
 
       return (
@@ -108,7 +108,7 @@ describe('revizorResolver', () => {
 
     const TestForm = () => {
       const { register, handleSubmit, formState, control } = useForm<Values>({
-        resolver: revizorResolver(validationSchema),
+        resolver: resolver(validationSchema),
         defaultValues: { list: [{ name: '' }] },
       });
       const { fields } = useFieldArray<Values>({ control, name: 'list' });

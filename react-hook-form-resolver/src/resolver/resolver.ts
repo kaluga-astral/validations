@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form';
 import { validateFieldsNatively } from '@hookform/resolvers';
 
-export const revizorResolver =
+export const resolver =
   <TFieldValues extends FieldValues = FieldValues>(
     schema: Schema<TFieldValues, TFieldValues>,
   ): Resolver<TFieldValues> =>

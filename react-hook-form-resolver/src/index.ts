@@ -1,1 +1,1 @@
-export { revizorResolver } from './resolver';
+export { resolver } from './resolver';
