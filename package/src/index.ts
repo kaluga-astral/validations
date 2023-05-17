@@ -30,3 +30,5 @@ export {
 export { or } from './or';
 
 export { ValidationErrorMap } from './core';
+
+export { toPlainError, PlainValidationResult } from './toPlainError';

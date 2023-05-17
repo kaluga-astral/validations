@@ -1,4 +1,9 @@
-import { Schema, ValidationErrorMap, object } from '@astral/revizor';
+import {
+  Schema,
+  ValidationErrorMap,
+  object,
+  toPlainError,
+} from '@astral/revizor';
 import {
   FieldValues,
   Resolver,
@@ -6,14 +11,16 @@ import {
   ResolverResult,
   useForm,
 } from 'react-hook-form';
-import { validateFieldsNatively, toNestError } from '@hookform/resolvers';
+import { toNestError, validateFieldsNatively } from '@hookform/resolvers';
 
 export const revizorResolver =
   <TFieldValues extends FieldValues = FieldValues>(
     schema: Schema<TFieldValues, unknown>,
   ): Resolver<TFieldValues> =>
   (values, _, options) => {
-    const result = object<TFieldValues>(schema)(values);
+    const result = toPlainError(object<TFieldValues>(schema)(values));
+
+    options.fields.name.ref;
 
     if (result) {
       return { values: {}, errors: result };
