@@ -1,28 +1,38 @@
+import { Schema, object, toPlainError } from '@astral/revizor';
 import {
-  Schema,
-  ValidationErrorMap,
-  object,
-  toPlainError,
-} from '@astral/revizor';
-import {
+  FieldError,
+  FieldErrors,
   FieldValues,
   Resolver,
-  ResolverOptions,
-  ResolverResult,
-  useForm,
+  get,
 } from 'react-hook-form';
-import { toNestError, validateFieldsNatively } from '@hookform/resolvers';
+import { validateFieldsNatively } from '@hookform/resolvers';
 
 export const revizorResolver =
   <TFieldValues extends FieldValues = FieldValues>(
-    schema: Schema<TFieldValues, unknown>,
+    schema: Schema<TFieldValues, TFieldValues>,
   ): Resolver<TFieldValues> =>
   (values, _, options) => {
-    const result = toPlainError(object<TFieldValues>(schema)(values));
+    const validationResult = object<TFieldValues, TFieldValues>(schema)(values);
 
-    options.fields.name.ref;
+    if (validationResult) {
+      const resolverError = toPlainError<FieldError>(
+        validationResult,
+        (err, { path }) => {
+          return {
+            message: err.message,
+            type: err.cause.code,
+            ref: get(options.fields, path)?.ref,
+          };
+        },
+      ) as FieldErrors<TFieldValues>;
 
-    if (result) {
-      return { values: {}, errors: result };
+      return { values: {}, errors: resolverError };
     }
+
+    if (options.shouldUseNativeValidation) {
+      validateFieldsNatively({}, options);
+    }
+
+    return { errors: {}, values };
   };

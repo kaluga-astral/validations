@@ -1,0 +1,1 @@
+export { revizorResolver } from './resolver';

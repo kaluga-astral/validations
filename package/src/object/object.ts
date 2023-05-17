@@ -47,10 +47,10 @@ export type SchemaValue<TValues> =
 /**
  * @description Схема правил валдиации для объекта
  */
-export type Schema<TValue extends Record<string, unknown>, TValues> = Record<
-  keyof TValue,
-  SchemaValue<TValues>
->;
+export type Schema<
+  TValue extends Record<string, unknown>,
+  TValues = TValue,
+> = Record<keyof TValue, SchemaValue<TValues>>;
 
 /**
  * @description Guard для объекта
