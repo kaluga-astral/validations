@@ -7,12 +7,12 @@ import { ErrorInfo } from '../core';
 import { toPlainError } from './toPlainError';
 
 describe('toPlainError', () => {
-  it('SimpleError преобразуется в простой объект', () => {
+  it('Переданная функция преобразует SimpleError в указанный резльтат', () => {
     const validate = string();
 
     const plainError = toPlainError(validate(22), (err) => err.message);
 
-    expect(plainError).toEqual(STRING_TYPE_ERROR_INFO.message);
+    expect(plainError).toBe(STRING_TYPE_ERROR_INFO.message);
   });
 
   it('object: преобразует вложенные объекты ошибок в простые объекты', () => {
