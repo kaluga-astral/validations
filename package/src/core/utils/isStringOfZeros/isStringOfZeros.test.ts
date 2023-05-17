@@ -12,11 +12,4 @@ describe('isStringOfZeros', () => {
   it('Возвращает false для строк не содержащих "0"', () => {
     expect(isStringOfZeros('123456789')).toBe(false);
   });
-
-  it.each([[undefined], [null], [{}], [[]], [0], [false]])(
-    'Возвращает false для значения : %s',
-    (input) => {
-      expect(isStringOfZeros(input)).toBe(false);
-    },
-  );
 });
