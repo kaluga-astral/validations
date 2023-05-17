@@ -18,6 +18,8 @@
     - [min](#min-number)
   - [string](#string)
     - [min](#min-string)
+    - [pattern](#pattern)
+    - [onlyNumber](#onlyNumber)
   - [boolean](#boolean)
   - [object](#object)
 
@@ -41,53 +43,53 @@ yarn add @astral/validations
 
 ```ts
 import {
-    object,
-    array,
-    arrayItem,
-    string,
-    optional,
-    min,
-    number
+  object,
+  array,
+  arrayItem,
+  string,
+  optional,
+  min,
+  number
 } from '@astral/validations';
 
 type Permission = {
-    id: number;
-    description: string;
+  id: number;
+  description: string;
 };
 
 type User = {
-    name: string;
-    surname?: string;
-    info: {
-        permissions: Permission[];
-    };
+  name: string;
+  surname?: string;
+  info: {
+    permissions: Permission[];
+  };
 };
 
 const validate = object<User>({
-    name: string(),
-    surname: optional(string()),
-    info: object<User['info']>({
-        permissions: array(
-            arrayItem(
-                object<Permission>({
-                    id: number(),
-                    description: string(min(2)),
-                }),
-            ),
-        ),
-    }),
+  name: string(),
+  surname: optional(string()),
+  info: object<User['info']>({
+    permissions: array(
+      arrayItem(
+        object<Permission>({
+          id: number(),
+          description: string(min(2)),
+        }),
+      ),
+    ),
+  }),
 });
 
 // undefined
 validate({
-    name: 'Vasya',
-    info: [{ id: 1, description: 'my permission' }],
+  name: 'Vasya',
+  info: [{ id: 1, description: 'my permission' }],
 });
 
 // Error для info.0.description: { message: 'Обязательно' }
 validate({
-    name: 'Vasya',
-    info: [{ id: 1 }],
+  name: 'Vasya',
+  info: [{ id: 1 }],
 });
 ```
 
@@ -215,6 +217,8 @@ validate('va')
 validate('v')
 ```
 
+---
+
 ### pattern
 
 Проверяет строку на соответствие регулярному выражению.
@@ -223,7 +227,7 @@ validate('v')
 import { string, pattern } from '@astral/validations';
 
 const validate = string(
-    pattern(/word/g, { message: 'Должен быть word' })
+  pattern(/word/g, { message: 'Должен быть word' })
 );
 
 // undefined
@@ -233,22 +237,24 @@ validate('word')
 validate('vasya')
 ```
 
+---
+
 ### onlyNumber
 
-Проверяет строку на соответствие регулярному выражению.
+Проверяет на наличие только чисел в строке
 
 ```ts
-import { string, pattern } from '@astral/validations';
+import { string, onlyNumber } from '@astral/validations';
 
-const validate = string(
-    pattern(/word/g, { message: 'Должен быть word' })
-);
+const validate = string(onlyNumber());
 
 // undefined
-validate('word')
+validate('12345')
 
-// { message: 'Должен быть word' }
-validate('vasya')
+// { message: 'Строка должна содержать только числа' }
+validate('a12345')
+validate('1.2345')
+validate('-1.2345')
 ```
 
 ---
@@ -280,6 +286,155 @@ validate(undefined)
 // { message: 'Обязательно' }
 validate(null)
 ```
+
+---
+
+## object
+
+- Позволяет валидировать объект по схеме
+- Возвращает ошибку если:
+  - Value не является простым объектом
+  - Свойства не соответсвуют переданной схеме валидации
+- Возвращаем объект ошибок, соответсвующих ошибкам для свойств объекта
+- Требует схему для валидации, свойства которой должны соответсвовать валидируемому values
+
+```ts
+import {
+  object,
+  array,
+  arrayItem,
+  string,
+  optional,
+  min,
+  number
+} from '@astral/validations';
+
+type User = {
+  name: string;
+  surname?: string;
+  info: {
+    permissions: Permission[];
+  };
+};
+
+const validate = object<User>({
+  name: string(),
+  surname: optional(string()),
+  info: object<User['info']>({
+    permissions: array(
+      arrayItem(
+        object<Permission>({
+            id: number(),
+            description: string(min(2)),
+        }),
+      ),
+    ),
+  }),
+});
+
+// undefined
+validate({
+  name: 'Vasya',
+  info: [{ id: 1, description: 'my permission' }],
+});
+
+// Error для info.0.description: { message: 'Обязательно' }
+validate({
+  name: 'Vasya',
+  info: [{ id: 1 }],
+});
+```
+
+### partial
+
+Позволяет сделать все поля объекта optional.
+
+```ts
+import { partial, object, string } from '@astral/validations';
+
+type Values = {
+  name: string;
+  surname: string;
+};
+
+const validateRequired = object<Values>({
+  name: string(),
+  surname: string()
+})
+
+// { message: 'Ошибка в свойстве name: Обязательно' }
+validateRequired({});
+
+const validatePartial = partial(
+  object<Values>({
+    name: string(),
+    surname: string()
+  })
+);
+
+// undefined
+validatePartial({});
+
+```
+
+---
+
+### deepPartial
+
+Позволяет сделать гулбокий partial для свойсв всех объектов в схеме, включая объекты в массиве.
+
+```ts
+import {
+  object,
+  array,
+  arrayItem,
+  string,
+  deepPartial,
+  min,
+  number
+} from '@astral/validations';
+
+type Permission = {
+  id: number;
+  description: string;
+};
+
+type User = {
+  name: string;
+  surname?: string;
+  info: {
+    permissions: Permission[];
+  };
+};
+
+const validate = deepPartial(
+  object<User>({
+    name: string(),
+    surname: optional(string()),
+    info: object<User['info']>({
+      permissions: array(
+        arrayItem(
+          object<Permission>({
+            id: number(),
+            description: string(min(2)),
+          }),
+        ),
+      ),
+    }),
+  })
+);
+
+// undefined
+validate({
+  info: [{ }],
+});
+```
+
+---
+
+## Common
+
+### optional
 
 ---
 
