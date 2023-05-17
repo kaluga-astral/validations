@@ -350,7 +350,19 @@ validate({
   info: [{ id: 1, description: 'my permission' }],
 });
 
-// Error для info.0.description: { message: 'Обязательно' }
+// {
+//   cause: {
+//     errorMap: {
+//       info: {
+//         errorArray: [{
+//           errorMap: {
+//             description: { message: 'Обязательно' }
+//           }
+//         }]
+//       }
+//     }
+//   }
+// }
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
