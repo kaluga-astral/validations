@@ -14,10 +14,14 @@
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Guards](#guards)
-  - [Number](#number)
-  - [String](#string)
-  - [Boolean](#boolean)
-  - [Object](#object)
+  - [number](#number)
+    - [min](#min-number)
+  - [string](#string)
+    - [min](#min-string)
+  - [boolean](#boolean)
+  - [object](#object)
+
+---
 
 # Installation
 
@@ -28,6 +32,8 @@ npm i --save @astral/validations
 ```shell
 yarn add @astral/validations
 ```
+
+---
 
 # Basic usage
 
@@ -100,6 +106,8 @@ string()('')
 string(max(5))('123456')
 ```
 
+---
+
 # Guards
 
 Guard - правило, выполняющее проверку на тип данных. Guard должен быть предикатом для любой валидации.
@@ -108,7 +116,7 @@ Guard - правило, выполняющее проверку на тип да
 - Проверяет значение на required (для каждого типа данных своя проверка)
 - Имеет метод ```define```, позволяющий переопределять стандартные параметры guard
 
-## Number
+## number
 
 - Возвращает ошибку если:
   - Тип value не number
@@ -136,13 +144,33 @@ validate(Infinity)
 
 // { message: 'Обязательно' }
 validate(undefined)
+
 // { message: 'Обязательно' }
 validate(null)
 ```
 
-### Min
+### min number
 
-## String
+Позволяет указать ограничение на минимальное число.
+
+```ts
+import { number, min } from '@astral/validations';
+
+const validate = number(min(1));
+
+// undefined
+validate(20)
+
+// undefined
+validate(1)
+
+// { message: 'Не меньше: 1' }
+validate(0)
+```
+
+---
+
+## string
 
 - Возвращает ошибку если:
   - Тип value не string
@@ -168,9 +196,64 @@ validate(undefined)
 validate(null)
 ```
 
-### Min
+### min string
 
-## Boolean
+Позволяет указать ограничение на минимальное количество символов в строке.
+
+```ts
+import { string, min } from '@astral/validations';
+
+const validate = string(min(2));
+
+// undefined
+validate('vasya')
+
+// undefined
+validate('va')
+
+// { message: 'Мин. символов: 2' }
+validate('v')
+```
+
+### pattern
+
+Проверяет строку на соответствие регулярному выражению.
+
+```ts
+import { string, pattern } from '@astral/validations';
+
+const validate = string(
+    pattern(/word/g, { message: 'Должен быть word' })
+);
+
+// undefined
+validate('word')
+
+// { message: 'Должен быть word' }
+validate('vasya')
+```
+
+### onlyNumber
+
+Проверяет строку на соответствие регулярному выражению.
+
+```ts
+import { string, pattern } from '@astral/validations';
+
+const validate = string(
+    pattern(/word/g, { message: 'Должен быть word' })
+);
+
+// undefined
+validate('word')
+
+// { message: 'Должен быть word' }
+validate('vasya')
+```
+
+---
+
+## boolean
 
 - Возвращает ошибку если:
   - Тип value не boolean
@@ -198,7 +281,10 @@ validate(undefined)
 validate(null)
 ```
 
+---
+
 ## Define. Переопределение дефолтных параметров guard
 
+---
 
 # Кастомные правила
