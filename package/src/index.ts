@@ -32,3 +32,9 @@ export { or } from './or';
 export { pattern, PATTERN_ERROR_CODE } from './pattern';
 
 export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
+
+export {
+  email,
+  LENGTH_EMAIL_ERROR_INFO,
+  INVALID_EMAIL_ERROR_INFO,
+} from './email';
