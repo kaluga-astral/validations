@@ -5,6 +5,8 @@ import {
   ValidationSimpleError,
 } from '../core';
 
+import { generateArrayPath, generateObjectPath } from './utils';
+
 type PlainArrayResult<TPlainSimpleError> = Array<
   | TPlainSimpleError
   | TPlainSimpleError[]
@@ -12,6 +14,7 @@ type PlainArrayResult<TPlainSimpleError> = Array<
   | PlainArrayResult<TPlainSimpleError>
   | undefined
 >;
+
 type PlainErrorMap<TPlainSimpleError> = {
   [key: string]:
     | TPlainSimpleError
@@ -21,6 +24,7 @@ type PlainErrorMap<TPlainSimpleError> = {
 
 type FormatSimpleErrorFunc<TPlainSimpleError> = (
   error: ValidationSimpleError,
+  params: { path: string },
 ) => TPlainSimpleError;
 
 /**
@@ -35,15 +39,21 @@ export type PlainValidationResult<TPlainSimpleError> =
 const toPlainArrayResult = <TPlainSimpleError>(
   error: ValidationArrayError,
   formatErrorInfo: FormatSimpleErrorFunc<TPlainSimpleError>,
+  path: string,
 ): PlainArrayResult<TPlainSimpleError> =>
-  error.cause.errorArray.map((errorItem) =>
+  error.cause.errorArray.map((errorItem, index) =>
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    toPlainError<TPlainSimpleError>(errorItem, formatErrorInfo),
+    toPlainError<TPlainSimpleError>(
+      errorItem,
+      formatErrorInfo,
+      generateArrayPath(index, path),
+    ),
   );
 
 function toPlainErrorMap<TPlainSimpleError>(
   error: ValidationErrorMap,
   formatErrorInfo: FormatSimpleErrorFunc<TPlainSimpleError>,
+  path: string,
 ): PlainErrorMap<TPlainSimpleError> {
   return Object.entries(error.cause.errorMap).reduce<
     PlainErrorMap<TPlainSimpleError>
@@ -52,6 +62,7 @@ function toPlainErrorMap<TPlainSimpleError>(
     const plainError = toPlainError<TPlainSimpleError>(
       currentError,
       formatErrorInfo,
+      generateObjectPath(key, path),
     );
 
     if (plainError === undefined) {
@@ -68,6 +79,7 @@ function toPlainErrorMap<TPlainSimpleError>(
  * @description Форматирует все ошибки валидации в простые объекты. Необходим для интеграции с другими библиотеками
  * @param validationResult
  * @param formatErrorInfo - позволяет отформатировать объект ошибки при его формировании
+ * @param path - путь до ошибки в схеме
  * @example
  * ```ts
  *  const validate = object<{ info: Array<{ name: string }> }>({
@@ -87,6 +99,7 @@ function toPlainErrorMap<TPlainSimpleError>(
 export const toPlainError = <TPlainSimpleError>(
   validationResult: ValidationResult,
   formatErrorInfo: FormatSimpleErrorFunc<TPlainSimpleError>,
+  path: string = '',
 ): PlainValidationResult<TPlainSimpleError> => {
   if (!validationResult) {
     return undefined;
@@ -96,6 +109,7 @@ export const toPlainError = <TPlainSimpleError>(
     return toPlainErrorMap<TPlainSimpleError>(
       validationResult,
       formatErrorInfo,
+      path,
     );
   }
 
@@ -103,8 +117,9 @@ export const toPlainError = <TPlainSimpleError>(
     return toPlainArrayResult<TPlainSimpleError>(
       validationResult,
       formatErrorInfo,
+      path,
     );
   }
 
-  return formatErrorInfo(validationResult);
+  return formatErrorInfo(validationResult, { path });
 };

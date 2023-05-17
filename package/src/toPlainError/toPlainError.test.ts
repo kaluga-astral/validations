@@ -97,4 +97,40 @@ describe('toPlainError', () => {
 
     expect(result).toBeUndefined();
   });
+
+  it('Формирует path для вложенных объектов', () => {
+    const validate = object<{ info: {} }>({
+      info: object<{ name: string }>({ name: string() }),
+    });
+
+    const result = toPlainError<string>(
+      validate({ info: { name: 22 } }),
+      (_, { path }) => path,
+    );
+
+    const expectedResult = {
+      info: { name: 'info.name' },
+    };
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  it('Формирует path для массивов, вложенных в объекты', () => {
+    const validate = object<{ info: {} }>({
+      info: object<{ array: [] }>({
+        array: array(arrayItem(object<{ name: string }>({ name: string() }))),
+      }),
+    });
+
+    const result = toPlainError<string>(
+      validate({ info: { array: [{ name: 22 }] } }),
+      (_, { path }) => path,
+    );
+
+    const expectedResult = {
+      info: { array: [{ name: 'info.array.0.name' }] },
+    };
+
+    expect(result).toEqual(expectedResult);
+  });
 });
