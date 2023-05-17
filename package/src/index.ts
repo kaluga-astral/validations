@@ -1,4 +1,4 @@
-export { object, OBJECT_TYPE_ERROR_INFO } from './object';
+export { object, OBJECT_TYPE_ERROR_INFO, Schema, SchemaValue } from './object';
 
 export { optional } from './optional';
 
@@ -28,3 +28,7 @@ export {
 } from './min';
 
 export { or } from './or';
+
+export { pattern, PATTERN_ERROR_CODE } from './pattern';
+
+export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';

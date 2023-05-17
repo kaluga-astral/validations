@@ -37,11 +37,17 @@ type AdditionalDefOptions = {
  */
 type NeverSchema = Record<'__never', never>;
 
-type SchemaValue<TValues> =
+/**
+ * @description Возможные значения, принимаемые схемой
+ */
+export type SchemaValue<TValues> =
   | ObjectPropGuard<TValues>
   | CompositionalValidationRule<unknown, TValues>;
 
-type Schema<TValue extends Record<string, unknown>, TValues> = Record<
+/**
+ * @description Схема правил валдиации для объекта
+ */
+export type Schema<TValue extends Record<string, unknown>, TValues> = Record<
   keyof TValue,
   SchemaValue<TValues>
 >;
