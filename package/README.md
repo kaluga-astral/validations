@@ -86,7 +86,7 @@ validate({
   info: [{ id: 1, description: 'my permission' }],
 });
 
-// Error для info.0.description: { message: 'Обязательно' }
+// { message: 'Ошибка в свойстве info: Ошибка в item[0]: Ошибка в свойстве description: Обязательно' }
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
