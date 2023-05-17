@@ -86,7 +86,19 @@ validate({
   info: [{ id: 1, description: 'my permission' }],
 });
 
-// { message: 'Ошибка в свойстве info: Ошибка в item[0]: Ошибка в свойстве description: Обязательно' }
+// {
+//   cause: {
+//     errorMap: {
+//       info: {
+//         errorArray: [{
+//           errorMap: {
+//             description: { message: 'Обязательно' }
+//           }
+//         }]
+//       }
+//     }
+//   }
+// }
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
