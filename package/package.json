@@ -1,6 +1,6 @@
 {
-  "name": "@astral/revizor",
-  "version": "1.0.0",
+  "name": "@astral/validations",
+  "version": "3.0.0",
   "browser": "./src/index.ts",
   "main": "./src/index.ts",
   "scripts": {
