@@ -7,14 +7,16 @@ type AdditionalDefOptions = {
 };
 
 /**
- * @description Guard для boolean. Проверяет значение на тип boolean
- * @param rules - правила, валидирующие number или unknown value
+ * @description Guard для Date object. Проверяет значение на соответствие объекту Date и на валидность даты
+ * @param rules - правила, валидирующие Date или unknown value
  * @example
  * ```ts
- *  const validate = boolean();
+ *  const validate = date();
  *
  *  // undefined
- *  validate(true);
+ *  validate(new Date());
+ *   // invalid date error
+ *  validate(new Date('22.22.2022'));
  * ```
  */
 export const date = <TValues>(
