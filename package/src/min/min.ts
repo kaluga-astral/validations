@@ -56,14 +56,14 @@ export const min = <ValidationType extends MinValidationTypes>(
     if (Array.isArray(value) && value.length < threshold) {
       return ctx.createError({
         code: ARRAY_MIN_ERROR_CODE,
-        message: getMessage(`Не больше: ${threshold}`),
+        message: getMessage(`Не меньше: ${threshold}`),
       });
     }
 
     if (typeof value === 'number' && value < threshold) {
       return ctx.createError({
         code: NUMBER_MIN_ERROR_CODE,
-        message: getMessage(`Не больше: ${threshold}`),
+        message: getMessage(`Не меньше: ${threshold}`),
       });
     }
 
