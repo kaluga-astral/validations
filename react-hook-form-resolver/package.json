@@ -1,10 +1,10 @@
 {
-  "name": "@astral/revizor-react-hook-form-resolver",
+  "name": "@astral/validations-react-hook-form-resolver",
   "version": "1.0.0",
   "browser": "./src/index.ts",
   "main": "./src/index.ts",
   "scripts": {
-    "build": "node pack",
+    "build": "RELEASE_TAG=22 node pack",
     "publish": "npm publish ./lib",
     "tests": "vitest run",
     "tests:ci": "vitest run --reporter=junit --outputFile.junit=junit.xml",
@@ -13,7 +13,7 @@
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
   },
   "dependencies": {
-    "@astral/revizor": "*",
+    "@astral/validations": "*",
     "@hookform/resolvers": "^3.1.0"
   },
   "peerDependencies": {

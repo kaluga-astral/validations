@@ -32,3 +32,7 @@ export { or } from './or';
 export { pattern, PATTERN_ERROR_CODE } from './pattern';
 
 export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
+
+export { toPlainError } from './toPlainError';
+
+export { REQUIRED_ERROR_INFO } from './core';

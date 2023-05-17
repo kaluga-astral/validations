@@ -1,4 +1,4 @@
-import { Schema, object, toPlainError } from '@astral/revizor';
+import { Schema, object, toPlainError } from '@astral/validations';
 import {
   FieldError,
   FieldErrors,

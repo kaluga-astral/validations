@@ -6,7 +6,7 @@ import {
   arrayItem,
   object,
   string,
-} from '@astral/revizor';
+} from '@astral/validations';
 import { Ref, ResolverOptions, useFieldArray, useForm } from 'react-hook-form';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
