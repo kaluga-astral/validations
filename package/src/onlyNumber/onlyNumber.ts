@@ -10,8 +10,7 @@ type OnlyNumberParams = {
 };
 
 /**
- * @description Проверяет на наличие только чисел в строке.
- * Валидными будут числа с плавающей точкой, отрицительные и положительные
+ * @description Проверяет на наличие только чисел в строке
  * @example
  * ```ts
  *  const validate = string(onlyNumber());
@@ -20,9 +19,7 @@ type OnlyNumberParams = {
  */
 export const onlyNumber = <TValues>(params?: OnlyNumberParams) =>
   createRule<string, TValues>((value, ctx) => {
-    const isExtraValues = Boolean(
-      value.replace(/^[+-]?[0-9]+(\.[0-9]+)?$/, ''),
-    );
+    const isExtraValues = Boolean(value.replace(/^[0-9]+$/g, ''));
 
     if (isExtraValues) {
       return ctx.createError({

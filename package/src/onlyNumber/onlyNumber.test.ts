@@ -4,24 +4,16 @@ import { onlyNumber } from './onlyNumber';
 import { ONLY_NUMBER_ERROR_CODE } from './constants';
 
 describe('onlyNumber', () => {
-  it.each<string>([
-    '123',
-    '0000000',
-    '1',
-    '0',
-    '91999099',
-    '-1',
-    '-24.5',
-    '43.2223',
-    '0.1',
-    '+23.333',
-  ])('value:%s: valid', (value) => {
-    const validate = onlyNumber();
+  it.each<string>(['123', '0000000', '1', '0', '91999099'])(
+    'value:%s: valid',
+    (value) => {
+      const validate = onlyNumber();
 
-    const result = validate(value);
+      const result = validate(value);
 
-    expect(result).toBeUndefined();
-  });
+      expect(result).toBeUndefined();
+    },
+  );
 
   it.each<string>([
     '-a123',
