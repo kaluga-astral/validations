@@ -13,12 +13,10 @@ describe('isStringOfZeros', () => {
     expect(isStringOfZeros('123456789')).toBe(false);
   });
 
-  it('Возвращает false для других типов или не строковых значений', () => {
-    expect(isStringOfZeros(undefined)).toBe(false);
-    expect(isStringOfZeros(null)).toBe(false);
-    expect(isStringOfZeros({})).toBe(false);
-    expect(isStringOfZeros([])).toBe(false);
-    expect(isStringOfZeros(0)).toBe(false);
-    expect(isStringOfZeros(false)).toBe(false);
-  });
+  it.each([[undefined], [null], [{}], [[]], [0], [false]])(
+    'Возвращает false для значения : %s',
+    (input) => {
+      expect(isStringOfZeros(input)).toBe(false);
+    },
+  );
 });
