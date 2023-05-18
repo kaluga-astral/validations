@@ -37,7 +37,9 @@
   - [optional](#optional)
   - [transform](#transform)
   - [or](#or)
-  
+- [Integrations](#integrations)
+  - [react-hook-form](#react-hook-form)
+
 ---
 
 # Installation
