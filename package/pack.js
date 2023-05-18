@@ -8,6 +8,7 @@ buildTs({
   releaseTag: process.env.RELEASE_TAG,
 });
 
+// перезаписывает локальный README глобальным
 copy({
   sourcesDirPath: path.resolve('..'),
   targetPath: '.',
