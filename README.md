@@ -276,6 +276,85 @@ validate('-1.2345')
 
 ---
 
+### snils
+
+Проверяет валиден ли СНИЛС
+
+```ts
+import { string, snils } from '@astral/validations';
+
+const validate = string(snils());
+
+// undefined
+validate('15657325992')
+
+// { message: 'Некорректный СНИЛС' }
+validate('95145370511')
+validate('156-573-259 92')
+```
+
+---
+
+### mobilePhone
+
+Проверяет валиден ли мобильный телефон
+
+```ts
+import { string, mobilePhone } from '@astral/validations';
+
+const validate = string(mobilePhone());
+
+// undefined
+validate('79999999999')
+
+// { message: 'Некорректный номер телефона' }
+validate('7 (999) 99-99-999')
+validate('89999999999')
+validate('+79999999999')
+```
+
+---
+
+### innUL
+
+Проверяет валиден ли ИНН ЮЛ
+
+```ts
+import { string, innUL } from '@astral/validations';
+
+const validate = string(innUL());
+
+// undefined
+validate('7728168971')
+
+// { message: 'Некорректный ИНН ЮЛ' }
+validate('0000000000')
+validate('384212952720')
+validate('7728168911')
+```
+
+---
+
+### innIP
+
+Проверяет валиден ли ИНН ИП
+
+```ts
+import { string, innIP } from '@astral/validations';
+
+const validate = string(innUL());
+
+// undefined
+validate('384212952720')
+
+// { message: 'Некорректный ИНН ИП' }
+validate('3842129527')
+validate('384212952a20')
+validate('+384212952720')
+```
+
+---
+
 ## date
 
 - Возвращает ошибку если:
