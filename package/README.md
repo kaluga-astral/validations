@@ -34,6 +34,7 @@
   - [Связанные поля и условная валидация](#связанные-поля-и-условная-валидация)
 - [Common](#common)
   - [optional](#optional)
+  - [transform](#transform)
   
 ---
 
@@ -611,6 +612,30 @@ validate([1, 2]);
 
 ---
 
+## Define. Переопределение дефолтных параметров guard
+
+Каждый guard позволяет переопределить дефолтные параметры:
+- Сообщение об ошибке типа
+- Сообщение о ошибке required
+- Уникальные для каждого guard параметры
+
+```ts
+import { string } from '@astral/validations';
+
+const validateCustomString = string().define({
+  typeErrorMessage: 'Только строка',
+  requiredErrorMessage: 'Не может быть пустым',
+});
+
+// { message: 'Не может быть пустым' }
+validateCustomString(undefined);
+
+// { message: 'Только строка' }
+validateCustomString(20);
+```
+
+---
+
 ## Custom rules
 
 Каждый guard поддерживает кастомные правила.
@@ -709,4 +734,20 @@ validate({
 
 ---
 
-## Define. Переопределение дефолтных параметров guard
+### transform
+
+Позволяет изменять value в цепочке композиции.
+
+```ts
+const validate = string(
+  transform((value) => new Date(value), date(min(new Date()))),
+);
+
+// { message: 'Некорректная дата' }
+validate('22.22.2022');
+
+// undefined
+validate('12.12.2022');
+```
+
+---
