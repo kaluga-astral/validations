@@ -20,6 +20,10 @@
     - [min](#min-string)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
+    - [snils](#snils)
+    - [mobilePhone](#mobilePhone)
+    - [innUL](#innUL)
+    - [innIP](#innIP)
   - [date](#date)
     - [min](#min-date)
   - [boolean](#boolean)
@@ -299,7 +303,8 @@ validate('156-573-259 92')
 
 ### mobilePhone
 
-Проверяет валиден ли мобильный телефон
+- Проверяет валиден ли мобильный телефон
+- Валидный телефон начинается с "79" и не содержит символов, кроме цифр.
 
 ```ts
 import { string, mobilePhone } from '@astral/validations';
@@ -344,7 +349,7 @@ validate('7728168911')
 ```ts
 import { string, innIP } from '@astral/validations';
 
-const validate = string(innUL());
+const validate = string(innIP());
 
 // undefined
 validate('384212952720')

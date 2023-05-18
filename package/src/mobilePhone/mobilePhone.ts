@@ -10,7 +10,9 @@ type MobilePhoneParams = CommonRuleParams<string> & {
 };
 
 /**
- * @description Проверяет валиден ли мобильный телефон
+ * @description
+ * Проверяет валиден ли мобильный телефон.
+ * Валидный телефон начинается с "79" и не содержит символов, кроме цифр.
  * @example
  * ```ts
  * const validate = string(mobilePhone());
@@ -20,14 +22,11 @@ type MobilePhoneParams = CommonRuleParams<string> & {
 export const mobilePhone = <TValues>(params?: MobilePhoneParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
-      const createMobilePhoneError = () =>
-        ctx.createError({
+      if (!MOBILE_PHONE_REGEX.test(value)) {
+        return ctx.createError({
           message: params?.message || MOBILE_PHONE_ERROR_INFO.message,
           code: MOBILE_PHONE_ERROR_INFO.code,
         });
-
-      if (!MOBILE_PHONE_REGEX.test(value)) {
-        return createMobilePhoneError();
       }
 
       return undefined;
