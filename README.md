@@ -98,22 +98,12 @@ const validate = object<User>({
 // undefined
 validate({
   name: 'Vasya',
-  info: [{ id: 1, description: 'my permission' }],
+  info: {
+    permissions: [{ id: 1, description: 'my permission' }],
+  },
 });
 
-// {
-//   cause: {
-//     errorMap: {
-//       info: {
-//         errorArray: [{
-//           errorMap: {
-//             description: { message: 'Обязательно' }
-//           }
-//         }]
-//       }
-//     }
-//   }
-// }
+// Error
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
@@ -413,19 +403,7 @@ validate({
   info: [{ id: 1, description: 'my permission' }],
 });
 
-// {
-//   cause: {
-//     errorMap: {
-//       info: {
-//         errorArray: [{
-//           errorMap: {
-//             description: { message: 'Обязательно' }
-//           }
-//         }]
-//       }
-//     }
-//   }
-// }
+// Error
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
