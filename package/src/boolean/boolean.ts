@@ -4,7 +4,7 @@ import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
 
 /**
  * @description Guard для boolean. Проверяет значение на тип boolean
- * @param rules - правила, валидирующие number или unknown value
+ * @param rules - правила, валидирующие boolean или unknown value
  * @example
  * ```ts
  *  const validate = boolean();
