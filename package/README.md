@@ -740,6 +740,8 @@ validate({
 Позволяет изменять value в цепочке композиции.
 
 ```ts
+import { transform, date, min } from '@astral/validations';
+
 const validate = string(
   transform((value) => new Date(value), date(min(new Date()))),
 );
@@ -749,6 +751,31 @@ validate('22.22.2022');
 
 // undefined
 validate('12.12.2022');
+```
+
+---
+
+## or
+
+Выполняет переданные правила аналогично оператору ||. Если одно из правил не завершилось ошибкой, то or вернет undefined.
+Если все переданные правила завершились с ошибкой, то вернется ошибка из последнего правила
+
+```ts
+import { or, array, string, number } from '@astral/validations';
+
+const validate = or(string(), array(), number());
+
+// undefined
+validate('string')
+
+// undefined
+validate([])
+
+// undefined
+validate(20)
+
+// { message: 'Не число' }
+validate(new Date())
 ```
 
 ---
