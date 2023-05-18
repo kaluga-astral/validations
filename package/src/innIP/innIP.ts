@@ -7,15 +7,11 @@ import {
   SECOND_INN_IP_DECODING,
 } from './constants';
 
-type InnIPParams = {
+type InnIPParams = CommonRuleParams<string> & {
   /**
    * @description Замена стандартного сообщения ошибки.
    */
   message?: string;
-  /**
-   * @description Позволяет указать значение  в качестве исключения из правил.
-   */
-  exclude?: CommonRuleParams<string>['exclude'];
 };
 
 const calcFirstCheckSumForInnIP = (arrSymbols: string[]) =>
@@ -44,12 +40,12 @@ const calcSecondCheckSumForInnIP = (arrSymbols: string[]) =>
  * @description Проверяет валиден ли ИНН ИП
  * @example innIP()('7728168971');
  */
-export const innIP = <TValues>({ message, exclude }: InnIPParams = {}) =>
+export const innIP = <TValues>(params?: InnIPParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
       const createInnIPError = () =>
         ctx.createError({
-          message: message || INN_IP_ERROR_INFO.message,
+          message: params?.message || INN_IP_ERROR_INFO.message,
           code: INN_IP_ERROR_INFO.code,
         });
 
@@ -76,5 +72,5 @@ export const innIP = <TValues>({ message, exclude }: InnIPParams = {}) =>
 
       return undefined;
     },
-    { exclude },
+    { exclude: params?.exclude },
   );

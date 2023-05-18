@@ -1,7 +1,7 @@
 import { INN_IP_ERROR_INFO } from './constants';
 import { innIP } from './innIP';
 
-describe('innUL', () => {
+describe('innIP', () => {
   it.each<string>(['384212952720'])('Valid for: %s', (value) => {
     expect(innIP()(value)).toBeUndefined();
   });
