@@ -41,3 +41,13 @@ export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
 export { toPlainError } from './toPlainError';
 
 export { REQUIRED_ERROR_INFO, type ValidationRule } from './core';
+
+export {
+  email,
+  LENGTH_EMAIL_ERROR_INFO,
+  INVALID_EMAIL_ERROR_INFO,
+} from './email';
+
+export { innUL, INN_UL_ERROR_INFO } from './innUL';
+
+export { innIP, INN_IP_ERROR_INFO } from './innIP';
