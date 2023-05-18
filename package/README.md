@@ -20,6 +20,8 @@
     - [min](#min-string)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
+  - [date](#date)
+    - [min](#min-date)
   - [boolean](#boolean)
   - [object](#object)
     - [partial](#partial)
@@ -277,6 +279,54 @@ validate('12345')
 validate('a12345')
 validate('1.2345')
 validate('-1.2345')
+```
+
+---
+
+## date
+
+- Возвращает ошибку если:
+  - Тип value не является объектом Date
+  - Date является invalid date
+- Проверяет value на required
+- Выполняет композицию правил, переданных в параметры
+
+```ts
+import { date } from '@astral/validations';
+
+const validate = date();
+
+// undefined
+validate(new Date());
+
+// { message: 'Некорректная дата' }
+validate(new Date('22.22.2022'));
+
+// { message: 'Не дата' }
+validate('12.12.2022');
+
+// { message: 'Обязательно' }
+validate(undefined);
+```
+
+### min date
+
+Позволяет указать минимальную дату.
+При сверке дат игнорируется время, которое может быть отличное от 00:00:00 в объекте Date.
+
+```ts
+import { date, min } from '@astral/validations';
+
+const validate = date(
+  min(new Date('12-12-2022'), { message: 'Начиная с 12 января 2022 года' }),
+);
+
+// { message: 'Начиная с 12 января 2022 года' }
+validate(new Date('12-11-2022'));
+
+// undefined
+validate(new Date('12-14-2022'));
+
 ```
 
 ---
