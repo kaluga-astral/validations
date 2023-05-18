@@ -29,6 +29,7 @@
   - [array](#array)
     - [arrayItem](#arrayItem)
     - [min](#min-array)
+  - [Define. Переопределение дефолтных параметров guard](#define-переопределение-дефолтных-параметров-guard)
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
   - [Связанные поля и условная валидация](#связанные-поля-и-условная-валидация)
@@ -636,11 +637,11 @@ validateCustomString(20);
 
 ---
 
-## Custom rules
+# Custom rules
 
 Каждый guard поддерживает кастомные правила.
 
-### Базовый пример
+## Базовый пример
 
 ```ts
 type Values = {
@@ -666,7 +667,7 @@ const validate = object<Values>({
 validate({ name: 'Vasya', nickname: 'va_sya' });
 ```
 
-### Связанные поля и условная валидация
+## Связанные поля и условная валидация
 
 В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
 
@@ -701,9 +702,9 @@ validate({ isAgree: true, info: {} });
 
 ---
 
-## Common
+# Common
 
-### optional
+## optional
 
 Выключает дефолтную проверку на required в guard.
 
@@ -734,7 +735,7 @@ validate({
 
 ---
 
-### transform
+## transform
 
 Позволяет изменять value в цепочке композиции.
 
@@ -751,3 +752,9 @@ validate('12.12.2022');
 ```
 
 ---
+
+# Integrations
+
+## react-hook-form
+
+Для интеграции с react-hook-form необходимо использовать пакет ```@astral/validations-react-hook-form-resolver```.
