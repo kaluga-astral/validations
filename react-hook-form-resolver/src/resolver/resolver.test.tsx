@@ -1,7 +1,6 @@
 import {
   REQUIRED_ERROR_INFO,
   STRING_TYPE_ERROR_INFO,
-  Schema,
   array,
   arrayItem,
   object,
@@ -20,11 +19,11 @@ describe('resolver', () => {
     type ArrayValue = { name: string };
     type Values = { info: { array: Array<ArrayValue> } };
 
-    const schema: Schema<Values> = {
+    const validationSchema = object<Values>({
       info: object<Values['info']>({
         array: array(arrayItem(object<ArrayValue>({ name: string() }))),
       }),
-    };
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const values: any = { info: { array: [{ name: 22 }] } };
 
@@ -35,7 +34,7 @@ describe('resolver', () => {
       shouldUseNativeValidation: false,
     };
 
-    const result = resolver<Values>(schema)(values, {}, rhfOptions);
+    const result = resolver<Values>(validationSchema)(values, {}, rhfOptions);
 
     const expectedResult = {
       values: {},
@@ -60,15 +59,15 @@ describe('resolver', () => {
   it('После submit в форму попадают ошибки для объектов', async () => {
     type Values = { info: { name: string } };
 
-    const validationSchema: Schema<Values> = {
+    const validationSchema = object<Values>({
       info: object<Values['info']>({
         name: string(),
       }),
-    };
+    });
 
     const TestForm = () => {
       const { register, handleSubmit, formState } = useForm<Values>({
-        resolver: resolver(validationSchema),
+        resolver: resolver<Values>(validationSchema),
       });
 
       return (
@@ -102,13 +101,13 @@ describe('resolver', () => {
     type ListItemValue = { name: string };
     type Values = { list: Array<ListItemValue> };
 
-    const validationSchema: Schema<Values> = {
+    const validationSchema = object<Values>({
       list: array(arrayItem(object<ListItemValue>({ name: string() }))),
-    };
+    });
 
     const TestForm = () => {
       const { register, handleSubmit, formState, control } = useForm<Values>({
-        resolver: resolver(validationSchema),
+        resolver: resolver<Values>(validationSchema),
         defaultValues: { list: [{ name: '' }] },
       });
       const { fields } = useFieldArray<Values>({ control, name: 'list' });

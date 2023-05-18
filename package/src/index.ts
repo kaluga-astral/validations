@@ -1,4 +1,9 @@
-export { object, OBJECT_TYPE_ERROR_INFO, Schema, SchemaValue } from './object';
+export {
+  object,
+  OBJECT_TYPE_ERROR_INFO,
+  type Schema,
+  type SchemaValue,
+} from './object';
 
 export { optional } from './optional';
 
@@ -35,4 +40,4 @@ export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
 
 export { toPlainError } from './toPlainError';
 
-export { REQUIRED_ERROR_INFO } from './core';
+export { REQUIRED_ERROR_INFO, type ValidationRule } from './core';

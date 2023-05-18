@@ -49,7 +49,7 @@ export type SchemaValue<TValues> =
  */
 export type Schema<
   TValue extends Record<string, unknown>,
-  TValues = TValue,
+  TValues = unknown,
 > = Record<keyof TValue, SchemaValue<TValues>>;
 
 /**
