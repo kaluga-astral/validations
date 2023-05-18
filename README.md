@@ -789,6 +789,7 @@ validate(new Date())
 
 ```tsx
 import { object, string, optional } from '@astral/validations';
+import { resolver } from '@astral/validations-react-hook-form-resolver';
 import { useForm } from 'react-hook-form';
 
 type Values = {
