@@ -9,6 +9,14 @@ type MobilePhoneParams = CommonRuleParams<string> & {
   message?: string;
 };
 
+/**
+ * @description Проверяет валиден ли мобильный телефон
+ * @example
+ * ```ts
+ * const validate = string(mobilePhone());
+ * validate('79999999999');
+ * ```
+ */
 export const mobilePhone = <TValues>(params?: MobilePhoneParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
