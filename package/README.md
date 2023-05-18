@@ -27,6 +27,9 @@
   - [array](#array)
     - [arrayItem](#arrayItem)
     - [min](#min-array)
+- [Custom rules](#custom-rules)
+  - [Базовый пример](#базовый-пример)
+  - [Связанные поля и условная валидация](#связанные-поля-и-условная-валидация)
 - [Common](#common)
   - [optional](#optional)
   
@@ -556,6 +559,73 @@ validate([]);
 validate([1, 2]);
 ```
 
+---
+
+## Custom rules
+
+Каждый guard поддерживает кастомные правила.
+
+### Базовый пример
+
+```ts
+type Values = {
+  name: string;
+  nickname: string;
+};
+
+const validate = object<Values>({
+  name: string(),
+  nickname: string((value, ctx) => {
+    if (value.includes('_')) {
+      return ctx.createError({
+        message: 'Символ "_" запрещен',
+        code: 'nickname-symbol',
+      });
+    }
+
+    return undefined;
+  }),
+});
+
+// { cause: { errorMap: { nickname: { message: 'Символ "_" запрещен', code: 'nickname-symbol' } } } }
+validate({ name: 'Vasya', nickname: 'va_sya' });
+```
+
+### Связанные поля и условная валидация
+
+В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
+
+```ts
+
+type Values = {
+  isAgree?: boolean;
+  info: {
+    reason?: string;
+  };
+};
+
+const validate = object<Values, Values>({
+  isAgree: optional(boolean()),
+  info: object<Values['info'], Values>({
+    reason: (_, ctx) => {
+      if (!ctx.global.values.isAgree) {
+        return optional(string());
+      }
+
+      return string(min(3));
+    },
+  }),
+});
+
+// undefined
+validate({ isAgree: false, info: {} });
+
+// { cause: { errorMap: { info: { cause: { errorMap: { reason: { message: 'Обязательно' } } } } } } }
+validate({ isAgree: true, info: {} });
+```
+
+---
+
 ## Common
 
 ### optional
@@ -590,7 +660,3 @@ validate({
 ---
 
 ## Define. Переопределение дефолтных параметров guard
-
----
-
-# Кастомные правила
