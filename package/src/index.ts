@@ -42,3 +42,5 @@ export {
 export { innUL, INN_UL_ERROR_INFO } from './innUL';
 
 export { innIP, INN_IP_ERROR_INFO } from './innIP';
+
+export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
