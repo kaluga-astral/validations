@@ -27,7 +27,9 @@
   - [array](#array)
     - [arrayItem](#arrayItem)
     - [min](#min-array)
-
+- [Common](#common)
+  - [optional](#optional)
+  
 ---
 
 # Installation
@@ -403,7 +405,6 @@ const validatePartial = partial(
 
 // undefined
 validatePartial({});
-
 ```
 
 ---
@@ -558,6 +559,33 @@ validate([1, 2]);
 ## Common
 
 ### optional
+
+Выключает дефолтную проверку на required в guard.
+
+```ts
+import { optional, object, string, boolean, array } from '@astral/validations';
+
+type Values = {
+  name: string;
+  surname?: string;
+  permissions?: number[];
+  isAuth?: boolean;
+};
+
+const validate = object<Values>({
+  name: string(),
+  surname: optional(string()),
+  permissions: optional(array(string())),
+  isAuth: optional(boolean()),
+})
+
+// undefined
+validate({
+  name: 'Vasya',
+  surname: '',
+  isAuth: false,
+});
+```
 
 ---
 
