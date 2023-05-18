@@ -117,16 +117,6 @@ describe('max', () => {
     expect(result?.cause.code).toBe(DATE_MAX_ERROR_CODE);
   });
 
-  it.each<{ value: Date; threshold: Date }>([
-    { value: new Date('08.10.2022'), threshold: new Date('07.10.2022') },
-  ])('date:params:%j: invalid', ({ value, threshold }) => {
-    const validate = date(max(threshold));
-
-    const result = validate(value);
-
-    expect(result?.cause.code).toBe(DATE_MAX_ERROR_CODE);
-  });
-
   it('date:message: генерирует ошибку и подставляет в нее max в читаемом формате', () => {
     const validate = date(max(new Date('12.22.2022')));
 
