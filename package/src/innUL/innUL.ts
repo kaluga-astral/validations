@@ -25,7 +25,7 @@ const calcCheckSumForInnUl = (arrSymbols: string[]) =>
 
 /**
  * @description Проверяет валиден ли ИНН ЮЛ
- * @example isINNUL()('7728168971');
+ * @example innUL()('7728168971');
  */
 export const innUL = <TValues>({ message, exclude }: InnULParams = {}) =>
   createRule<string, TValues>(
