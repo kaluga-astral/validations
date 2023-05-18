@@ -98,7 +98,9 @@ const validate = object<User>({
 // undefined
 validate({
   name: 'Vasya',
-  info: [{ id: 1, description: 'my permission' }],
+  info: {
+    permissions: [{ id: 1, description: 'my permission' }],
+  },
 });
 
 // {
