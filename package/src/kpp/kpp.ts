@@ -14,7 +14,7 @@ type KPPParams = CommonRuleParams<string> & {
  * @example
  * ```ts
  * const validate = string(kpp());
- *  validate('770201001');
+ * validate('770201001');
  * ```
  */
 export const kpp = <TValues>(params?: KPPParams) =>
