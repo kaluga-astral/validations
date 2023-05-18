@@ -38,3 +38,5 @@ export {
   LENGTH_EMAIL_ERROR_INFO,
   INVALID_EMAIL_ERROR_INFO,
 } from './email';
+
+export { innUL, INN_UL_ERROR_INFO } from './innUL';
