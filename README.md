@@ -103,19 +103,7 @@ validate({
   },
 });
 
-// {
-//   cause: {
-//     errorMap: {
-//       info: {
-//         errorArray: [{
-//           errorMap: {
-//             description: { message: 'Обязательно' }
-//           }
-//         }]
-//       }
-//     }
-//   }
-// }
+// Error
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
@@ -415,19 +403,7 @@ validate({
   info: [{ id: 1, description: 'my permission' }],
 });
 
-// {
-//   cause: {
-//     errorMap: {
-//       info: {
-//         errorArray: [{
-//           errorMap: {
-//             description: { message: 'Обязательно' }
-//           }
-//         }]
-//       }
-//     }
-//   }
-// }
+// Error
 validate({
   name: 'Vasya',
   info: [{ id: 1 }],
