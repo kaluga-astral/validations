@@ -103,10 +103,12 @@ validate({
   },
 });
 
-// Error
+// Error in info.permissions.0.description: Обязательно
 validate({
   name: 'Vasya',
-  info: [{ id: 1 }],
+  info: {
+    permissions: [{ id: 1 }],
+  },
 });
 ```
 
@@ -468,8 +470,8 @@ const validate = object<User>({
     permissions: array(
       arrayItem(
         object<Permission>({
-            id: number(),
-            description: string(min(2)),
+          id: number(),
+          description: string(min(2)),
         }),
       ),
     ),
@@ -479,13 +481,17 @@ const validate = object<User>({
 // undefined
 validate({
   name: 'Vasya',
-  info: [{ id: 1, description: 'my permission' }],
+  info: {
+    permissions: [{ id: 1, description: 'my permission' }],
+  },
 });
 
-// Error
+// Error in info.permissions.0.description: Обязательно
 validate({
   name: 'Vasya',
-  info: [{ id: 1 }],
+  info: {
+    permissions: [{ id: 1 }],
+  },
 });
 ```
 
@@ -655,7 +661,7 @@ validate(['vasya', 'ma']);
 
 ### min array
 
-Позволяет указать ограничение на минимальное элементов в массиве.
+Позволяет указать ограничение на минимальное количество элементов в массиве.
 
 ```ts
 import { array, min } from '@astral/validations';
