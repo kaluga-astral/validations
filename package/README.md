@@ -758,3 +758,40 @@ validate('12.12.2022');
 ## react-hook-form
 
 Для интеграции с react-hook-form необходимо использовать пакет ```@astral/validations-react-hook-form-resolver```.
+
+```tsx
+import { object, string, optional } from '@astral/validations';
+import { useForm } from 'react-hook-form';
+
+type Values = {
+    name: string;
+    info: { description?: string }
+};
+
+const validationSchema = object<Values>({
+  name: string(),
+  info: object<Values['info']>({
+    description: optional(string()),
+  }),
+});
+
+const Form = () => {
+  const { register, handleSubmit, formState } = useForm<Values>({
+    resolver: resolver<Values>(validationSchema),
+  });
+
+  return (
+    <form onSubmit={handleSubmit(() => {})}>
+      <input {...register('name')} />
+      {formState.errors.name && (
+        <p>{formState.errors.name.message}</p>
+      )}
+      <input {...register('info.description')} />
+      {formState.errors.info?.description && (
+        <p>{formState.errors.info.description.message}</p>
+      )}
+      <button type="submit">submit</button>
+    </form>
+  );
+};
+```
