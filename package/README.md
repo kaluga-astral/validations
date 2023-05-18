@@ -22,6 +22,11 @@
     - [onlyNumber](#onlyNumber)
   - [boolean](#boolean)
   - [object](#object)
+    - [partial](#partial)
+    - [deepPartial](#deepPartial)
+  - [array](#array)
+    - [arrayItem](#arrayItem)
+    - [min](#min-array)
 
 ---
 
@@ -455,6 +460,100 @@ validate({
 ```
 
 ---
+
+## array
+
+- Позволяет валидировать array
+- Возвращает ошибку если:
+  - Value не является array
+- Выполняет композицию правил, переданных в параметры
+
+```ts
+import {
+  array,
+  arrayItem,
+  min
+} from '@astral/validations';
+
+type User = {
+  name: string;
+  surname?: string;
+};
+
+const validate = array(
+  min(1),
+  arrayItem(
+    object<User>({
+      name: string(),
+      surname: optional(string()),
+    }),
+  ),
+);
+
+// undefined
+validate([{ name: 'Vasya' }]);
+
+// { message: 'Не меньше: 1' }
+validate([]);
+
+// { cause: { errorArray: [{ name: { message: 'Не является строкой' } }] } }
+validate([{ name: 22 }]);
+```
+
+### arrayItem
+
+Применяет переданные правила валидации к каждому элементу массива.
+
+```ts
+import { array, arrayItem, object, string, optional } from '@astral/validations';
+
+type User = {
+  name: string;
+  surname?: string;
+};
+
+const validate = array(
+  arrayItem(
+    object<User>({
+      name: string(),
+      surname: optional(string()),
+    }),
+  ),
+);
+
+// undefined
+validate([{ name: 'Vasya' }]);
+
+// { cause: { errorArray: [{ name: { message: 'Не является строкой' } }] } }
+validate([{ name: 22 }]);
+```
+
+```ts
+import { array, arrayItem, string, min } from '@astral/validations';
+
+const validate = array(arrayItem(string(min(3))));
+
+// { cause: { arrayError: [undefined, { message: 'Мин. символов: 3' }] } }
+validate(['vasya', 'ma']);
+```
+
+---
+
+### min array
+
+Позволяет указать ограничение на минимальное элементов в массиве.
+
+```ts
+import { array, min } from '@astral/validations';
+
+const validate = array(min(1));
+
+// { message: 'Не меньше: 1' }
+validate([]);
+
+// undefined
+validate([1, 2]);
+```
 
 ## Common
 
