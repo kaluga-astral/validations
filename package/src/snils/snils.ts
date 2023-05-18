@@ -6,15 +6,11 @@ import {
   SNILS_ERROR_INFO,
 } from './constants';
 
-type SnilsParams = {
+type SnilsParams = CommonRuleParams<string> & {
   /**
    * @description Замена стандартного сообщения ошибки.
    */
   message?: string;
-  /**
-   * @description Позволяет указать значение  в качестве исключения из правил.
-   */
-  exclude?: CommonRuleParams<string>['exclude'];
 };
 
 const removeSpecialCharacters = (value: string) => {
@@ -40,12 +36,12 @@ const compareCheckSum = (calculatedCheckSum: number, checkSum: number) => {
  * @description Проверяет валиден ли СНИЛС
  * @example isSNILS()('95145370513');
  */
-export const snils = <TValues>({ message, exclude }: SnilsParams = {}) =>
+export const snils = <TValues>(params?: SnilsParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
       const createSnilsError = () =>
         ctx.createError({
-          message: message || SNILS_ERROR_INFO.message,
+          message: params?.message || SNILS_ERROR_INFO.message,
           code: SNILS_ERROR_INFO.code,
         });
 
@@ -99,5 +95,5 @@ export const snils = <TValues>({ message, exclude }: SnilsParams = {}) =>
 
       return undefined;
     },
-    { exclude },
+    { exclude: params?.exclude },
   );

@@ -2,15 +2,11 @@ import { CommonRuleParams, createRule, isStringOfZeros } from '../core';
 
 import { INN_UL_DECODING, INN_UL_ERROR_INFO, INN_UL_LENGTH } from './constants';
 
-type InnULParams = {
+type InnULParams = CommonRuleParams<string> & {
   /**
    * @description Замена стандартного сообщения ошибки.
    */
   message?: string;
-  /**
-   * @description Позволяет указать значение  в качестве исключения из правил.
-   */
-  exclude?: CommonRuleParams<string>['exclude'];
 };
 
 const calcCheckSumForInnUl = (arrSymbols: string[]) =>
@@ -27,12 +23,12 @@ const calcCheckSumForInnUl = (arrSymbols: string[]) =>
  * @description Проверяет валиден ли ИНН ЮЛ
  * @example innUL()('7728168971');
  */
-export const innUL = <TValues>({ message, exclude }: InnULParams = {}) =>
+export const innUL = <TValues>(params?: InnULParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
       const createInnUlError = () =>
         ctx.createError({
-          message: message || INN_UL_ERROR_INFO.message,
+          message: params?.message || INN_UL_ERROR_INFO.message,
           code: INN_UL_ERROR_INFO.code,
         });
 
@@ -58,5 +54,5 @@ export const innUL = <TValues>({ message, exclude }: InnULParams = {}) =>
 
       return undefined;
     },
-    { exclude },
+    { exclude: params?.exclude },
   );
