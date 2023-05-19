@@ -20,6 +20,7 @@
   - [string](#string)
     - [min](#min-string)
     - [max](#max-string)
+    - [email](#email)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [snils](#snils)
@@ -291,6 +292,31 @@ validate('long string')
 
 ---
 
+### email
+
+Проверяет валиден ли email. Не работает с русскими доменами
+
+```ts
+import { string, email } from '@astral/validations';
+
+const validate = string(email());
+
+// undefined
+validate('example@mail.ru');
+
+
+// { message: 'Некорректный E-mail' }
+validate('example.ru');
+
+//Пользовательское сообщение для ошибки с максимальным количеством символов
+const validateEmail = email({ invalidLengthMessage: 'слишком длинный email' });
+
+// { message: 'слишком длинный email' }
+validateEmail('longlonglong.......')
+```
+
+---
+
 ### pattern
 
 Проверяет строку на соответствие регулярному выражению.
@@ -428,7 +454,7 @@ validate('123123')
 validate('00000000')
 ```
 
-:information_source: Поддерживает возможность исключения - [exclude](#exclusion-managing)
+:information_source: Поддерживает [exclude](#exclusion-managing)
 
 ---
 
