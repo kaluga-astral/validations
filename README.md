@@ -13,6 +13,8 @@
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
+- [Error message customization](#error-message-customization)
+- [Exclusion managing](#exclusion-managing)
 - [Guards](#guards)
   - [number](#number)
     - [min](#min-number)
@@ -26,6 +28,7 @@
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
     - [innIP](#innIP)
+    - [kpp](#kpp)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -133,6 +136,68 @@ string()('')
 
 // { message: 'Макс. символов: 5' }
 string(max(5))('123456')
+```
+
+---
+
+# Error message customization
+
+Сообщения об ошибках по умолчанию могут быть заменены на пользовательские. 
+Для этого необходимо использовать параметры `message` или `getMessage` у валидационных методов:
+
+```ts
+//getMessage
+const validateMin = number(min(10, {
+    getMessage: (threshold, value, ctx) => {
+        return `Слишком мало, минимум ${threshold}`
+    }
+}));
+
+validateMin(5); // { message: 'Слишком мало, минимум 10' }
+
+//message
+const validateKPP = string(kpp({ message: 'Что-то не так с кодом КПП' }));
+
+validateKPP('123123'); // // { message: 'Что-то не так с кодом КПП' }
+```
+
+---
+
+# Exclusion managing
+
+Метод `exclude` предоставляет возможность обхода валидации для конкретного значения.
+
+Если из функция вернет `true`,
+текущее значение не будет провалидировано, метод валидации вернет `undefined`.
+
+Сигнатура валидационного метода с exclude
+
+```ts
+type Exclude = (
+        value: ValidationType, //текущее обрабатываемое значение
+        ctx: ValidationContext<unknown> //общий контекст валидации
+) => boolean;
+
+const kpp = (params?: { exclude?: Exclude }) => {
+    //...
+};
+```
+
+Пример реализации
+
+```ts
+//Реализация exclude
+const excludeValue = '0101010101'; //значение для обхода валидации (исключение)
+//функция для обработки исключения
+const isExclude = (value: string) => {
+  const excluded: string[] = [excludeValue];
+
+  return excluded.includes(value);
+};
+
+const validate = string(kpp({ exclude: isExclude }));
+
+validate(excludeValue); // undefined (значение не будет провалидировано)
 ```
 
 ---
