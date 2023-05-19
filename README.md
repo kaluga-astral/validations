@@ -16,8 +16,10 @@
 - [Guards](#guards)
   - [number](#number)
     - [min](#min-number)
+    - [max](#max-number)
   - [string](#string)
     - [min](#min-string)
+    - [max](#max-string)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [snils](#snils)
@@ -26,6 +28,7 @@
     - [innIP](#innIP)
   - [date](#date)
     - [min](#min-date)
+    - [max](#max-date)
   - [boolean](#boolean)
   - [object](#object)
     - [partial](#partial)
@@ -33,6 +36,7 @@
   - [array](#array)
     - [arrayItem](#arrayItem)
     - [min](#min-array)
+    - [max](#max-array)
   - [Define. Переопределение дефолтных параметров guard](#define-переопределение-дефолтных-параметров-guard)
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
@@ -195,6 +199,27 @@ validate(0)
 
 ---
 
+### max number
+
+Позволяет указать ограничение на максимальное число.
+
+```ts
+import { number, max } from '@astral/validations';
+
+const validate = number(max(4));
+
+// undefined
+validate(4)
+
+// undefined
+validate(1)
+
+// { message: 'Не больше: 4' }
+validate(10)
+```
+
+---
+
 ## string
 
 - Возвращает ошибку если:
@@ -238,6 +263,27 @@ validate('va')
 
 // { message: 'Мин. символов: 2' }
 validate('v')
+```
+
+---
+
+### max string
+
+Позволяет указать ограничение на максимальное количество символов в строке.
+
+```ts
+import { string, max } from '@astral/validations';
+
+const validate = string(max(6));
+
+// undefined
+validate('hello')
+
+// undefined
+validate('va')
+
+// { message: 'Макс. символов: 6' }
+validate('long string')
 ```
 
 ---
@@ -405,6 +451,28 @@ validate(new Date('12-11-2022'));
 
 // undefined
 validate(new Date('12-14-2022'));
+
+```
+
+---
+
+### max date
+
+Позволяет указать максимальную дату.
+При сверке дат игнорируется время, которое может быть отличное от 00:00:00 в объекте Date.
+
+```ts
+import { date, max } from '@astral/validations';
+
+const validate = date(
+  max(new Date('12-12-2022'), { message: 'Не позднее 12 января 2022 года' }),
+);
+
+// { message: 'Не позднее 12 января 2022 года' }
+validate(new Date('15-11-2022'));
+
+// undefined
+validate(new Date('02-01-2021'));
 
 ```
 
@@ -675,6 +743,24 @@ const validate = array(min(1));
 
 // { message: 'Не меньше: 1' }
 validate([]);
+
+// undefined
+validate([1, 2]);
+```
+
+---
+
+### max array
+
+Позволяет указать ограничение на максимальное количество элементов в массиве.
+
+```ts
+import { array, max } from '@astral/validations';
+
+const validate = array(max(3));
+
+// { message: 'Не больше: 3' }
+validate([1,2,3,4]);
 
 // undefined
 validate([1, 2]);
