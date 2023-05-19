@@ -34,7 +34,11 @@ const compareCheckSum = (calculatedCheckSum: number, checkSum: number) => {
 
 /**
  * @description Проверяет валиден ли СНИЛС
- * @example isSNILS()('95145370513');
+ * @example
+ * ```ts
+ * const validate = string(snils());
+ * validate('15657325992');
+ * ```
  */
 export const snils = <TValues>(params?: SnilsParams) =>
   createRule<string, TValues>(
