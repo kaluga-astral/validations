@@ -1,23 +1,17 @@
-import { expect, vi } from 'vitest';
+import { vi } from 'vitest';
 
 import { string } from '../string';
+import { date } from '../date';
 
 import { transform } from './transform';
 
 describe('transform', () => {
   it('Переданный guard получает трансформированное value', () => {
-    const validate = string(
-      transform(
-        (value) => Number(value),
-        (value) => {
-          expect(typeof value).toBe('number');
+    const validate = string(transform((value) => new Date(value), date()));
 
-          return undefined;
-        },
-      ),
-    );
+    const result = validate('12.12.2022');
 
-    validate('22');
+    expect(result).toBeUndefined();
   });
 
   it('После трансформации вызывается цепочка правил', () => {
