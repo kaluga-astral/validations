@@ -38,7 +38,11 @@ const calcSecondCheckSumForInnIP = (arrSymbols: string[]) =>
 
 /**
  * @description Проверяет валиден ли ИНН ИП
- * @example innIP()('7728168971');
+ * @example
+ * ```ts
+ * const validate = string(innIP());
+ * validate('384212952720');
+ * ```
  */
 export const innIP = <TValues>(params?: InnIPParams) =>
   createRule<string, TValues>(

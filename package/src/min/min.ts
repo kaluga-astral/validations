@@ -1,6 +1,5 @@
-import { ValidationContext, createRule } from '../core';
+import { ValidationContext, createRule, resetTime } from '../core';
 
-import { resetTime } from './utils';
 import {
   ARRAY_MIN_ERROR_CODE,
   DATE_MIN_ERROR_CODE,
