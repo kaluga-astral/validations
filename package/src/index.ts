@@ -48,6 +48,8 @@ export {
   INVALID_EMAIL_ERROR_INFO,
 } from './email';
 
+export { mobilePhone, MOBILE_PHONE_ERROR_INFO } from './mobilePhone';
+
 export { innUL, INN_UL_ERROR_INFO } from './innUL';
 
 export { innIP, INN_IP_ERROR_INFO } from './innIP';
