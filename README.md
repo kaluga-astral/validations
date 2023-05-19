@@ -26,6 +26,7 @@
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
     - [innIP](#innIP)
+    - [kpp](#kpp)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -407,6 +408,27 @@ validate('3842129527')
 validate('384212952a20')
 validate('+384212952720')
 ```
+
+---
+
+### kpp
+
+Проверяет валиден ли КПП
+
+```ts
+import { string, kpp } from '@astral/validations';
+
+const validate = string(kpp());
+
+// undefined
+validate('770201001');
+
+// { message: 'Некорректный КПП' }
+validate('123123')
+validate('00000000')
+```
+
+:information_source: Поддерживает возможность исключения - [exclude](#exclusion-managing)
 
 ---
 
