@@ -1,6 +1,6 @@
 import { ValidationResult, ValidationTypes } from '../../types';
 import { ValidationContext, createContext } from '../../context';
-import { ValidationRule } from '../types';
+import { IndependentValidationRule } from '../types';
 
 /**
  * @description Единые параметры для всех правил
@@ -42,9 +42,9 @@ export const createRule =
     commonParams?: CommonRuleParams<ValidationType>,
   ) =>
   (
-    value: Parameters<ValidationRule<ValidationType, TValues>>[0],
-    prevCtx?: Parameters<ValidationRule<ValidationType, TValues>>[1],
-  ): ReturnType<ValidationRule<ValidationType, TValues>> => {
+    value: Parameters<IndependentValidationRule<ValidationType, TValues>>[0],
+    prevCtx?: Parameters<IndependentValidationRule<ValidationType, TValues>>[1],
+  ): ReturnType<IndependentValidationRule<ValidationType, TValues>> => {
     // контекст создается, если он не был создан раннее
     const ctx = createContext<ValidationType, TValues>(prevCtx, value);
 

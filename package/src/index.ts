@@ -48,3 +48,5 @@ export { innIP, INN_IP_ERROR_INFO } from './innIP';
 export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
 
 export { snils, SNILS_ERROR_INFO } from './snils';
+
+export { ValidationRule, createRule } from './core';

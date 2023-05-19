@@ -1,8 +1,4 @@
-import {
-  CompositionalValidationRule,
-  ValidationResult,
-  createRule,
-} from '../core';
+import { ValidationResult, ValidationRule, createRule } from '../core';
 
 /**
  * @description Выполняет переданные правила аналогично оператору ||. Если одно из правил не завершилось ошибкой, то or вернет undefined
@@ -16,9 +12,7 @@ import {
  *  const result = validate('string');
  * ```
  */
-export const or = <TValues>(
-  ...rules: CompositionalValidationRule<unknown, TValues>[]
-) =>
+export const or = <TValues>(...rules: ValidationRule<unknown, TValues>[]) =>
   createRule<unknown, TValues>((value, ctx) => {
     let result: ValidationResult;
 

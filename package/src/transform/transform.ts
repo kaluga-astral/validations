@@ -1,9 +1,4 @@
-import {
-  CompositionalValidationRule,
-  ValidationTypes,
-  compose,
-  createRule,
-} from '../core';
+import { ValidationRule, ValidationTypes, compose, createRule } from '../core';
 
 type Transformer<TValue, TResult> = (value: TValue) => TResult;
 
@@ -27,7 +22,7 @@ export const transform = <
   TValues,
 >(
   transformer: Transformer<TValue, TResult>,
-  ...rules: CompositionalValidationRule<TResult, TValues>[]
+  ...rules: ValidationRule<TResult, TValues>[]
 ) =>
   createRule<TValue, TValues>((value, ctx) =>
     compose<TResult, TValues>(...rules)(transformer(value), ctx),

@@ -1,9 +1,4 @@
-import {
-  CompositionalValidationRule,
-  ValidationTypes,
-  compose,
-  createGuard,
-} from '../core';
+import { ValidationRule, ValidationTypes, compose, createGuard } from '../core';
 
 import { ARRAY_TYPE_ERROR_INFO } from './constants';
 
@@ -21,7 +16,7 @@ import { ARRAY_TYPE_ERROR_INFO } from './constants';
  * ```
  */
 export const array = <TItem extends ValidationTypes, TValues = unknown>(
-  ...rules: CompositionalValidationRule<Array<TItem>, TValues>[]
+  ...rules: ValidationRule<Array<TItem>, TValues>[]
 ) =>
   createGuard<Array<unknown>, TValues>((value, ctx, { typeErrorMessage }) => {
     if (!Array.isArray(value)) {
