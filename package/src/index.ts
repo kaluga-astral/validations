@@ -54,3 +54,5 @@ export { ValidationRule, createRule } from './core';
 export { ogrnUL, OGRN_UL_ERROR_INFO } from './ogrnUL';
 
 export { ogrnIP, OGRN_IP_ERROR_INFO } from './ogrnIP';
+
+export { any } from './any';
