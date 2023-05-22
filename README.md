@@ -30,6 +30,8 @@
     - [innUL](#innUL)
     - [innIP](#innIP)
     - [kpp](#kpp)
+    - [ogrnIP](#ogrnIP)
+    - [ogrnUL](#ogrnUL)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -376,6 +378,8 @@ validate('95145370511')
 validate('156-573-259 92')
 ```
 
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
 ---
 
 ### mobilePhone
@@ -397,6 +401,8 @@ validate('89999999999')
 validate('+79999999999')
 ```
 
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
 ---
 
 ### innUL
@@ -416,6 +422,8 @@ validate('0000000000')
 validate('384212952720')
 validate('7728168911')
 ```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
 
 ---
 
@@ -437,6 +445,8 @@ validate('384212952a20')
 validate('+384212952720')
 ```
 
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
 ---
 
 ### kpp
@@ -454,6 +464,50 @@ validate('770201001');
 // { message: 'Некорректный КПП' }
 validate('123123')
 validate('00000000')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
+### ogrnIP
+
+Проверяет валиден ли ОГРН ИП
+
+```ts
+import { string, ogrnIP } from '@astral/validations';
+
+const validate = string(ogrnIP());
+
+// undefined
+validate('8104338364837')
+
+// { message: 'Некорректный ОГРН ИП' }
+validate('1175958036814')
+validate('1175958000004')
+validate('1-22-33-44-5555555-6')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
+### ogrnUL
+
+Проверяет валиден ли ОГРН ЮЛ
+
+```ts
+import { string, ogrnUL } from '@astral/validations';
+
+const validate = string(ogrnUL());
+
+// undefined
+validate('1214000000092')
+
+// { message: 'Некорректный ОГРН ЮЛ' }
+validate('1175958036814')
+validate('1175958000004')
+validate('1-22-33-5555555-6')
 ```
 
 :information_source: Поддерживает [exclude](#exclusion-managing)
