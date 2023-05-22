@@ -1,11 +1,6 @@
-import {
-  ValidationContext,
-  ValidationRule,
-  ValidationTypes,
-  createRule,
-} from '../core';
+import { ValidationContext, ValidationRule, createRule } from '../core';
 
-type Params<TValue extends ValidationTypes, TValues> = {
+type Params<TValues> = {
   /**
    * @description Условие для выбора ветки
    */
@@ -13,11 +8,11 @@ type Params<TValue extends ValidationTypes, TValues> = {
   /**
    * Правила валидации, применяемые если is === true
    */
-  then: ValidationRule<TValue, TValues>;
+  then: ValidationRule<unknown, TValues>;
   /**
    * Правила валидации, применяемые если is === false
    */
-  otherwise: ValidationRule<TValue, TValues>;
+  otherwise: ValidationRule<unknown, TValues>;
 };
 
 /**
@@ -42,15 +37,8 @@ type Params<TValue extends ValidationTypes, TValues> = {
  * const result2 = validate({ isAgree: true, name: '' });
  * ```
  */
-export const when = <
-  TValue extends ValidationTypes = unknown,
-  TValues = unknown,
->({
-  is,
-  then,
-  otherwise,
-}: Params<TValue, TValues>) =>
-  createRule<TValue, TValues>((value, ctx) => {
+export const when = <TValues>({ is, then, otherwise }: Params<TValues>) =>
+  createRule<unknown, TValues>((value, ctx) => {
     if (is(value, ctx)) {
       return then(value, ctx);
     }

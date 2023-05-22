@@ -43,13 +43,15 @@
     - [arrayItem](#arrayItem)
     - [min](#min-array)
     - [max](#max-array)
+  - [any](#any)
   - [Define. Переопределение дефолтных параметров guard](#define-переопределение-дефолтных-параметров-guard)
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
-  - [Связанные поля и условная валидация](#связанные-поля-и-условная-валидация)
+  - [Связанные поля](#связанные-поля)
   - [Переиспользуемое правило](#переиспользуемое-правило)
 - [Common](#common)
   - [optional](#optional)
+  - [when. Условная валидация](#when-условная-валидация)
   - [transform](#transform)
   - [or](#or)
 - [Error message customization](#error-message-customization)
@@ -875,6 +877,31 @@ validate([1, 2]);
 
 ---
 
+## any
+
+Позволяет выключить любые проверки.
+
+```ts
+type Values = { name: string; isAgree: boolean };
+
+const validate = object<Values, Values>({
+  name: when({
+    is: (_, ctx) => ctx.global.values.isAgree,
+    then: string(),
+    otherwise: any(),
+  }),
+  isAgree: optional(boolean()),
+});
+
+// undefined
+const result1 = validate({ isAgree: false, name: '' });
+
+// Required error для name
+const result2 = validate({ isAgree: true, name: '' });
+```
+
+---
+
 ## Define. Переопределение дефолтных параметров guard
 
 Каждый guard позволяет переопределить дефолтные параметры:
@@ -931,38 +958,34 @@ const validate = object<Values>({
 validate({ name: 'Vasya', nickname: 'va_sya' });
 ```
 
-## Связанные поля и условная валидация
+## Связанные поля
 
 В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
 
 ```ts
-import { string, object, boolean, min, optional } from '@astral/validations';
+import { object, string } from '@astral/validations';
 
 type Values = {
-  isAgree?: boolean;
-  info: {
-    reason?: string;
-  };
+  password: string;
+  repeatPassword: string;
 };
 
 const validate = object<Values, Values>({
-  isAgree: optional(boolean()),
-  info: object<Values['info'], Values>({
-    reason: (_, ctx) => {
-      if (!ctx.global.values.isAgree) {
-        return optional(string());
-      }
+  password: string(min(9)),
+  repeatPassword: string<Values>(min(9), (value, ctx) => {
+    if (value !== ctx.global.values.repeatPassword) {
+      return ctx.createError({
+        message: 'Пароли не совпадают',
+        code: 'repeat-password',
+      });
+    }
 
-      return string(min(3));
-    },
+    return undefined;
   }),
 });
 
-// undefined
-validate({ isAgree: false, info: {} });
-
-// { cause: { errorMap: { info: { cause: { errorMap: { reason: { message: 'Обязательно' } } } } } } }
-validate({ isAgree: true, info: {} });
+// Error.message "Пароли не совпадают" для repeatPassword 
+validate({ password: 'qywerty123', repeatPassword: 'qywerty' });
 ```
 
 ## Переиспользуемое правило
@@ -1029,6 +1052,57 @@ validate({
   surname: '',
   isAuth: false,
 });
+```
+
+---
+
+## when. Условная валидация
+
+Позволяет определять условные валидации.
+
+```ts
+type Values = { name: string; isAgree: boolean };
+
+const validate = object<Values, Values>({
+  name: when({
+    is: (_, ctx) => ctx.global.values.isAgree,
+    then: string(),
+    otherwise: any(),
+  }),
+  isAgree: optional(boolean()),
+});
+
+// undefined
+const result1 = validate({ isAgree: false, name: '' });
+
+// Required error для name
+const result2 = validate({ isAgree: true, name: '' });
+```
+
+When для ветки объекта:
+```ts
+type ValuesInfo = { surname: string };
+
+type Values = {
+  name: string;
+  info?: ValuesInfo;
+};
+
+const validate = object<Values, Values>({
+  name: string(),
+  info: when<Values>({
+    is: (_, ctx) => ctx.global.values.name === 'Vasya',
+    then: object<ValuesInfo>({ surname: string() }),
+    otherwise: any(),
+  }),
+});
+
+// Error.message "Обязательно" для info
+validate({ name: 'Vasya' });
+
+// undefined
+validate({ name: 'Kolya' });
+
 ```
 
 ---
