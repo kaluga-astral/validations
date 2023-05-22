@@ -5,7 +5,7 @@ import {
   createRule,
 } from '../core';
 
-type Transformer<TResult> = (value: unknown) => TResult;
+type Transformer<TValue, TResult> = (value: TValue) => TResult;
 
 /**
  * @description Трансформирует value в новый тип для валидации
@@ -21,10 +21,14 @@ type Transformer<TResult> = (value: unknown) => TResult;
  *  );
  * ```
  */
-export const transform = <TResult extends ValidationTypes, TValues>(
-  transformer: Transformer<TResult>,
+export const transform = <
+  TValue extends ValidationTypes,
+  TResult extends ValidationTypes,
+  TValues,
+>(
+  transformer: Transformer<TValue, TResult>,
   ...rules: CompositionalValidationRule<TResult, TValues>[]
 ) =>
-  createRule<unknown, TValues>((value, ctx) =>
+  createRule<TValue, TValues>((value, ctx) =>
     compose<TResult, TValues>(...rules)(transformer(value), ctx),
   );

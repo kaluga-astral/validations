@@ -2,12 +2,14 @@
 
 Библиотека для валидаций в функциональном стиле.
 
-Поддерживает:
-- Tree shaking;
-- Валидацию по схеме;
-- Работает в Nodejs и в браузере;
-- Кастомные правила для валидаций;
-- Валидация по схеме для react-hook-form (Resolver).
+Особенности:
+
+- ⚡️️️️ Ориентирована на специфику frontend-приложений
+- ⚡️️️️ Функциональный стиль
+- ⚡️️️️ [Валидация по схеме](#object), а также использование правил валидации вне контекста схемы
+- ⚡️️️️ Оптимизирована для валидации форм (есть [поддержка react-hook-form](#react-hook-form))
+- ⚡️️️️ Полноценная поддержка tree shaking
+- ⚡️️️️ Простота создания [кастомных правил валидации](#custom-rules)
 
 # Table of contents
 
@@ -16,16 +18,21 @@
 - [Guards](#guards)
   - [number](#number)
     - [min](#min-number)
+    - [max](#max-number)
   - [string](#string)
     - [min](#min-string)
+    - [max](#max-string)
+    - [email](#email)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [snils](#snils)
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
     - [innIP](#innIP)
+    - [kpp](#kpp)
   - [date](#date)
     - [min](#min-date)
+    - [max](#max-date)
   - [boolean](#boolean)
   - [object](#object)
     - [partial](#partial)
@@ -33,6 +40,7 @@
   - [array](#array)
     - [arrayItem](#arrayItem)
     - [min](#min-array)
+    - [max](#max-array)
   - [Define. Переопределение дефолтных параметров guard](#define-переопределение-дефолтных-параметров-guard)
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
@@ -41,6 +49,8 @@
   - [optional](#optional)
   - [transform](#transform)
   - [or](#or)
+- [Error message customization](#error-message-customization)
+- [Exclusion managing](#exclusion-managing)
   
 ---
 
@@ -195,6 +205,27 @@ validate(0)
 
 ---
 
+### max number
+
+Позволяет указать ограничение на максимальное число.
+
+```ts
+import { number, max } from '@astral/validations';
+
+const validate = number(max(4));
+
+// undefined
+validate(4)
+
+// undefined
+validate(1)
+
+// { message: 'Не больше: 4' }
+validate(10)
+```
+
+---
+
 ## string
 
 - Возвращает ошибку если:
@@ -238,6 +269,52 @@ validate('va')
 
 // { message: 'Мин. символов: 2' }
 validate('v')
+```
+
+---
+
+### max string
+
+Позволяет указать ограничение на максимальное количество символов в строке.
+
+```ts
+import { string, max } from '@astral/validations';
+
+const validate = string(max(6));
+
+// undefined
+validate('hello')
+
+// undefined
+validate('va')
+
+// { message: 'Макс. символов: 6' }
+validate('long string')
+```
+
+---
+
+### email
+
+Проверяет валиден ли email. Не работает с русскими доменами
+
+```ts
+import { string, email } from '@astral/validations';
+
+const validate = string(email());
+
+// undefined
+validate('example@mail.ru');
+
+
+// { message: 'Некорректный E-mail' }
+validate('example.ru');
+
+//Пользовательское сообщение для ошибки с максимальным количеством символов
+const validateEmail = email({ invalidLengthMessage: 'слишком длинный email' });
+
+// { message: 'слишком длинный email' }
+validateEmail('longlonglong.......')
 ```
 
 ---
@@ -362,6 +439,27 @@ validate('+384212952720')
 
 ---
 
+### kpp
+
+Проверяет валиден ли КПП
+
+```ts
+import { string, kpp } from '@astral/validations';
+
+const validate = string(kpp());
+
+// undefined
+validate('770201001');
+
+// { message: 'Некорректный КПП' }
+validate('123123')
+validate('00000000')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
 ## date
 
 - Возвращает ошибку если:
@@ -405,6 +503,28 @@ validate(new Date('12-11-2022'));
 
 // undefined
 validate(new Date('12-14-2022'));
+
+```
+
+---
+
+### max date
+
+Позволяет указать максимальную дату.
+При сверке дат игнорируется время, которое может быть отличное от 00:00:00 в объекте Date.
+
+```ts
+import { date, max } from '@astral/validations';
+
+const validate = date(
+  max(new Date('12-12-2022'), { message: 'Не позднее 12 января 2022 года' }),
+);
+
+// { message: 'Не позднее 12 января 2022 года' }
+validate(new Date('15-11-2022'));
+
+// undefined
+validate(new Date('02-01-2021'));
 
 ```
 
@@ -682,6 +802,24 @@ validate([1, 2]);
 
 ---
 
+### max array
+
+Позволяет указать ограничение на максимальное количество элементов в массиве.
+
+```ts
+import { array, max } from '@astral/validations';
+
+const validate = array(max(3));
+
+// { message: 'Не больше: 3' }
+validate([1,2,3,4]);
+
+// undefined
+validate([1, 2]);
+```
+
+---
+
 ## Define. Переопределение дефолтных параметров guard
 
 Каждый guard позволяет переопределить дефолтные параметры:
@@ -891,4 +1029,50 @@ const Form = () => {
     </form>
   );
 };
+```
+
+# Error message customization
+
+Сообщения об ошибках по умолчанию могут быть заменены на пользовательские.  
+Для этого необходимо использовать параметры `message` или `getMessage` у валидационных методов:
+
+```ts
+//getMessage
+const validateMin = number(min(10, {
+    getMessage: (threshold, value, ctx) => {
+        return `Слишком мало, минимум ${threshold}`
+    }
+}));
+// { message: 'Слишком мало, минимум 10' }
+validateMin(5);
+
+//message
+const validateKPP = string(kpp({ message: 'Что-то не так с кодом КПП' }));
+// { message: 'Что-то не так с кодом КПП' }
+validateKPP('123123');
+```
+
+---
+
+# Exclusion managing
+
+Метод `exclude` предоставляет возможность обхода валидации для конкретного значения.  
+Если функция вернет `true`,
+текущее значение не будет провалидировано, метод валидации вернет `undefined`.
+
+Пример реализации:
+
+```ts
+//значение для обхода валидации (исключение)
+const excludeValue = '0101010101';
+//функция для обработки исключения
+const isExclude = (value: string) => {
+  const excluded: string[] = [excludeValue];
+
+  return excluded.includes(value);
+};
+
+const validate = string(kpp({ exclude: isExclude }));
+// undefined (значение не будет провалидировано)
+validate(excludeValue);
 ```
