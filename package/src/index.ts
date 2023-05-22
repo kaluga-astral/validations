@@ -49,6 +49,8 @@ export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
 
 export { snils, SNILS_ERROR_INFO } from './snils';
 
+export { ValidationRule, createRule } from './core';
+
 export { ogrnUL, OGRN_UL_ERROR_INFO } from './ogrnUL';
 
 export { ogrnIP, OGRN_IP_ERROR_INFO } from './ogrnIP';

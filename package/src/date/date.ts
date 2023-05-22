@@ -1,4 +1,4 @@
-import { CompositionalValidationRule, compose, createGuard } from '../core';
+import { ValidationRule, compose, createGuard } from '../core';
 
 import { DATE_TYPE_ERROR_INFO, INVALID_DATE_ERROR_INFO } from './constants';
 
@@ -19,9 +19,7 @@ type AdditionalDefOptions = {
  *  validate(new Date('22.22.2022'));
  * ```
  */
-export const date = <TValues>(
-  ...rules: CompositionalValidationRule<Date, TValues>[]
-) =>
+export const date = <TValues>(...rules: ValidationRule<Date, TValues>[]) =>
   createGuard<Date, TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, invalidDateErrorMessage }) => {
       if (!(value instanceof Date)) {

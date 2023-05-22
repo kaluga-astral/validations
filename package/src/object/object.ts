@@ -1,10 +1,10 @@
 import isPlainObject from 'is-plain-obj';
 
 import {
-  CompositionalValidationRule,
   ErrorMap,
   Guard,
   ValidationContext,
+  ValidationRule,
   createErrorMap,
   createGuard,
 } from '../core';
@@ -42,7 +42,7 @@ type NeverSchema = Record<'__never', never>;
  */
 export type SchemaValue<TValues> =
   | ObjectPropGuard<TValues>
-  | CompositionalValidationRule<unknown, TValues>;
+  | ValidationRule<unknown, TValues>;
 
 /**
  * @description Схема правил валдиации для объекта
