@@ -985,7 +985,7 @@ const validate = object<Values, Values>({
 });
 
 // Error.message "Пароли не совпадают" для repeatPassword 
-validate({ password: 'qywerty123', repeatPassword: 'qywerty' });
+validate({ password: 'qywerty123', repeatPassword: 'qywerty1234' });
 ```
 
 ## Переиспользуемое правило
