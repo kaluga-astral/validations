@@ -47,6 +47,7 @@
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
   - [Связанные поля и условная валидация](#связанные-поля-и-условная-валидация)
+  - [Переиспользуемое правило](#переиспользуемое-правило)
 - [Common](#common)
   - [optional](#optional)
   - [transform](#transform)
@@ -905,6 +906,8 @@ validateCustomString(20);
 ## Базовый пример
 
 ```ts
+import { string, object } from '@astral/validations';
+
 type Values = {
   name: string;
   nickname: string;
@@ -933,6 +936,7 @@ validate({ name: 'Vasya', nickname: 'va_sya' });
 В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
 
 ```ts
+import { string, object, boolean, min, optional } from '@astral/validations';
 
 type Values = {
   isAgree?: boolean;
@@ -959,6 +963,39 @@ validate({ isAgree: false, info: {} });
 
 // { cause: { errorMap: { info: { cause: { errorMap: { reason: { message: 'Обязательно' } } } } } } }
 validate({ isAgree: true, info: {} });
+```
+
+## Переиспользуемое правило
+
+```ts
+import { createRule, string } from '@astral/validations';
+
+type Params = {
+  message?: string;
+};
+
+const includesWorld = <TValues>(params: Params) =>
+  createRule<string, TValues>((value, ctx) => {
+    if (value.includes('world')) {
+      return undefined;
+    }
+
+    return ctx.createError({
+      message: params?.message || 'Должен содержать "world"',
+      code: 'includes-word',
+    });
+  });
+
+const validate = string(includesWorld());
+
+// undefined
+validate('Hello world');
+
+// { message: 'Должен содержать "world"' } 
+validate('Hello');
+
+// { message: 'Должен содержать "world"' } 
+includesWorld()('Hello')
 ```
 
 ---

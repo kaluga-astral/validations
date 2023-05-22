@@ -1,10 +1,8 @@
-import { CompositionalValidationRule, compose, createGuard } from '../core';
+import { ValidationRule, compose, createGuard } from '../core';
 
 import { STRING_TYPE_ERROR_INFO } from './constants';
 
-export const string = <TValues>(
-  ...rules: CompositionalValidationRule<string, TValues>[]
-) =>
+export const string = <TValues>(...rules: ValidationRule<string, TValues>[]) =>
   createGuard<string, TValues>((value, ctx, { typeErrorMessage }) => {
     if (typeof value !== 'string') {
       return ctx.createError({
