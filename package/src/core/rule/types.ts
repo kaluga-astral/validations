@@ -2,18 +2,17 @@ import { ValidationContext } from '../context';
 import { ValidationResult } from '../types';
 
 /**
- * @description Правило для валидации. Может содержать в прототипе meta информацию для advanced валидации
+ * @description Самостоятельное правило для валидации. Может использоваться вне guard'ов
  */
-export type ValidationRule<TValue, TValues> = (
+export type IndependentValidationRule<TValue, TValues> = (
   value: TValue,
   ctx?: ValidationContext<TValues>,
 ) => ValidationResult;
 
 /**
- * @description Правило для валидации, которое прокидывается в композиционные правила или guard.
- * @param ctx - для композиционного правила ctx создается compose правилам более верхнего уровня, поэтому ctx здесь не optional
+ * @description Правило для валидации, работающее исключительно с guard'ами
  */
-export type CompositionalValidationRule<TValue, TValues> = (
+export type ValidationRule<TValue, TValues> = (
   value: TValue,
   ctx: ValidationContext<TValues>,
 ) => ValidationResult;
@@ -23,7 +22,7 @@ export type CompositionalValidationRule<TValue, TValues> = (
  * В основном используется для композиционных правил, которые принимают rule, умеющие валидировать разные значения (optional, transform...)
  */
 export type UniversalCompositionalValidationRule<TValues = unknown> =
-  CompositionalValidationRule<
+  ValidationRule<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     TValues

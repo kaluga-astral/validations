@@ -30,6 +30,8 @@
     - [innUL](#innUL)
     - [innIP](#innIP)
     - [kpp](#kpp)
+    - [ogrnIP](#ogrnIP)
+    - [ogrnUL](#ogrnUL)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -45,6 +47,7 @@
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
   - [Связанные поля и условная валидация](#связанные-поля-и-условная-валидация)
+  - [Переиспользуемое правило](#переиспользуемое-правило)
 - [Common](#common)
   - [optional](#optional)
   - [transform](#transform)
@@ -378,6 +381,8 @@ validate('95145370511')
 validate('156-573-259 92')
 ```
 
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
 ---
 
 ### mobilePhone
@@ -399,6 +404,8 @@ validate('89999999999')
 validate('+79999999999')
 ```
 
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
 ---
 
 ### innUL
@@ -418,6 +425,8 @@ validate('0000000000')
 validate('384212952720')
 validate('7728168911')
 ```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
 
 ---
 
@@ -439,6 +448,8 @@ validate('384212952a20')
 validate('+384212952720')
 ```
 
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
 ---
 
 ### kpp
@@ -456,6 +467,50 @@ validate('770201001');
 // { message: 'Некорректный КПП' }
 validate('123123')
 validate('00000000')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
+### ogrnIP
+
+Проверяет валиден ли ОГРН ИП
+
+```ts
+import { string, ogrnIP } from '@astral/validations';
+
+const validate = string(ogrnIP());
+
+// undefined
+validate('8104338364837')
+
+// { message: 'Некорректный ОГРН ИП' }
+validate('1175958036814')
+validate('1175958000004')
+validate('1-22-33-44-5555555-6')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
+### ogrnUL
+
+Проверяет валиден ли ОГРН ЮЛ
+
+```ts
+import { string, ogrnUL } from '@astral/validations';
+
+const validate = string(ogrnUL());
+
+// undefined
+validate('1214000000092')
+
+// { message: 'Некорректный ОГРН ЮЛ' }
+validate('1175958036814')
+validate('1175958000004')
+validate('1-22-33-5555555-6')
 ```
 
 :information_source: Поддерживает [exclude](#exclusion-managing)
@@ -853,6 +908,8 @@ validateCustomString(20);
 ## Базовый пример
 
 ```ts
+import { string, object } from '@astral/validations';
+
 type Values = {
   name: string;
   nickname: string;
@@ -881,6 +938,7 @@ validate({ name: 'Vasya', nickname: 'va_sya' });
 В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
 
 ```ts
+import { string, object, boolean, min, optional } from '@astral/validations';
 
 type Values = {
   isAgree?: boolean;
@@ -907,6 +965,39 @@ validate({ isAgree: false, info: {} });
 
 // { cause: { errorMap: { info: { cause: { errorMap: { reason: { message: 'Обязательно' } } } } } } }
 validate({ isAgree: true, info: {} });
+```
+
+## Переиспользуемое правило
+
+```ts
+import { createRule, string } from '@astral/validations';
+
+type Params = {
+  message?: string;
+};
+
+const includesWorld = <TValues>(params: Params) =>
+  createRule<string, TValues>((value, ctx) => {
+    if (value.includes('world')) {
+      return undefined;
+    }
+
+    return ctx.createError({
+      message: params?.message || 'Должен содержать "world"',
+      code: 'includes-word',
+    });
+  });
+
+const validate = string(includesWorld());
+
+// undefined
+validate('Hello world');
+
+// { message: 'Должен содержать "world"' } 
+validate('Hello');
+
+// { message: 'Должен содержать "world"' } 
+includesWorld()('Hello')
 ```
 
 ---

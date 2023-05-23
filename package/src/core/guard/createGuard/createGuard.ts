@@ -61,7 +61,7 @@ type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
  * После первого вызова guard в прототипу функции становится доступен метод define, который позволяет переопределить дефолтное поведение guard (например, изменить текст для required правила)
  * @example
  * ```ts
- * const string = <TValues>(...rules: CompositionalValidationRule<string, TValues>[]) =>
+ * const string = <TValues>(...rules: ValidationRule<string, TValues>[]) =>
  *   createGuard<string, TValues>((value, ctx) => {
  *     if (typeof value !== 'string') {
  *       return ctx.createError({ code: 'custom error', message: 'Не строка' });

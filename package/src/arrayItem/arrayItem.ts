@@ -1,5 +1,5 @@
 import {
-  CompositionalValidationRule,
+  ValidationRule,
   ValidationTypes,
   compose,
   createArrayError,
@@ -32,7 +32,7 @@ import {
  * ```
  */
 export const arrayItem = <TItem extends ValidationTypes, TValues = unknown>(
-  ...rules: CompositionalValidationRule<TItem, TValues>[]
+  ...rules: ValidationRule<TItem, TValues>[]
 ) =>
   createRule<Array<TItem>, TValues>((array, ctx) => {
     const validationItemsResult = array.map((item) =>

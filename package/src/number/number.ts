@@ -1,4 +1,4 @@
-import { CompositionalValidationRule, compose, createGuard } from '../core';
+import { ValidationRule, compose, createGuard } from '../core';
 
 import {
   INFINITY_NUMBER_ERROR_INFO,
@@ -23,9 +23,7 @@ type AdditionalDefOptions = {
  *  validate(24);
  * ```
  */
-export const number = <TValues>(
-  ...rules: CompositionalValidationRule<number, TValues>[]
-) =>
+export const number = <TValues>(...rules: ValidationRule<number, TValues>[]) =>
   createGuard<number, TValues, AdditionalDefOptions>(
     (
       value,

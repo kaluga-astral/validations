@@ -1,4 +1,4 @@
-import { CompositionalValidationRule, compose, createGuard } from '../core';
+import { ValidationRule, compose, createGuard } from '../core';
 
 import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
 
@@ -14,7 +14,7 @@ import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
  * ```
  */
 export const boolean = <TValues>(
-  ...rules: CompositionalValidationRule<boolean, TValues>[]
+  ...rules: ValidationRule<boolean, TValues>[]
 ) =>
   createGuard<boolean, TValues>((value, ctx, { typeErrorMessage }) => {
     if (typeof value !== 'boolean') {

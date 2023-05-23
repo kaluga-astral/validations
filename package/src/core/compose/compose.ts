@@ -1,5 +1,5 @@
 import { ValidationResult } from '../types';
-import { CompositionalValidationRule, ValidationRule } from '../rule';
+import { IndependentValidationRule, ValidationRule } from '../rule';
 import { ValidationContext } from '../context';
 
 /**
@@ -9,10 +9,10 @@ import { ValidationContext } from '../context';
 export const compose =
   <ValidationType, TValues>(
     ...rules: Array<
+      | IndependentValidationRule<ValidationType, TValues>
       | ValidationRule<ValidationType, TValues>
-      | CompositionalValidationRule<ValidationType, TValues>
     >
-  ): ValidationRule<ValidationType, TValues> =>
+  ): IndependentValidationRule<ValidationType, TValues> =>
   (value, ctx) =>
     rules.reduce<ValidationResult>(
       (result, rule) =>
