@@ -1,4 +1,9 @@
-export { object, OBJECT_TYPE_ERROR_INFO, Schema, SchemaValue } from './object';
+export {
+  object,
+  OBJECT_TYPE_ERROR_INFO,
+  type Schema,
+  type SchemaValue,
+} from './object';
 
 export { optional } from './optional';
 
@@ -33,6 +38,8 @@ export { pattern, PATTERN_ERROR_CODE } from './pattern';
 
 export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
 
+export { toPlainError } from './toPlainError';
+
 export {
   email,
   LENGTH_EMAIL_ERROR_INFO,
@@ -49,7 +56,7 @@ export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
 
 export { snils, SNILS_ERROR_INFO } from './snils';
 
-export { ValidationRule, createRule } from './core';
+export { createRule, REQUIRED_ERROR_INFO, type ValidationRule } from './core';
 
 export { ogrnUL, OGRN_UL_ERROR_INFO } from './ogrnUL';
 

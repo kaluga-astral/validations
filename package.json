@@ -3,6 +3,7 @@
   "workspaces": [
     "pack",
     "package",
+    "react-hook-form-resolver",
     "PRLinter"
   ],
   "devDependencies": {
@@ -11,13 +12,13 @@
     "@astral/prettier-config": "^1.6.2",
     "@astral/eslint-config-react-ts": "^1.6.2",
     "commitlint": "^17.0.3",
-    "eslint": "8.17.0",
+    "eslint": "^8.40.0",
     "husky": "^4.3.8",
     "lint-staged": "^11.1.2",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "typescript": "^5.0.4",
-    "vite": "^3.0.4",
+    "vite": "^4.3.7",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "semantic-release": "^19.0.5",
@@ -25,7 +26,7 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^8.0.5",
     "@semantic-release/exec": "^6.0.3",
-    "vitest": "^0.25.3",
+    "vitest": "^0.31.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3"
   },

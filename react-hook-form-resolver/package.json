@@ -1,0 +1,32 @@
+{
+  "name": "@astral/validations-react-hook-form-resolver",
+  "version": "1.0.0",
+  "browser": "./src/index.ts",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "RELEASE_TAG=22 node pack",
+    "publish": "npm publish ./lib",
+    "tests": "vitest run",
+    "tests:ci": "vitest run --reporter=junit --outputFile.junit=junit.xml",
+    "lint:types": "tsc --noEmit",
+    "lint": "eslint --fix --quiet",
+    "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
+  },
+  "dependencies": {
+    "@astral/validations": "*",
+    "@hookform/resolvers": "^3.1.0"
+  },
+  "peerDependencies": {
+    "react-hook-form": "7.x.x"
+  },
+  "devDependencies": {
+    "react-hook-form": "^7.43.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "jsdom": "^22.0.0",
+    "@vitejs/plugin-react": "^4.0.0"
+  }
+}

@@ -54,6 +54,8 @@
   - [when. Условная валидация](#when-условная-валидация)
   - [transform](#transform)
   - [or](#or)
+- [Integrations](#integrations)
+  - [react-hook-form](#react-hook-form)
 - [Error message customization](#error-message-customization)
 - [Exclusion managing](#exclusion-managing)
   

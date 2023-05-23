@@ -27,7 +27,6 @@
     "types": ["vitest/globals"]
   },
   "include": [
-    "./declarations",
     "./*.js",
     "./*.ts"
   ],
