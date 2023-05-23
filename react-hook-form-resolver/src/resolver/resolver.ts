@@ -43,7 +43,7 @@ import { validateFieldsNatively } from '@hookform/resolvers';
  */
 export const resolver =
   <TFieldValues extends FieldValues = FieldValues>(
-    validateBySchema: ReturnType<typeof object<TFieldValues>>,
+    validateBySchema: ReturnType<typeof object<TFieldValues, TFieldValues>>,
   ): Resolver<TFieldValues> =>
   (values, _, options) => {
     const validationResult = validateBySchema(values);
