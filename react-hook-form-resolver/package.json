@@ -13,11 +13,11 @@
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
   },
   "dependencies": {
-    "@astral/validations": "*",
     "@hookform/resolvers": "^3.1.0"
   },
   "peerDependencies": {
-    "react-hook-form": "7.x.x"
+    "react-hook-form": "7.x.x",
+    "@astral/validations": "3.x.x"
   },
   "devDependencies": {
     "react-hook-form": "^7.43.9",
