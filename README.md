@@ -973,7 +973,7 @@ type Values = {
 const validate = object<Values, Values>({
   password: string(min(9)),
   repeatPassword: string<Values>(min(9), (value, ctx) => {
-    if (value !== ctx.global.values.repeatPassword) {
+    if (value !== ctx.global.values.password) {
       return ctx.createError({
         message: 'Пароли не совпадают',
         code: 'repeat-password',
