@@ -40,8 +40,6 @@ export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
 
 export { toPlainError } from './toPlainError';
 
-export { REQUIRED_ERROR_INFO, type ValidationRule } from './core';
-
 export {
   email,
   LENGTH_EMAIL_ERROR_INFO,
@@ -58,7 +56,7 @@ export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
 
 export { snils, SNILS_ERROR_INFO } from './snils';
 
-export { ValidationRule, createRule } from './core';
+export { createRule, REQUIRED_ERROR_INFO, type ValidationRule } from './core';
 
 export { ogrnUL, OGRN_UL_ERROR_INFO } from './ogrnUL';
 
