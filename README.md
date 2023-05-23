@@ -759,7 +759,9 @@ const validate = deepPartial(
 
 // undefined
 validate({
-  info: [{ }],
+  info: {
+    permissions: [{}]
+  },
 });
 ```
 
