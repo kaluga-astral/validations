@@ -1,6 +1,6 @@
 # @astral/validations-react-hook-form-resolver
 
-Пакет позволяет произвести интеграция [@astral/validations]() и [react-hook-form](https://react-hook-form.com).
+Пакет позволяет произвести интеграцию [@astral/validations]() и [react-hook-form](https://react-hook-form.com).
 
 # Installation
 
