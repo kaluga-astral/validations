@@ -9,6 +9,8 @@ export { optional } from './optional';
 
 export { string, STRING_TYPE_ERROR_INFO } from './string';
 
+export { date, INVALID_DATE_ERROR_INFO, DATE_TYPE_ERROR_INFO } from './date';
+
 export {
   number,
   NAN_NUMBER_ERROR_INFO,
