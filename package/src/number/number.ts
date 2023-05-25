@@ -24,7 +24,7 @@ type AdditionalDefOptions = {
  * ```
  */
 export const number = <TValues>(...rules: ValidationRule<number, TValues>[]) =>
-  createGuard<number, TValues, AdditionalDefOptions>(
+  createGuard<TValues, AdditionalDefOptions>(
     (
       value,
       ctx,

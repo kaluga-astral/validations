@@ -18,7 +18,7 @@ import { ARRAY_TYPE_ERROR_INFO } from './constants';
 export const array = <TItem extends ValidationTypes, TValues = unknown>(
   ...rules: ValidationRule<Array<TItem>, TValues>[]
 ) =>
-  createGuard<Array<unknown>, TValues>((value, ctx, { typeErrorMessage }) => {
+  createGuard<TValues>((value, ctx, { typeErrorMessage }) => {
     if (!Array.isArray(value)) {
       return ctx.createError({
         ...ARRAY_TYPE_ERROR_INFO,
