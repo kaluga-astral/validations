@@ -60,8 +60,8 @@
 - [Guides](#guides)
   - [Переиспользование объектов схемы](#переиспользование-объектов-схемы)
   - [Переиспользование объектов схемы, с условной валидацией и зависимыми полями](#переиспользование-объектов-схемы-с-условной-валидацией-и-зависимыми-полями)
-- [Error message customization](#error-message-customization)
-- [Exclusion managing](#exclusion-managing)
+  - [Error message customization](#error-message-customization)
+  - [Exclusion managing](#exclusion-managing)
   
 ---
 
