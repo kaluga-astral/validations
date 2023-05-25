@@ -6,6 +6,8 @@ import {
   createSimpleError,
 } from '../core';
 import { string } from '../string';
+import { number } from '../number';
+import { when } from '../when';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
@@ -72,9 +74,21 @@ describe('object', () => {
   });
 
   it('Генерирует ошибку для object', () => {
-    const validate = object<{ name: string; surname: string }>({
-      name: string(),
-      surname: string(),
+    type V = { name: string; surname: string; org: Org };
+    type Org = { info: OrgInfo };
+    type OrgInfo = { data: string };
+
+    const orgInfo = <TV>() =>
+      object<OrgInfo, TV>({ data: (_, ctx) => ctx.global.values });
+
+    const org = <TV>() => object<Org, TV>({ info: orgInfo() });
+
+    const validate = object<V, V>({
+      name: number(),
+      surname: when({
+        is: (value, ctx) => Boolean(ctx.global.values.org?.info),
+      }),
+      org: object({ info: orgInfo() }),
     });
 
     const expectError = createErrorMap({

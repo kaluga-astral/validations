@@ -33,11 +33,6 @@ type AdditionalDefOptions = {
 };
 
 /**
- * @description Тип, который необходим для того, чтобы object невозможно было использовать без использования generic
- */
-type NeverSchema = Record<'__never', never>;
-
-/**
  * @description Возможные значения, принимаемые схемой
  */
 export type SchemaValue<TValue, TValues> =
@@ -76,7 +71,7 @@ export type Schema<
  * ```
  */
 export const object = <
-  Value extends Record<string, unknown> = NeverSchema,
+  Value extends Record<string, unknown>,
   TValues = unknown,
 >(
   schema: Schema<Value, TValues>,
