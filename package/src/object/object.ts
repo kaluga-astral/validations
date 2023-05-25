@@ -17,12 +17,12 @@ import { OBJECT_TYPE_ERROR_INFO } from './constants';
  * @description Специальный итерфейс Guard для object. В данном интерфейсе ctx required
  * Переопределение необходимо для того, чтобы ts показывал, что ctx required в кастомных правилах
  */
-interface ObjectPropGuard<TValues> {
+interface ObjectPropGuard<TValue, TValues> {
   (
-    value: Parameters<Guard<unknown, TValues>>[0],
+    value: Parameters<Guard<TValue, TValues>>[0],
     ctx: ValidationContext<TValues>,
-  ): ReturnType<Guard<unknown, TValues>>;
-  define: Guard<unknown, TValues>['define'];
+  ): ReturnType<Guard<TValue, TValues>>;
+  define: Guard<TValue, TValues>['define'];
 }
 
 type AdditionalDefOptions = {
@@ -40,9 +40,9 @@ type NeverSchema = Record<'__never', never>;
 /**
  * @description Возможные значения, принимаемые схемой
  */
-export type SchemaValue<TValues> =
-  | ObjectPropGuard<TValues>
-  | ValidationRule<unknown, TValues>;
+export type SchemaValue<TValue, TValues> =
+  | ObjectPropGuard<TValue | unknown, TValues>
+  | ValidationRule<TValue | unknown, TValues>;
 
 /**
  * @description Схема правил валдиации для объекта
@@ -50,7 +50,7 @@ export type SchemaValue<TValues> =
 export type Schema<
   TValue extends Record<string, unknown>,
   TValues = unknown,
-> = Record<keyof TValue, SchemaValue<TValues>>;
+> = Record<keyof TValue, SchemaValue<TValue, TValues>>;
 
 /**
  * @description Guard для объекта
@@ -91,7 +91,8 @@ export const object = <
       }
 
       const generateErrorMap = () => {
-        const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
+        const schemaEntries =
+          Object.entries<SchemaValue<Value, TValues>>(schema);
         const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
 
         return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
@@ -99,7 +100,7 @@ export const object = <
 
           const callRule =
             isGuard && isOptional
-              ? optional(rule as Guard<unknown, TValues>)
+              ? optional(rule as Guard<Value, TValues>)
               : rule;
 
           errorMap[key] = callRule(value[key], ctx);
