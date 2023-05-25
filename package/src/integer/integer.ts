@@ -9,20 +9,26 @@ type IntegerParams = {
   message?: string;
 };
 
-const isInteger = (value: number): boolean => value === Math.floor(value);
-
 /**
  * @description
  * Проверяет является ли значение целым числом.
  * @example
  * ```ts
- * const validate = number(integer());
- * validate(5);
+ * const validate = number(integer(5));
+ *
+ * // undefined
+ * validate(5)
+ *
+ * // undefined
+ * validate(7)
+ *
+ * // { message: 'Только целые числа' }
+ * validate(3.14)
  * ```
  */
 export const integer = <TValues>(params?: IntegerParams) =>
   createRule<number, TValues>((value, ctx) => {
-    if (!isInteger(value)) {
+    if (!Number.isInteger(value)) {
       return ctx.createError({
         message: params?.message || INTEGER_ERROR_INFO.message,
         code: INTEGER_ERROR_INFO.code,
