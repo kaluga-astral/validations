@@ -6,7 +6,7 @@ import {
   createSimpleError,
 } from '../core';
 import { string } from '../string';
-import { optional } from '../../lib';
+import { optional } from '../optional';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
