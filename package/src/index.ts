@@ -34,6 +34,16 @@ export {
   NUMBER_MIN_ERROR_CODE,
 } from './min';
 
+export {
+  max,
+  STRING_MAX_ERROR_CODE,
+  ARRAY_MAX_ERROR_CODE,
+  DATE_MAX_ERROR_CODE,
+  NUMBER_MAX_ERROR_CODE,
+} from './max';
+
+export { integer, INTEGER_ERROR_INFO } from './integer';
+
 export { or } from './or';
 
 export { pattern, PATTERN_ERROR_CODE } from './pattern';

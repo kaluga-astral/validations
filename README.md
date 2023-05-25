@@ -19,6 +19,7 @@
   - [number](#number)
     - [min](#min-number)
     - [max](#max-number)
+    - [integer](#integer)
   - [string](#string)
     - [min](#min-string)
     - [max](#max-string)
@@ -229,6 +230,27 @@ validate(1)
 
 // { message: 'Не больше: 4' }
 validate(10)
+```
+
+---
+
+### integer
+
+Проверяет является ли значение целым числом.
+
+```ts
+import { number, integer } from '@astral/validations';
+
+const validate = number(integer(5));
+
+// undefined
+validate(5)
+
+// undefined
+validate(7)
+
+// { message: 'Только целые числа' }
+validate(3.14)
 ```
 
 ---
