@@ -70,7 +70,10 @@ export type Schema<
  * });
  * ```
  */
-export const object = <Value extends Record<string, unknown>, TValues>(
+export const object = <
+  Value extends Record<string, unknown>,
+  TValues = unknown,
+>(
   schema: Schema<Value, TValues>,
 ) =>
   createGuard<TValues, AdditionalDefOptions>(
