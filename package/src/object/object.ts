@@ -17,12 +17,12 @@ import { OBJECT_TYPE_ERROR_INFO } from './constants';
  * @description Специальный итерфейс Guard для object. В данном интерфейсе ctx required
  * Переопределение необходимо для того, чтобы ts показывал, что ctx required в кастомных правилах
  */
-interface ObjectPropGuard<TValue, TValues> {
+interface ObjectPropGuard<TValues> {
   (
-    value: Parameters<Guard<TValue, TValues>>[0],
+    value: Parameters<Guard<TValues>>[0],
     ctx: ValidationContext<TValues>,
-  ): ReturnType<Guard<TValue, TValues>>;
-  define: Guard<TValue, TValues>['define'];
+  ): ReturnType<Guard<TValues>>;
+  define: Guard<TValues>['define'];
 }
 
 type AdditionalDefOptions = {
@@ -35,9 +35,9 @@ type AdditionalDefOptions = {
 /**
  * @description Возможные значения, принимаемые схемой
  */
-export type SchemaValue<TValue, TValues> =
-  | ObjectPropGuard<TValue | unknown, TValues>
-  | ValidationRule<TValue | unknown, TValues>;
+export type SchemaValue<TValues> =
+  | ObjectPropGuard<TValues>
+  | ValidationRule<unknown, TValues>;
 
 /**
  * @description Схема правил валдиации для объекта
@@ -45,7 +45,7 @@ export type SchemaValue<TValue, TValues> =
 export type Schema<
   TValue extends Record<string, unknown>,
   TValues = unknown,
-> = Record<keyof TValue, SchemaValue<TValue, TValues>>;
+> = Record<keyof TValue, SchemaValue<TValues>>;
 
 /**
  * @description Guard для объекта
@@ -70,13 +70,10 @@ export type Schema<
  * });
  * ```
  */
-export const object = <
-  Value extends Record<string, unknown>,
-  TValues = unknown,
->(
+export const object = <Value extends Record<string, unknown>, TValues>(
   schema: Schema<Value, TValues>,
 ) =>
-  createGuard<Value, TValues, AdditionalDefOptions>(
+  createGuard<TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
       if (!isPlainObject(value)) {
         return ctx.createError({
@@ -86,17 +83,14 @@ export const object = <
       }
 
       const generateErrorMap = () => {
-        const schemaEntries =
-          Object.entries<SchemaValue<Value, TValues>>(schema);
+        const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
         const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
 
         return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
           const isGuard = 'define' in rule;
 
           const callRule =
-            isGuard && isOptional
-              ? optional(rule as Guard<Value, TValues>)
-              : rule;
+            isGuard && isOptional ? optional(rule as Guard<TValues>) : rule;
 
           errorMap[key] = callRule(value[key], ctx);
 
