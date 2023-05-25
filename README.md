@@ -912,7 +912,7 @@ type Values = { name: string; isAgree: boolean };
 
 const validate = object<Values, Values>({
   name: when({
-    is: (_, ctx) => ctx.global.values.isAgree,
+    is: (_, ctx) => Boolean(ctx.global.values.isAgree),
     then: string(),
     otherwise: any(),
   }),
@@ -966,7 +966,7 @@ type Values = {
   nickname: string;
 };
 
-const validate = object<Values>({
+const validate = object<Values, Values>({
   name: string(),
   nickname: string((value, ctx) => {
     if (value.includes('_')) {
@@ -998,7 +998,7 @@ type Values = {
 
 const validate = object<Values, Values>({
   password: string(min(9)),
-  repeatPassword: string<Values>(min(9), (value, ctx) => {
+  repeatPassword: string(min(9), (value, ctx) => {
     if (value !== ctx.global.values.password) {
       return ctx.createError({
         message: 'Пароли не совпадают',
@@ -1091,7 +1091,7 @@ type Values = { name: string; isAgree: boolean };
 
 const validate = object<Values, Values>({
   name: when({
-    is: (_, ctx) => ctx.global.values.isAgree,
+    is: (_, ctx) => Boolean(ctx.global.values.isAgree),
     then: string(),
     otherwise: any(),
   }),
@@ -1116,7 +1116,7 @@ type Values = {
 
 const validate = object<Values, Values>({
   name: string(),
-  info: when<Values>({
+  info: when({
     is: (_, ctx) => ctx.global.values.name === 'Vasya',
     then: object<ValuesInfo>({ surname: string() }),
     otherwise: any(),
