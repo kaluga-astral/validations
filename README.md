@@ -57,6 +57,9 @@
   - [or](#or)
 - [Integrations](#integrations)
   - [react-hook-form](#react-hook-form)
+- [Guides](#guides)
+  - [Переиспользование объектов схемы](#переиспользование-объектов-схемы)
+  - [Переиспользование объектов схемы, с условной валидацией и зависимыми полями](#переиспользование-объектов-схемы-с-условной-валидацией-и-зависимыми-полями)
 - [Error message customization](#error-message-customization)
 - [Exclusion managing](#exclusion-managing)
   
@@ -1222,7 +1225,85 @@ const Form = () => {
 };
 ```
 
-# Error message customization
+# Guides
+
+
+## Переиспользование объектов схемы
+
+```ts
+type Address = {
+  street: string;
+};
+
+const address = object<Address>({ street: string() });
+
+type Organization = {
+  address: Address;
+};
+
+const organization = object<Organization>({ address });
+
+type Values = {
+  name: string;
+  org: Organization;
+};
+
+const validateValues = object<Values>({
+  name: string(),
+  org: organization,
+});
+```
+
+---
+
+## Переиспользование объектов схемы, с условной валидацией и зависимыми полями
+
+```ts
+type RusOrganization = {
+  inn: string;
+  isIP: boolean;
+};
+
+type EngOrganization = {
+  name: string;
+};
+
+type Values = {
+  isRus: boolean;
+  org: { data: RusOrganization | EngOrganization };
+};
+
+// второй параметр generic - это глобально валидируемое значение. Для формы это весь values
+const rusOrganization = object<RusOrganization, Values>({
+  inn: string(
+    // автоматический вывод типа для ctx.global.values
+    when({
+      is: (_, ctx) => Boolean(ctx.global.values.isRus),
+      then: rusOrganization,
+      otherwise: engOrganization,
+    }),
+  ),
+  isIP: optional(boolean()),
+});
+
+const engOrganization = object<EngOrganization, Values>({ name: string() });
+
+// необходимо явно указать Values для типизации ctx.global.values
+const organization = when<Values>({
+  is: (_, ctx) => Boolean(ctx.global.values.isRus),
+  then: rusOrganization,
+  otherwise: engOrganization,
+});
+
+const validate = object<Values, Values>({
+  isRus: optional(boolean()),
+  org: organization,
+});
+```
+
+---
+
+## Error message customization
 
 Сообщения об ошибках по умолчанию могут быть заменены на пользовательские.  
 Для этого необходимо использовать параметры `message` или `getMessage` у валидационных методов:
@@ -1245,7 +1326,7 @@ validateKPP('123123');
 
 ---
 
-# Exclusion managing
+## Exclusion managing
 
 Метод `exclude` предоставляет возможность обхода валидации для конкретного значения.  
 Если функция вернет `true`,
