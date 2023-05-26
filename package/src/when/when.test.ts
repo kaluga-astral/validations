@@ -38,7 +38,7 @@ describe('when', () => {
 
     const validate = object<Values, Values>({
       name: when({
-        is: (_, ctx) => ctx.global.values.isAgree,
+        is: (_, ctx) => Boolean(ctx.global.values.isAgree),
         then: string(),
         otherwise: any(),
       }),

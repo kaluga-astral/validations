@@ -1,4 +1,4 @@
-import { ValidationResult, ValidationTypes } from '../../types';
+import { ValidationResult } from '../../types';
 import { REQUIRED_ERROR_INFO, required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
 import { compose } from '../../compose';
@@ -22,28 +22,22 @@ type DefOptions<AddDefOptions extends Record<string, unknown>> =
     isOptional?: boolean;
   };
 
-type GuardValue<ValidationType> = ValidationType | undefined | null | unknown;
+type GuardValue = unknown;
 
 /**
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
  */
 export interface Guard<
-  ValidationType extends ValidationTypes,
-  TValues,
+  TValues = unknown,
   AddDefOptions extends Record<string, unknown> = {},
 > {
-  (
-    value: GuardValue<ValidationType>,
-    ctx?: ValidationContext<TValues>,
-  ): ValidationResult;
+  (value: GuardValue, ctx?: ValidationContext<TValues>): ValidationResult;
   /**
    * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
-  define(
-    options: DefOptions<AddDefOptions>,
-  ): Guard<ValidationType, TValues, AddDefOptions>;
+  define(options: DefOptions<AddDefOptions>): Guard<TValues, AddDefOptions>;
 }
 
 /**
@@ -72,21 +66,18 @@ type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
  * ```
  */
 export const createGuard = <
-  ValidationType extends ValidationTypes,
   TValues,
   AddDefOptions extends Record<string, unknown> = {},
 >(
   executeGuard: GuardExecutor<TValues, AddDefOptions>,
-): Guard<ValidationType, TValues, AddDefOptions> => {
+) => {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
-  const createInnerGuard = (
-    defOptions: DefOptions<AddDefOptions> = {},
-  ): Guard<ValidationType, TValues> => {
-    const guard: Guard<ValidationType, TValues> = (value, prevCtx) => {
-      const ctx = createContext<ValidationType, TValues>(
+  const createInnerGuard = (defOptions: DefOptions<AddDefOptions> = {}) => {
+    const guard = (value: unknown, prevCtx?: ValidationContext<TValues>) => {
+      const ctx = createContext<unknown, TValues>(
         prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
-        value as ValidationType,
+        value,
       );
 
       const validationResult = compose<unknown, TValues>(
@@ -107,7 +98,7 @@ export const createGuard = <
       return validationResult;
     };
 
-    guard.define = (overridesDefOptions) =>
+    guard.define = (overridesDefOptions: DefOptions<AddDefOptions>) =>
       createInnerGuard(overridesDefOptions);
 
     return guard;
