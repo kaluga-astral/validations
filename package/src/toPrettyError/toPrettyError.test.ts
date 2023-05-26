@@ -45,32 +45,3 @@ describe('toPrettyError', () => {
     expect(plainError).toEqual(expectedPlainError);
   });
 });
-
-type ListItem = { description: string };
-
-type Values = {
-  info: { name: string };
-  list: ListItem[];
-};
-
-const validate = object<Values>({
-  info: object<Values['info']>({ name: string() }),
-  list: array(
-    arrayItem(
-      object<ListItem>({
-        description: string(),
-      }),
-    ),
-  ),
-});
-
-const error = validate({
-  info: { name: 22 },
-  list: [{}],
-});
-
-// {
-//   info: { name: 'Не является строкой' },
-//   list: [{ description: 'Обязательно' }],
-// }
-toPrettyError(error);
