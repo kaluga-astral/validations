@@ -44,6 +44,8 @@ export {
 
 export { integer, INTEGER_ERROR_INFO } from './integer';
 
+export { positiveNumber, POSITIVE_NUMBER_ERROR_INFO } from './positiveNumber';
+
 export { or } from './or';
 
 export { pattern, PATTERN_ERROR_CODE } from './pattern';
