@@ -13,6 +13,7 @@
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
   },
   "dependencies": {
-    "is-plain-obj": "^4.1.0"
+    "is-plain-obj": "^4.1.0",
+    "utility-types": "^3.10.0"
   }
 }

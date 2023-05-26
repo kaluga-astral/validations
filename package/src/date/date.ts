@@ -20,7 +20,7 @@ type AdditionalDefOptions = {
  * ```
  */
 export const date = <TValues>(...rules: ValidationRule<Date, TValues>[]) =>
-  createGuard<Date, TValues, AdditionalDefOptions>(
+  createGuard<TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, invalidDateErrorMessage }) => {
       if (!(value instanceof Date)) {
         return ctx.createError({

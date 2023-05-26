@@ -19,10 +19,10 @@ import { OBJECT_TYPE_ERROR_INFO } from './constants';
  */
 interface ObjectPropGuard<TValues> {
   (
-    value: Parameters<Guard<unknown, TValues>>[0],
+    value: Parameters<Guard<TValues>>[0],
     ctx: ValidationContext<TValues>,
-  ): ReturnType<Guard<unknown, TValues>>;
-  define: Guard<unknown, TValues>['define'];
+  ): ReturnType<Guard<TValues>>;
+  define: Guard<TValues>['define'];
 }
 
 type AdditionalDefOptions = {
@@ -31,11 +31,6 @@ type AdditionalDefOptions = {
    */
   isPartial?: boolean;
 };
-
-/**
- * @description Тип, который необходим для того, чтобы object невозможно было использовать без использования generic
- */
-type NeverSchema = Record<'__never', never>;
 
 /**
  * @description Возможные значения, принимаемые схемой
@@ -76,12 +71,12 @@ export type Schema<
  * ```
  */
 export const object = <
-  Value extends Record<string, unknown> = NeverSchema,
+  Value extends Record<string, unknown>,
   TValues = unknown,
 >(
   schema: Schema<Value, TValues>,
 ) =>
-  createGuard<Value, TValues, AdditionalDefOptions>(
+  createGuard<TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
       if (!isPlainObject(value)) {
         return ctx.createError({
@@ -98,9 +93,7 @@ export const object = <
           const isGuard = 'define' in rule;
 
           const callRule =
-            isGuard && isOptional
-              ? optional(rule as Guard<unknown, TValues>)
-              : rule;
+            isGuard && isOptional ? optional(rule as Guard<TValues>) : rule;
 
           errorMap[key] = callRule(value[key], ctx);
 

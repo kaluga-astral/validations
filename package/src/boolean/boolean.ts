@@ -16,7 +16,7 @@ import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
 export const boolean = <TValues>(
   ...rules: ValidationRule<boolean, TValues>[]
 ) =>
-  createGuard<boolean, TValues>((value, ctx, { typeErrorMessage }) => {
+  createGuard<TValues>((value, ctx, { typeErrorMessage }) => {
     if (typeof value !== 'boolean') {
       return ctx.createError({
         ...BOOLEAN_TYPE_ERROR_INFO,

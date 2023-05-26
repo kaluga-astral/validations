@@ -19,7 +19,7 @@ import { Guard, createRule } from '../core';
  *     const result = validate({ info: { info: {} } });
  * ```
  */
-export const deepPartial = <TValues>(guard: Guard<unknown, TValues>) =>
+export const deepPartial = <TValues>(guard: Guard<TValues>) =>
   createRule<unknown, TValues>((value, prevCtx) =>
     guard(value, {
       ...prevCtx,

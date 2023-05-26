@@ -6,6 +6,7 @@ import {
   createSimpleError,
 } from '../core';
 import { string } from '../string';
+import { optional } from '../optional';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
@@ -74,7 +75,7 @@ describe('object', () => {
   it('Генерирует ошибку для object', () => {
     const validate = object<{ name: string; surname: string }>({
       name: string(),
-      surname: string(),
+      surname: optional(string()),
     });
 
     const expectError = createErrorMap({

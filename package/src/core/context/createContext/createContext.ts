@@ -1,3 +1,5 @@
+import { DeepPartial } from 'utility-types';
+
 import { ValidationContext } from '../types';
 import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
@@ -26,7 +28,7 @@ export function createContext<Value extends ValidationTypes, Values>(
 
   return {
     global: {
-      values: value,
+      values: value as DeepPartial<Value | Values>,
       overrides: {
         objectIsPartial: false,
       },
