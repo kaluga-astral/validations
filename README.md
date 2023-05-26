@@ -76,7 +76,9 @@ yarn add @astral/validations
 
 # Basic usage
 
-Валидация объекта с вложенным массивом
+Валидация объекта с вложенным массивом.
+
+### [Codesandbox](https://codesandbox.io/s/astral-validations-basic-usage-jkpjr5?file=/main.ts)
 
 ```ts
 import {
@@ -1183,6 +1185,8 @@ validate(new Date())
 ## react-hook-form
 
 Для интеграции с react-hook-form необходимо использовать пакет ```@astral/validations-react-hook-form-resolver```.
+
+### [Codesandbox](https://codesandbox.io/s/astral-validations-react-hook-form-tnq4of?file=/src/Form.tsx)
 
 ```tsx
 import { object, string, optional } from '@astral/validations';
