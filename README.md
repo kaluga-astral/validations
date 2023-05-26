@@ -20,6 +20,7 @@
     - [min](#min-number)
     - [max](#max-number)
     - [integer](#integer)
+    - [positiveNumber](#positivenumber)
   - [string](#string)
     - [min](#min-string)
     - [max](#max-string)
@@ -251,6 +252,27 @@ validate(7)
 
 // { message: 'Только целые числа' }
 validate(3.14)
+```
+
+---
+
+### positiveNumber
+
+Проверяет является ли значение положительным числом.
+
+```ts
+import { number, positiveNumber } from '@astral/validations';
+
+const validate = number(positiveNumber(3));
+
+// undefined
+validate(3)
+
+// { message: 'Только положительное числа' }
+validate(0)
+
+// { message: 'Только положительное числа' }
+validate(-1)
 ```
 
 ---
