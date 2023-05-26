@@ -86,7 +86,8 @@ import {
   string,
   optional,
   min,
-  number
+  number,
+  toPrettyError,
 } from '@astral/validations';
 
 type Permission = {
@@ -125,13 +126,15 @@ validate({
   },
 });
 
-// Error in info.permissions.0.description: Обязательно
-validate({
-  name: 'Vasya',
-  info: {
-    permissions: [{ id: 1 }],
-  },
-});
+// { info: { permissions: [{ description: 'Обязательно' }] } }
+toPrettyError(
+  validate({
+    name: 'Vasya',
+    info: {
+        permissions: [{ id: 1 }],
+    },
+  })
+);
 ```
 
 Валидация отдельных value
@@ -658,7 +661,8 @@ import {
   string,
   optional,
   min,
-  number
+  number,
+  toPrettyError
 } from '@astral/validations';
 
 type User = {
@@ -692,13 +696,15 @@ validate({
   },
 });
 
-// Error in info.permissions.0.description: Обязательно
-validate({
-  name: 'Vasya',
-  info: {
-    permissions: [{ id: 1 }],
-  },
-});
+// { info: { permissions: [{ description: 'Обязательно' }] } }
+toPrettyError(
+  validate({
+    name: 'Vasya',
+    info: {
+      permissions: [{ id: 1 }],
+    },
+  })
+);
 ```
 
 ### partial
@@ -706,7 +712,7 @@ validate({
 Позволяет сделать все поля объекта optional.
 
 ```ts
-import { partial, object, string } from '@astral/validations';
+import { partial, object, string, toPrettyError } from '@astral/validations';
 
 type Values = {
   name: string;
@@ -718,8 +724,10 @@ const validateRequired = object<Values>({
   surname: string()
 })
 
-// { message: 'Ошибка в свойстве name: Обязательно' }
-validateRequired({});
+// { name: 'Обязательно' }
+toPrettyError(
+  validateRequired({})
+);
 
 const validatePartial = partial(
   object<Values>({
@@ -800,7 +808,8 @@ validate({
 import {
   array,
   arrayItem,
-  min
+  min,
+  toPrettyError
 } from '@astral/validations';
 
 type User = {
@@ -824,8 +833,10 @@ validate([{ name: 'Vasya' }]);
 // { message: 'Не меньше: 1' }
 validate([]);
 
-// { cause: { errorArray: [{ name: { message: 'Не является строкой' } }] } }
-validate([{ name: 22 }]);
+// [{ name: 'Не является строкой' }]
+toPrettyError(
+  validate([{ name: 22 }])
+);
 ```
 
 ### arrayItem
@@ -833,7 +844,7 @@ validate([{ name: 22 }]);
 Применяет переданные правила валидации к каждому элементу массива.
 
 ```ts
-import { array, arrayItem, object, string, optional } from '@astral/validations';
+import { array, arrayItem, object, string, optional, toPrettyError } from '@astral/validations';
 
 type User = {
   name: string;
@@ -853,16 +864,20 @@ const validate = array(
 validate([{ name: 'Vasya' }]);
 
 // { cause: { errorArray: [{ name: { message: 'Не является строкой' } }] } }
-validate([{ name: 22 }]);
+toPrettyError(
+  validate([{ name: 22 }])
+);
 ```
 
 ```ts
-import { array, arrayItem, string, min } from '@astral/validations';
+import { array, arrayItem, string, min, toPrettyError } from '@astral/validations';
 
 const validate = array(arrayItem(string(min(3))));
 
-// { cause: { arrayError: [undefined, { message: 'Мин. символов: 3' }] } }
-validate(['vasya', 'ma']);
+// [undefined, 'Мин. символов: 3']
+toPrettyError(
+  validate(['vasya', 'ma'])
+);
 ```
 
 ---
@@ -920,10 +935,12 @@ const validate = object<Values, Values>({
 });
 
 // undefined
-const result1 = validate({ isAgree: false, name: '' });
+validate({ isAgree: false, name: '' });
 
-// Required error для name
-const result2 = validate({ isAgree: true, name: '' });
+// { name: 'Обязательно' }
+toPrettyError(
+  validate({ isAgree: true, name: '' })
+);
 ```
 
 ---
@@ -959,7 +976,7 @@ validateCustomString(20);
 ## Базовый пример
 
 ```ts
-import { string, object } from '@astral/validations';
+import { string, object, toPrettyError } from '@astral/validations';
 
 type Values = {
   name: string;
@@ -980,8 +997,10 @@ const validate = object<Values, Values>({
   }),
 });
 
-// { cause: { errorMap: { nickname: { message: 'Символ "_" запрещен', code: 'nickname-symbol' } } } }
-validate({ name: 'Vasya', nickname: 'va_sya' });
+// { nickname: 'Символ "_" запрещен' }
+toPrettyError(
+  validate({ name: 'Vasya', nickname: 'va_sya' })
+);
 ```
 
 ## Связанные поля
@@ -989,7 +1008,7 @@ validate({ name: 'Vasya', nickname: 'va_sya' });
 В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
 
 ```ts
-import { object, string } from '@astral/validations';
+import { object, string, toPrettyError } from '@astral/validations';
 
 type Values = {
   password: string;
@@ -1010,8 +1029,10 @@ const validate = object<Values, Values>({
   }),
 });
 
-// Error.message "Пароли не совпадают" для repeatPassword 
-validate({ password: 'qywerty123', repeatPassword: 'qywerty1234' });
+// { repeatPassword: 'Пароли не совпадают' } 
+toPrettyError(
+  validate({ password: 'qywerty123', repeatPassword: 'qywerty1234' })
+);
 ```
 
 ## Переиспользуемое правило
@@ -1099,10 +1120,12 @@ const validate = object<Values, Values>({
 });
 
 // undefined
-const result1 = validate({ isAgree: false, name: '' });
+validate({ isAgree: false, name: '' });
 
-// Required error для name
-const result2 = validate({ isAgree: true, name: '' });
+// { name: 'Обязательно' }
+toPrettyError(
+  validate({ isAgree: true, name: '' })
+);
 ```
 
 When для ветки объекта:
@@ -1123,12 +1146,13 @@ const validate = object<Values, Values>({
   }),
 });
 
-// Error.message "Обязательно" для info
-validate({ name: 'Vasya' });
+// { info: 'Обязательно' }
+toPrettyError(
+  validate({ name: 'Vasya' })
+);
 
 // undefined
 validate({ name: 'Kolya' });
-
 ```
 
 ---
