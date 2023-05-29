@@ -14,6 +14,8 @@ yarn add @astral/validations @astral/validations-react-hook-form-resolver react-
 
 # Basic usage
 
+### [Codesandbox](https://codesandbox.io/s/astral-validations-react-hook-form-tnq4of?file=/src/Form.tsx)
+
 ```tsx
 import { object, string, optional } from '@astral/validations';
 import { resolver } from '@astral/validations-react-hook-form-resolver';

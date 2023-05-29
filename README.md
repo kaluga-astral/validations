@@ -20,6 +20,7 @@
     - [min](#min-number)
     - [max](#max-number)
     - [integer](#integer)
+    - [positiveNumber](#positivenumber)
   - [string](#string)
     - [min](#min-string)
     - [max](#max-string)
@@ -76,7 +77,9 @@ yarn add @astral/validations
 
 # Basic usage
 
-Валидация объекта с вложенным массивом
+Валидация объекта с вложенным массивом.
+
+### [Codesandbox](https://codesandbox.io/s/astral-validations-basic-usage-jkpjr5?file=/main.ts)
 
 ```ts
 import {
@@ -254,6 +257,27 @@ validate(7)
 
 // { message: 'Только целые числа' }
 validate(3.14)
+```
+
+---
+
+### positiveNumber
+
+Проверяет является ли значение положительным числом.
+
+```ts
+import { number, positiveNumber } from '@astral/validations';
+
+const validate = number(positiveNumber(3));
+
+// undefined
+validate(3)
+
+// { message: 'Только положительное числа' }
+validate(0)
+
+// { message: 'Только положительное числа' }
+validate(-1)
 ```
 
 ---
@@ -1207,6 +1231,8 @@ validate(new Date())
 ## react-hook-form
 
 Для интеграции с react-hook-form необходимо использовать пакет ```@astral/validations-react-hook-form-resolver```.
+
+### [Codesandbox](https://codesandbox.io/s/astral-validations-react-hook-form-tnq4of?file=/src/Form.tsx)
 
 ```tsx
 import { object, string, optional } from '@astral/validations';
