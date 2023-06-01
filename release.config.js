@@ -1,6 +1,6 @@
 module.exports = {
   branches: ['main', { name: 'dev', prerelease: 'dev' }],
-  repositoryUrl: 'https://github.com/kaluga-astral/frontend',
+  repositoryUrl: 'https://github.com/kaluga-astral/validations',
   plugins: [
     [
       '@semantic-release/commit-analyzer',
