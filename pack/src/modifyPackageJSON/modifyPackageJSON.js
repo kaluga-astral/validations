@@ -66,10 +66,10 @@ const modifyPackageJSON = ({
     license: 'MIT',
     repository: {
       type: 'git',
-      url: 'git+https://github.com/kaluga-astral/frontend',
+      url: 'git+https://github.com/kaluga-astral/validations',
     },
     bugs: {
-      url: 'https://github.com/kaluga-astral/frontend/issues',
+      url: 'https://github.com/kaluga-astral/validations/issues',
     },
     keywords,
     sideEffects: false,
