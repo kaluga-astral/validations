@@ -3,6 +3,7 @@ export {
   OBJECT_TYPE_ERROR_INFO,
   type Schema,
   type SchemaValue,
+  type ObjectGuard,
 } from './object';
 
 export { optional } from './optional';

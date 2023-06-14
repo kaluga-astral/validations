@@ -94,3 +94,64 @@ const TestForm = () => {
   );
 };
 ```
+
+# Переиспользуемый useForm
+
+```tsx
+import { ObjectGuard, object, optional, string } from '@astral/validations';
+import { resolver } from '@astral/validations-react-hook-form-resolver';
+import {
+  FieldValues,
+  UseFormReturn,
+  UseFormProps as UseReactHookFormProps,
+  useForm as useReactHookForm,
+} from 'react-hook-form';
+
+type UseFormProps<TFieldValues extends FieldValues = FieldValues> = Omit<
+  UseReactHookFormProps<TFieldValues>,
+  'resolver'
+> & {
+  validationSchema?: ObjectGuard<TFieldValues, TFieldValues>;
+};
+
+const useForm = <TFieldValues extends FieldValues = FieldValues>({
+  validationSchema,
+  defaultValues,
+  ...params
+}: UseFormProps<TFieldValues>): UseFormReturn<TFieldValues> =>
+  useReactHookForm<TFieldValues>({
+    ...params,
+    defaultValues,
+    resolver: validationSchema && resolver(validationSchema),
+  });
+
+type Values = {
+  name: string;
+  info: { description?: string };
+};
+
+const validationSchema = object<Values>({
+  name: string(),
+  info: object<Values['info']>({
+    description: optional(string()),
+  }),
+});
+
+const Form = () => {
+  const { register, handleSubmit, formState } = useForm<Values>({
+    validationSchema,
+  });
+
+  return (
+    <form onSubmit={handleSubmit(() => {})}>
+      <input {...register('name')} />
+      {formState.errors.name && <p>{formState.errors.name.message}</p>}
+      <input {...register('info.description')} />
+      {formState.errors.info?.description && (
+        <p>{formState.errors.info.description.message}</p>
+      )}
+      <button type="submit">submit</button>
+    </form>
+  );
+};
+```
