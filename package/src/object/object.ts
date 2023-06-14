@@ -71,10 +71,10 @@ export type Schema<
  * ```
  */
 export const object = <
-  Value extends Record<string, unknown>,
+  TValue extends Record<string, unknown>,
   TValues = unknown,
 >(
-  schema: Schema<Value, TValues>,
+  schema: Schema<TValue, TValues>,
 ) =>
   createGuard<TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
@@ -110,3 +110,8 @@ export const object = <
       return undefined;
     },
   );
+
+export type ObjectGuard<
+  TValue extends Record<string, unknown>,
+  TValues = unknown,
+> = ReturnType<typeof object<TValue, TValues>>;

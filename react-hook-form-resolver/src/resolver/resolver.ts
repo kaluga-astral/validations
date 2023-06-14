@@ -1,4 +1,4 @@
-import { object, toPlainError } from '@astral/validations';
+import { ObjectGuard, toPlainError } from '@astral/validations';
 import {
   FieldError,
   FieldErrors,
@@ -43,7 +43,7 @@ import { validateFieldsNatively } from '@hookform/resolvers';
  */
 export const resolver =
   <TFieldValues extends FieldValues = FieldValues>(
-    validateBySchema: ReturnType<typeof object<TFieldValues, TFieldValues>>,
+    validateBySchema: ObjectGuard<TFieldValues, TFieldValues>,
   ): Resolver<TFieldValues> =>
   (values, _, options) => {
     const validationResult = validateBySchema(values);
