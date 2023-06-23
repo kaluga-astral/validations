@@ -82,3 +82,5 @@ export { any } from './any';
 export { when } from './when';
 
 export { toPrettyError } from './toPrettyError';
+
+export { transform } from './transform';
