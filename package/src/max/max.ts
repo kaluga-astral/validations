@@ -85,14 +85,14 @@ export function max<ValidationType extends CommonMaxValidationTypes>(
     if (Array.isArray(value) && value.length > threshold) {
       return ctx.createError({
         code: ARRAY_MAX_ERROR_CODE,
-        message: getMessage(`Не меньше ${threshold}`),
+        message: getMessage(`Не больше ${threshold}`),
       });
     }
 
     if (typeof value === 'number' && value > threshold) {
       return ctx.createError({
         code: NUMBER_MAX_ERROR_CODE,
-        message: getMessage(`Не меньше ${threshold}`),
+        message: getMessage(`Не больше ${threshold}`),
       });
     }
 
