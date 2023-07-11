@@ -40,6 +40,8 @@ export const surname = <TValues>(params?: SurnameParams) =>
       if (!/^(?!.*[' .,()-]{2}).+$/.test(value)) {
         return createSurnameError();
       }
+
+      return undefined;
     },
     { exclude: params?.exclude },
   );

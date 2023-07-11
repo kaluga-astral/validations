@@ -439,6 +439,28 @@ validate('156-573-259 92')
 
 ---
 
+### surname
+
+Проверяет валидна ли фамилия
+
+```ts
+import { string, surname } from '@astral/validations';
+
+const validate = string(surname());
+
+// undefined
+validate('Столяров')
+validate('Д\'Арк')
+
+// { message: 'Некорректная фамилия' }
+validate('иванов')
+validate('Ивано--Петрова')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
 ### mobilePhone
 
 - Проверяет валиден ли мобильный телефон

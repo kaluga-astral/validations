@@ -2,12 +2,12 @@ import { SURNAME_ERROR_INFO } from './constants';
 import { surname } from './surname';
 
 describe('surname', () => {
-  it.each<string>(['15657325992', '95145370513'])('Valid for: %s', (value) => {
+  it.each<string>(['О\'-Коннор', 'Д\' Артаньян'])('Valid for: %s', (value) => {
     expect(surname()(value)).toBeUndefined();
   });
 
-  it('Возвращает ошибку, если фамилия содержит два или более подряд идущих спецсимволов', () => {
-    const error = surname()('Кра--вцов');
+  it('Возвращает ошибку, если фамилия содержит два или более подряд идущих спецсимвола', () => {
+    const error = surname()('Крав- цов');
 
     expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
   });
@@ -29,5 +29,15 @@ describe('surname', () => {
     const error = surname({ message: customMessage })('err');
 
     expect(error?.message).toBe(customMessage);
+  });
+
+  it('Valid exclude value', () => {
+    const isExclude = (value: unknown) => {
+      const excluded: unknown[] = ['exclude'];
+
+      return excluded.includes(value);
+    };
+
+    expect(surname({ exclude: isExclude })('exclude')).toBeUndefined();
   });
 });
