@@ -1,4 +1,9 @@
-import { CommonRuleParams, createRule, isStringOfZeros } from '../core';
+import {
+  CommonRuleParams,
+  createRule,
+  isNoDoubleZeroStart,
+  isStringOfZeros,
+} from '../core';
 
 import {
   FIRST_INN_IP_DECODING,
@@ -54,6 +59,10 @@ export const innIP = <TValues>(params?: InnIPParams) =>
         });
 
       if (isStringOfZeros(value)) {
+        return createInnIPError();
+      }
+
+      if (!isNoDoubleZeroStart(value)) {
         return createInnIPError();
       }
 
