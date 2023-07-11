@@ -12,14 +12,16 @@ describe('surname', () => {
     expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
   });
 
-  it.each<string>(['\'ФрескО', 'Кра--вцов', 'щекочихин-Крестовоздвиженский', 'Д\'\'Анжело'])(
-    'Invalid for: %s',
-    (value) => {
-      const error = surname()(value);
+  it.each<string>([
+    '\'ФрескО',
+    'Кра--вцов',
+    'щекочихин-Крестовоздвиженский',
+    'Д\'\'Анжело',
+  ])('Invalid for: %s', (value) => {
+    const error = surname()(value);
 
-      expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
-    },
-  );
+    expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
+  });
 
   it('Valid custom message', () => {
     const customMessage = 'CustomMessage';
