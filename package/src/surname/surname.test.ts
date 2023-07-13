@@ -1,4 +1,9 @@
-import { SURNAME_ERROR_INFO } from './constants';
+import {
+  ALPHANUM_SURNAME_ERROR_INFO,
+  DOUBLE_SYMBOL_ERROR_INFO,
+  LETTER_BEGINNING_ERROR_INFO,
+  LETTER_ENDING_ERROR_INFO,
+} from './constants';
 import { surname } from './surname';
 
 describe('surname', () => {
@@ -6,21 +11,36 @@ describe('surname', () => {
     expect(surname()(value)).toBeUndefined();
   });
 
+  it.each<string>(['iPhone', 'Прiвет', 'i\'\'-Ку-ку', 'v\'\'Анжело'])(
+    'Invalid for: %s',
+    (value) => {
+      const error = surname()(value);
+
+      expect(error?.cause.code).toBe(ALPHANUM_SURNAME_ERROR_INFO.code);
+    },
+  );
+
   it('Возвращает ошибку, если фамилия содержит два или более подряд идущих спецсимвола', () => {
     const error = surname()('Крав- цов');
 
-    expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
+    expect(error?.cause.code).toBe(DOUBLE_SYMBOL_ERROR_INFO.code);
   });
 
   it.each<string>([
-    '\'ФрескО',
-    'Кра--вцов',
+    'фреско',
+    '-Кравцов',
     'щекочихин-Крестовоздвиженский',
-    'Д\'\'Анжело',
+    'д\'\'Анжело',
   ])('Invalid for: %s', (value) => {
     const error = surname()(value);
 
-    expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
+    expect(error?.cause.code).toBe(LETTER_BEGINNING_ERROR_INFO.code);
+  });
+
+  it('Возвращает ошибку, если на конце фамилии не строчная буква', () => {
+    const error = surname()('ФрескО');
+
+    expect(error?.cause.code).toBe(LETTER_ENDING_ERROR_INFO.code);
   });
 
   it('Valid custom message', () => {

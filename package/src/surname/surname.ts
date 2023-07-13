@@ -1,6 +1,12 @@
 import { CommonRuleParams, createRule } from '../core';
 
-import { SURNAME_ERROR_INFO } from './constants';
+import {
+  ALPHANUM_SURNAME_ERROR_INFO,
+  DOUBLE_SYMBOL_ERROR_INFO,
+  LENGTH_ERROR_INFO,
+  LETTER_BEGINNING_ERROR_INFO,
+  LETTER_ENDING_ERROR_INFO,
+} from './constants';
 
 type SurnameParams = CommonRuleParams<string> & {
   /**
@@ -20,25 +26,49 @@ type SurnameParams = CommonRuleParams<string> & {
 export const surname = <TValues>(params?: SurnameParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
-      const createSurnameError = () =>
-        ctx.createError({
-          message: params?.message || SURNAME_ERROR_INFO.message,
-          code: SURNAME_ERROR_INFO.code,
-        });
+      const rAlphabet = /^[а-яёА-ЯЁIV' .,()-]*$/;
+      const rFirstChar = /^[А-ЯЁIV'].*/;
+      const rLastChar = /.*[а-яё]$/;
+      const rDoubleSpec = /^(?!.*[' .,()-]{2}).+$/;
 
       // Проверка на длину фамилии (минимум 1 символ, максимум 200)
       if (value.length < 1 || value.length > 200) {
-        return createSurnameError();
+        return ctx.createError({
+          ...LENGTH_ERROR_INFO,
+          message: params?.message || LENGTH_ERROR_INFO.message,
+        });
       }
 
-      // Начинается с заглавной или апострофа, содержит символы из заданного алфавита, оканчивается только буквой
-      if (!/^[А-ЯЁIV'][а-яёА-ЯЁIV' .,()-]*[а-яё]$/.test(value)) {
-        return createSurnameError();
+      // Фамилия дожна содержать символы из заданного алфавита
+      if (!rAlphabet.test(value)) {
+        return ctx.createError({
+          ...ALPHANUM_SURNAME_ERROR_INFO,
+          message: params?.message || ALPHANUM_SURNAME_ERROR_INFO.message,
+        });
+      }
+
+      // Фамилия может начинаться только с заглавной буквы или апострофа
+      if (!rFirstChar.test(value)) {
+        return ctx.createError({
+          ...LETTER_BEGINNING_ERROR_INFO,
+          message: params?.message || LETTER_BEGINNING_ERROR_INFO.message,
+        });
+      }
+
+      // Фамилия может заканчиваться только строчной буквой
+      if (!rLastChar.test(value)) {
+        return ctx.createError({
+          ...LETTER_ENDING_ERROR_INFO,
+          message: params?.message || LETTER_ENDING_ERROR_INFO.message,
+        });
       }
 
       // Специальные символы не должны повторяться
-      if (!/^(?!.*[' .,()-]{2}).+$/.test(value)) {
-        return createSurnameError();
+      if (!rDoubleSpec.test(value)) {
+        return ctx.createError({
+          ...DOUBLE_SYMBOL_ERROR_INFO,
+          message: params?.message || DOUBLE_SYMBOL_ERROR_INFO.message,
+        });
       }
 
       return undefined;
