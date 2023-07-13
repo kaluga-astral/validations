@@ -439,6 +439,30 @@ validate('156-573-259 92')
 
 ---
 
+### surname
+
+Проверяет валидна ли фамилия
+
+```ts
+import { string, surname } from '@astral/validations';
+
+const validate = string(surname());
+
+// undefined
+validate('Столяров')
+validate('Д\'Арк')
+
+// { message: 'Фамилия должна начинаться с заглавной буквы либо апострофа' }
+validate('иванов')
+
+// { message: 'Фамилия не может содержать два подряд спецсимвола' }
+validate('Ивано--Петрова')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
 ### mobilePhone
 
 - Проверяет валиден ли мобильный телефон
