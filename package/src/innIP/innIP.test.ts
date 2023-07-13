@@ -6,8 +6,14 @@ describe('innIP', () => {
     expect(innIP()(value)).toBeUndefined();
   });
 
-  it('Возвращает ошибку, если ИНН ЮЛ состоит целиком из нулей', () => {
+  it('Возвращает ошибку, если ИНН ИП состоит целиком из нулей', () => {
     const error = innIP()('000000000000');
+
+    expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);
+  });
+
+  it('Возвращает ошибку, если ИНН ИП начинается с "00" ', () => {
+    const error = innIP()('004212952720');
 
     expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);
   });
