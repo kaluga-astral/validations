@@ -8,7 +8,7 @@ export const LENGTH_ERROR_INFO: ErrorInfo = {
 export const ALPHANUM_SURNAME_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('alphanum'),
   message:
-    'Фамилия может содержать только буквы русского алфавита, буквы I, V латинского алфавита и следующие спецсимволы: -;  ; .; \'; ,; (; );',
+    "Фамилия может содержать только буквы русского алфавита, буквы I, V латинского алфавита и следующие спецсимволы: -;  ; .; '; ,; (; );",
 };
 
 export const LETTER_BEGINNING_ERROR_INFO: ErrorInfo = {

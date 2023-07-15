@@ -7,11 +7,11 @@ import {
 import { surname } from './surname';
 
 describe('surname', () => {
-  it.each<string>(['О\'-Коннор', 'Д\' Артаньян'])('Valid for: %s', (value) => {
+  it.each<string>(["О'-Коннор", "Д' Артаньян"])('Valid for: %s', (value) => {
     expect(surname()(value)).toBeUndefined();
   });
 
-  it.each<string>(['iPhone', 'Прiвет', 'i\'\'-Ку-ку', 'v\'\'Анжело'])(
+  it.each<string>(['iPhone', 'Прiвет', "i''-Ку-ку", "v''Анжело"])(
     'Invalid for: %s',
     (value) => {
       const error = surname()(value);
@@ -30,7 +30,7 @@ describe('surname', () => {
     'фреско',
     '-Кравцов',
     'щекочихин-Крестовоздвиженский',
-    'д\'\'Анжело',
+    "д''Анжело",
   ])('Invalid for: %s', (value) => {
     const error = surname()(value);
 
