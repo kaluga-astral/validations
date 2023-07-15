@@ -1,4 +1,9 @@
-import { CommonRuleParams, createRule, isStringOfZeros } from '../core';
+import {
+  CommonRuleParams,
+  createRule,
+  isNoDoubleZeroStart,
+  isStringOfZeros,
+} from '../core';
 
 import { INN_UL_DECODING, INN_UL_ERROR_INFO, INN_UL_LENGTH } from './constants';
 
@@ -37,6 +42,10 @@ export const innUL = <TValues>(params?: InnULParams) =>
         });
 
       if (isStringOfZeros(value)) {
+        return createInnUlError();
+      }
+
+      if (!isNoDoubleZeroStart(value)) {
         return createInnUlError();
       }
 
