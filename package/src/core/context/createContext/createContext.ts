@@ -28,15 +28,18 @@ export function createContext<
   value: Value,
   lastSchemaValue?: TLastSchemaValues,
 ): ValidationContext<{}, unknown> {
+  if (prevCtx && !lastSchemaValue) {
+    return prevCtx;
+  }
+
+  const currentLastSchemaValue = lastSchemaValue ? lastSchemaValue : undefined;
+
   if (prevCtx) {
-    return {
-      ...prevCtx,
-      lastSchemaValue,
-    };
+    return { ...prevCtx, lastSchemaValue };
   }
 
   return {
-    lastSchemaValue,
+    lastSchemaValue: currentLastSchemaValue,
     global: {
       values: value,
       overrides: {

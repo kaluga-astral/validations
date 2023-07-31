@@ -9,15 +9,18 @@ export type CommonRuleParams<ValidationType extends ValidationTypes> = {
   /**
    * @description Функция, позволяющая для каждого правила указать исключение
    */
-  exclude?: (value: ValidationType, ctx: ValidationContext<unknown>) => boolean;
+  exclude?: (value: ValidationType, ctx: ValidationContext) => boolean;
 };
 
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type RuleExecutor<ValidationType extends ValidationTypes, TValues> = (
+type RuleExecutor<
+  ValidationType extends ValidationTypes,
+  TLastSchemeValues extends Record<string, unknown>,
+> = (
   value: ValidationType,
-  ctx: ValidationContext<TValues>,
+  ctx: ValidationContext<TLastSchemeValues>,
 ) => ValidationResult;
 
 /**
@@ -37,21 +40,30 @@ type RuleExecutor<ValidationType extends ValidationTypes, TValues> = (
  * ```
  */
 export const createRule =
-  <ValidationType extends ValidationTypes, TValues = unknown>(
-    executor: RuleExecutor<ValidationType, TValues>,
+  <
+    ValidationType extends ValidationTypes,
+    TLastSchemeValues extends Record<string, unknown> = {},
+  >(
+    executor: RuleExecutor<ValidationType, TLastSchemeValues>,
     commonParams?: CommonRuleParams<ValidationType>,
   ) =>
   (
-    value: Parameters<IndependentValidationRule<ValidationType, TValues>>[0],
-    prevCtx?: Parameters<IndependentValidationRule<ValidationType, TValues>>[1],
-  ): ReturnType<IndependentValidationRule<ValidationType, TValues>> => {
+    value: Parameters<
+      IndependentValidationRule<ValidationType, TLastSchemeValues>
+    >[0],
+    prevCtx?: Parameters<
+      IndependentValidationRule<ValidationType, TLastSchemeValues>
+    >[1],
+  ): ReturnType<
+    IndependentValidationRule<ValidationType, TLastSchemeValues>
+  > => {
     // контекст создается, если он не был создан раннее
-    const ctx = createContext<ValidationType, TValues>(prevCtx, value);
+    const ctx = createContext<unknown>(prevCtx, value);
 
     // если value попало под исключения из правил, то дальше валидацию не продолжаем
     if (commonParams?.exclude?.(value, ctx)) {
       return undefined;
     }
 
-    return executor(value, ctx);
+    return executor(value, ctx as ValidationContext<TLastSchemeValues>);
   };

@@ -30,8 +30,12 @@ const isPositiveNumber = (number: number): boolean => {
  * validate(-1)
  * ```
  */
-export const positiveNumber = <TValues>(params?: PositiveNumberParams) =>
-  createRule<number, TValues>((value, ctx) => {
+export const positiveNumber = <
+  TLastSchemeValues extends Record<string, unknown>,
+>(
+  params?: PositiveNumberParams,
+) =>
+  createRule<number, TLastSchemeValues>((value, ctx) => {
     if (!isPositiveNumber(value)) {
       return ctx.createError({
         message: params?.message || POSITIVE_NUMBER_ERROR_INFO.message,

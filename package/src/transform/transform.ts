@@ -19,11 +19,11 @@ type Transformer<TValue, TResult> = (value: TValue) => TResult;
 export const transform = <
   TValue extends ValidationTypes,
   TResult extends ValidationTypes,
-  TValues,
+  TLastSchemeValues extends Record<string, unknown> = {},
 >(
   transformer: Transformer<TValue, TResult>,
-  ...rules: ValidationRule<TResult, TValues>[]
+  ...rules: ValidationRule<TResult, TLastSchemeValues>[]
 ) =>
-  createRule<TValue, TValues>((value, ctx) =>
-    compose<TResult, TValues>(...rules)(transformer(value), ctx),
+  createRule<TValue, TLastSchemeValues>((value, ctx) =>
+    compose<TResult, TLastSchemeValues>(...rules)(transformer(value), ctx),
   );

@@ -38,7 +38,7 @@ describe('when', () => {
 
     const validate = object<Values, Values>({
       name: when({
-        is: (_, ctx) => Boolean(ctx.global.values.isAgree),
+        is: (_, ctx) => Boolean(ctx.lastSchemaValue?.isAgree),
         then: string(),
         otherwise: any(),
       }),

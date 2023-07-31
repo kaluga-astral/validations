@@ -79,7 +79,6 @@ export const object = <
 ) =>
   createGuard<TLastSchemeValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
-      // TODO
       const context = createContext<TValue, TValue>(
         ctx,
         value as TValue,

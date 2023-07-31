@@ -43,14 +43,22 @@ describe('createContext', () => {
 
   it('lastSchemaValue перетирается, если был передан параметр', () => {
     const resultCtx = createContext(
-      createContext(undefined, 'globalValue1', { field: 1 }),
-      'globalValue2',
+      createContext(undefined, 'value1', { field: 1 }),
+      'value2',
       {
         field: 2,
       },
     );
 
     expect(resultCtx.lastSchemaValue).toEqual({ field: 2 });
+  });
+
+  it('сохраняется предыдущий lastSchemaValue, если при вызове не было нового lastSchemaValue', () => {
+    const prevCtx = createContext(undefined, 'value1', { field: 1 });
+
+    const currentCtx = createContext(prevCtx, 'value');
+
+    expect(currentCtx.lastSchemaValue).toEqual({ field: 1 });
   });
 
   it('В контексте доступна фабрика для создания SimpleError валидации', () => {

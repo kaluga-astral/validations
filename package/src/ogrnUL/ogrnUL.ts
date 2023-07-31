@@ -17,8 +17,10 @@ type OgrnULParams = CommonRuleParams<string> & {
  * validate('7728168971');
  * ```
  */
-export const ogrnUL = <TValues>(params?: OgrnULParams) =>
-  createRule<string, TValues>(
+export const ogrnUL = <TLastSchemeValues extends Record<string, unknown>>(
+  params?: OgrnULParams,
+) =>
+  createRule<string, TLastSchemeValues>(
     (value, ctx) => {
       const createOgrnUlError = () =>
         ctx.createError({
