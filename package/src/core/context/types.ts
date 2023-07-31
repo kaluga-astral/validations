@@ -6,6 +6,8 @@ import { createSimpleError } from '../errors';
  * @description Контекст, который доступен в каждом правиле
  */
 export type ValidationContext<TValues> = DeepReadonly<{
+  // TODO
+  object: { values: DeepPartial<TValues> | undefined };
   /**
    * @description Глобальные значения, идущие от самого верхнего правила к самому нижнему
    */

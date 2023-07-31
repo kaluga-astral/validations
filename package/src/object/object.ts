@@ -7,6 +7,7 @@ import {
   ValidationRule,
   createErrorMap,
   createGuard,
+  createObjectContext,
 } from '../core';
 import { optional } from '../optional';
 
@@ -78,8 +79,11 @@ export const object = <
 ) =>
   createGuard<TValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
+      // TODO
+      const context = createObjectContext(ctx, value);
+
       if (!isPlainObject(value)) {
-        return ctx.createError({
+        return context.createError({
           ...OBJECT_TYPE_ERROR_INFO,
           message: typeErrorMessage || OBJECT_TYPE_ERROR_INFO.message,
         });
@@ -87,7 +91,8 @@ export const object = <
 
       const generateErrorMap = () => {
         const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
-        const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
+        const isOptional =
+          context.global.overrides.objectIsPartial || isPartial;
 
         return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
           const isGuard = 'define' in rule;
@@ -95,7 +100,7 @@ export const object = <
           const callRule =
             isGuard && isOptional ? optional(rule as Guard<TValues>) : rule;
 
-          errorMap[key] = callRule(value[key], ctx);
+          errorMap[key] = callRule(value[key], context);
 
           return errorMap;
         }, {});

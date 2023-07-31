@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 import {
   REQUIRED_ERROR_INFO,
   ValidationErrorMap,
@@ -7,6 +9,9 @@ import {
 } from '../core';
 import { string } from '../string';
 import { optional } from '../optional';
+import { array } from '../array';
+import { arrayItem } from '../arrayItem';
+import { when } from '../when';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
@@ -100,5 +105,36 @@ describe('object', () => {
     const error = validate({}) as ValidationErrorMap;
 
     expect(error.cause.errorMap.name?.message).toBe('name error');
+  });
+
+  // TODO
+  it('Позволяет получить доступ к локальному контексту в object', () => {
+    const validate = object<{
+      fields: { type: string; param1: string; param2: string }[];
+    }>({
+      fields: array(
+        arrayItem(
+          object({
+            type: string(),
+            param1: when({
+              is: (_, ctx) => ctx.object.values?.type === 'type1',
+              then: optional(string()),
+              otherwise: string(),
+            }),
+            param2: when({
+              is: (_, ctx) => ctx.object.values?.type === 'type1',
+              then: optional(string()),
+              otherwise: string(),
+            }),
+          }),
+        ),
+      ),
+    });
+
+    const error = validate({
+      fields: [{ type: 'type1', param1: undefined, param2: undefined }],
+    }) as ValidationErrorMap;
+
+    expect(error).toBe(undefined);
   });
 });

@@ -27,8 +27,32 @@ export function createContext<Value extends ValidationTypes, Values>(
   }
 
   return {
+    object: { values: undefined },
     global: {
       values: value as DeepPartial<Value | Values>,
+      overrides: {
+        objectIsPartial: false,
+      },
+    },
+    createError: createSimpleError,
+  };
+}
+
+export function createObjectContext<Value extends ValidationTypes, Values>(
+  prevCtx: ValidationContext<Values> | undefined,
+  value: Value,
+): ValidationContext<Values | Value> {
+  if (prevCtx) {
+    return {
+      ...prevCtx,
+      object: { values: value },
+    };
+  }
+
+  return {
+    object: { values: undefined },
+    global: {
+      values: value,
       overrides: {
         objectIsPartial: false,
       },
