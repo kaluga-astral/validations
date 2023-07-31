@@ -109,20 +109,22 @@ describe('object', () => {
 
   // TODO
   it('Позволяет получить доступ к локальному контексту в object', () => {
+    type Field = { type: string; param1: string; param2: string };
+
     const validate = object<{
-      fields: { type: string; param1: string; param2: string }[];
+      fields: Field[];
     }>({
       fields: array(
         arrayItem(
-          object({
+          object<Field>({
             type: string(),
             param1: when({
-              is: (_, ctx) => ctx.object.values?.type === 'type1',
+              is: (_, ctx) => ctx.lastSchemaValue?.param2 === 'type1',
               then: optional(string()),
               otherwise: string(),
             }),
             param2: when({
-              is: (_, ctx) => ctx.object.values?.type === 'type1',
+              is: (_, ctx) => ctx.lastSchemaValue?.param1 === 'type1',
               then: optional(string()),
               otherwise: string(),
             }),

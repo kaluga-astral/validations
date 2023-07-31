@@ -15,10 +15,13 @@ import { ARRAY_TYPE_ERROR_INFO } from './constants';
  * validateArray(value);
  * ```
  */
-export const array = <TItem extends ValidationTypes, TValues = unknown>(
-  ...rules: ValidationRule<Array<TItem>, TValues>[]
+export const array = <
+  TLastSchemaValues extends Record<string, unknown>,
+  TItem extends ValidationTypes = unknown,
+>(
+  ...rules: ValidationRule<Array<TItem>, TLastSchemaValues>[]
 ) =>
-  createGuard<TValues>((value, ctx, { typeErrorMessage }) => {
+  createGuard<TLastSchemaValues>((value, ctx, { typeErrorMessage }) => {
     if (!Array.isArray(value)) {
       return ctx.createError({
         ...ARRAY_TYPE_ERROR_INFO,
@@ -26,5 +29,5 @@ export const array = <TItem extends ValidationTypes, TValues = unknown>(
       });
     }
 
-    return compose<Array<TItem>, TValues>(...rules)(value, ctx);
+    return compose<Array<TItem>, TLastSchemaValues>(...rules)(value, ctx);
   });

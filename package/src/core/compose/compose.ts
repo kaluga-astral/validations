@@ -7,15 +7,15 @@ import { ValidationContext } from '../context';
  * @example compose(min(), max());
  */
 export const compose =
-  <ValidationType, TValues>(
+  <ValidationType, TLastSchemaValues extends Record<string, unknown>>(
     ...rules: Array<
-      | IndependentValidationRule<ValidationType, TValues>
-      | ValidationRule<ValidationType, TValues>
+      | IndependentValidationRule<ValidationType, TLastSchemaValues>
+      | ValidationRule<ValidationType, TLastSchemaValues>
     >
-  ): IndependentValidationRule<ValidationType, TValues> =>
+  ): IndependentValidationRule<ValidationType, Record<string, unknown>> =>
   (value, ctx) =>
     rules.reduce<ValidationResult>(
       (result, rule) =>
-        result || rule(value, ctx as ValidationContext<TValues>),
+        result || rule(value, ctx as ValidationContext<TLastSchemaValues>),
       undefined,
     );

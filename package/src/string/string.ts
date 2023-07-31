@@ -2,8 +2,10 @@ import { ValidationRule, compose, createGuard } from '../core';
 
 import { STRING_TYPE_ERROR_INFO } from './constants';
 
-export const string = <TValues>(...rules: ValidationRule<string, TValues>[]) =>
-  createGuard<TValues>((value, ctx, { typeErrorMessage }) => {
+export const string = <TLastSchemaValues extends Record<string, unknown>>(
+  ...rules: ValidationRule<string, TLastSchemaValues>[]
+) =>
+  createGuard<TLastSchemaValues>((value, ctx, { typeErrorMessage }) => {
     if (typeof value !== 'string') {
       return ctx.createError({
         ...STRING_TYPE_ERROR_INFO,
@@ -11,5 +13,5 @@ export const string = <TValues>(...rules: ValidationRule<string, TValues>[]) =>
       });
     }
 
-    return compose<string, TValues>(...rules)(value, ctx);
+    return compose<string, TLastSchemaValues>(...rules)(value, ctx);
   });

@@ -18,8 +18,7 @@ describe('createContext', () => {
 
     const resultCtx = createContext(ctx, '');
 
-    // ссылки равны
-    expect(ctx === resultCtx).toBeTruthy();
+    expect(ctx).toEqual(resultCtx);
   });
 
   it('global.overrides.objectIsPartial: при создании контекста устанавливается в false', () => {

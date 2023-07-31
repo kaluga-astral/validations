@@ -28,24 +28,29 @@ type GuardValue = unknown;
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
  */
 export interface Guard<
-  TValues = unknown,
+  TLastSchemaValues extends Record<string, unknown> = {},
   AddDefOptions extends Record<string, unknown> = {},
 > {
-  (value: GuardValue, ctx?: ValidationContext<TValues>): ValidationResult;
+  (
+    value: GuardValue,
+    ctx?: ValidationContext<TLastSchemaValues>,
+  ): ValidationResult;
   /**
    * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
-  define(options: DefOptions<AddDefOptions>): Guard<TValues, AddDefOptions>;
+  define(
+    options: DefOptions<AddDefOptions>,
+  ): Guard<TLastSchemaValues, AddDefOptions>;
 }
 
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
+type GuardExecutor<AddDefOptions extends Record<string, unknown>> = (
   value: unknown,
-  ctx: ValidationContext<TValues>,
+  ctx: ValidationContext<Record<string, unknown>>,
   defOptions: DefOptions<AddDefOptions>,
 ) => ValidationResult;
 
@@ -66,26 +71,29 @@ type GuardExecutor<TValues, AddDefOptions extends Record<string, unknown>> = (
  * ```
  */
 export const createGuard = <
-  TValues,
+  TLastSchemaValues extends Record<string, unknown> = {},
   AddDefOptions extends Record<string, unknown> = {},
 >(
-  executeGuard: GuardExecutor<TValues, AddDefOptions>,
+  executeGuard: GuardExecutor<AddDefOptions>,
 ) => {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (defOptions: DefOptions<AddDefOptions> = {}) => {
-    const guard = (value: unknown, prevCtx?: ValidationContext<TValues>) => {
-      const ctx = createContext<unknown, TValues>(
+    const guard = (
+      value: unknown,
+      prevCtx?: ValidationContext<TLastSchemaValues>,
+    ) => {
+      const ctx = createContext<unknown>(
         prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
         value,
       );
 
-      const validationResult = compose<unknown, TValues>(
+      const validationResult = compose<unknown, TLastSchemaValues>(
         // возможность переопределить дефолтный message для required
         required({ message: defOptions?.requiredErrorMessage }),
-        (interValue: unknown, interCtx: ValidationContext<TValues>) =>
+        (interValue: unknown, interCtx: ValidationContext<TLastSchemaValues>) =>
           executeGuard(interValue, interCtx, defOptions),
-      )(value, ctx);
+      )(value, ctx as ValidationContext<TLastSchemaValues>);
 
       // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
       if (
