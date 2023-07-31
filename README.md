@@ -1461,3 +1461,73 @@ const validate = string(kpp({ exclude: isExclude }));
 // undefined (значение не будет провалидировано)
 validate(excludeValue);
 ```
+
+---
+
+### name
+
+Проверяет валидна ли имя
+
+```ts
+import { string, name } from '@astral/validations';
+
+const validate = string(name());
+
+// Примеры валидных значений
+validate('Иван');
+validate('Иван-Иван');
+validate("Д'Анжело")
+
+
+// Примеры невалидных значений
+// { message: 'Проверьте имя' }
+validate('Иван123');
+validate('Иван--Иван');
+validate('Smith');
+```
+
+---
+
+### surname
+
+Проверяет валидна ли фамилия
+
+```ts
+import { string, surname } from '@astral/validations';
+
+const validate = string(surname());
+
+// Примеры валидных значений
+validate('Иванов');
+validate('Иванов-Иванов');
+validate("Д'Анжело")
+
+// Примеры невалидных значений
+// { message: 'Проверьте фамилию' }
+validate('Иванов123');
+validate('Иванов--Иванов');
+validate('Smith');
+```
+
+---
+
+### patronymic
+
+Проверяет валидна ли отчество
+
+```ts
+import { string, patronymic } from '@astral/validations';
+
+const validate = string(patronymic());
+
+// Примеры валидных значений
+validate('Иванович');
+validate('Иванович-Иванович');
+validate("Д'Анжело")
+
+// Примеры невалидных значений
+// { message: 'Проверьте фамилию' }
+validate('Иванович');
+validate('Иванович--Иванович');
+validate('Smith');
+```
