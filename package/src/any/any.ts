@@ -12,4 +12,5 @@ import { createRule } from '../core';
  *   validate({});
  * ```
  */
-export const any = <TValues>() => createRule<unknown, TValues>(() => undefined);
+export const any = <TLastSchemeValues extends Record<string, unknown>>() =>
+  createRule<unknown, TLastSchemeValues>(() => undefined);

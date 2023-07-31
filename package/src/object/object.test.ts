@@ -1,5 +1,3 @@
-import { expect } from 'vitest';
-
 import {
   REQUIRED_ERROR_INFO,
   ValidationErrorMap,
@@ -11,7 +9,6 @@ import { string } from '../string';
 import { optional } from '../optional';
 import { array } from '../array';
 import { arrayItem } from '../arrayItem';
-import { when } from '../when';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
@@ -107,9 +104,8 @@ describe('object', () => {
     expect(error.cause.errorMap.name?.message).toBe('name error');
   });
 
-  // TODO
-  it('Позволяет получить доступ к локальному контексту в object', () => {
-    type Field = { type: string; param1: string; param2: string };
+  it('Позволяет получить доступ к последнему объекту из схемы', () => {
+    type Field = { type: string; param1: string };
 
     const validate = object<{
       fields: Field[];
@@ -118,25 +114,22 @@ describe('object', () => {
         arrayItem(
           object<Field>({
             type: string(),
-            param1: when({
-              is: (_, ctx) => ctx.lastSchemaValue?.param2 === 'type1',
-              then: optional(string()),
-              otherwise: string(),
-            }),
-            param2: when({
-              is: (_, ctx) => ctx.lastSchemaValue?.param1 === 'type1',
-              then: optional(string()),
-              otherwise: string(),
-            }),
+            param1: (_, ctx) => {
+              if (ctx.lastSchemaValue?.type === 'type1') {
+                return ctx.createError({ message: 'error', code: 'code' });
+              }
+
+              return undefined;
+            },
           }),
         ),
       ),
     });
 
     const error = validate({
-      fields: [{ type: 'type1', param1: undefined, param2: undefined }],
-    }) as ValidationErrorMap;
+      fields: [{ type: 'type1', param1: undefined }],
+    });
 
-    expect(error).toBe(undefined);
+    expect(error?.cause.code).toBe('code');
   });
 });

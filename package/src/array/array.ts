@@ -16,8 +16,8 @@ import { ARRAY_TYPE_ERROR_INFO } from './constants';
  * ```
  */
 export const array = <
-  TLastSchemaValues extends Record<string, unknown>,
-  TItem extends ValidationTypes = unknown,
+  TItem extends ValidationTypes,
+  TLastSchemaValues extends Record<string, unknown> = {},
 >(
   ...rules: ValidationRule<Array<TItem>, TLastSchemaValues>[]
 ) =>

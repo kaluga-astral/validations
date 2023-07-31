@@ -71,7 +71,7 @@ type GuardExecutor<AddDefOptions extends Record<string, unknown>> = (
  * ```
  */
 export const createGuard = <
-  TLastSchemaValues extends Record<string, unknown> = {},
+  TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
 >(
   executeGuard: GuardExecutor<AddDefOptions>,
