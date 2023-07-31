@@ -952,9 +952,9 @@ validate([1, 2]);
 ```ts
 type Values = { name: string; isAgree: boolean };
 
-const validate = object<Values, Values>({
+const validate = object<Values>({
   name: when({
-    is: (_, ctx) => Boolean(ctx.global.values.isAgree),
+    is: (_, ctx) => Boolean(ctx.lastSchemaValue?.isAgree),
     then: string(),
     otherwise: any(),
   }),
@@ -1010,7 +1010,7 @@ type Values = {
   nickname: string;
 };
 
-const validate = object<Values, Values>({
+const validate = object<Values>({
   name: string(),
   nickname: string((value, ctx) => {
     if (value.includes('_')) {
@@ -1032,7 +1032,7 @@ toPrettyError(
 
 ## Связанные поля
 
-В ```ctx.global.values``` находится value, принятое самым верхнеуровневым guard'ом.
+В ```ctx.lastSchemaValue``` находится value, принятое последним object.
 
 ```ts
 import { object, string, toPrettyError } from '@astral/validations';
@@ -1042,10 +1042,10 @@ type Values = {
   repeatPassword: string;
 };
 
-const validate = object<Values, Values>({
+const validate = object<Values>({
   password: string(min(9)),
   repeatPassword: string(min(9), (value, ctx) => {
-    if (value !== ctx.global.values.password) {
+    if (value !== ctx.lastSchemaValue?.password) {
       return ctx.createError({
         message: 'Пароли не совпадают',
         code: 'repeat-password',
@@ -1137,9 +1137,9 @@ validate({
 ```ts
 type Values = { name: string; isAgree: boolean };
 
-const validate = object<Values, Values>({
+const validate = object<Values>({
   name: when({
-    is: (_, ctx) => Boolean(ctx.global.values.isAgree),
+    is: (_, ctx) => Boolean(ctx.lastSchemaValue?.isAgree),
     then: string(),
     otherwise: any(),
   }),
@@ -1164,10 +1164,10 @@ type Values = {
   info?: ValuesInfo;
 };
 
-const validate = object<Values, Values>({
+const validate = object<Values>({
   name: string(),
   info: when({
-    is: (_, ctx) => ctx.global.values.name === 'Vasya',
+    is: (_, ctx) => ctx.lastSchemaValue?.name === 'Vasya',
     then: object<ValuesInfo>({ surname: string() }),
     otherwise: any(),
   }),
@@ -1387,7 +1387,7 @@ type Values = {
 };
 
 // второй параметр generic - это глобально валидируемое значение. Для формы это весь values
-const rusOrganization = object<RusOrganization, Values>({
+const rusOrganization = object<RusOrganization>({
   inn: string(
     // автоматический вывод типа для ctx.global.values
     when({
@@ -1408,7 +1408,7 @@ const organization = when<Values>({
   otherwise: engOrganization,
 });
 
-const validate = object<Values, Values>({
+const validate = object<Values>({
   isRus: optional(boolean()),
   org: organization,
 });
