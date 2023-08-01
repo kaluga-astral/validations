@@ -33,13 +33,13 @@ import {
  */
 export const arrayItem = <
   TItem extends ValidationTypes,
-  TLastSchemфValues extends Record<string, unknown> = {},
+  TLastSchemaValues extends Record<string, unknown> = {},
 >(
-  ...rules: ValidationRule<TItem, TLastSchemфValues>[]
+  ...rules: ValidationRule<TItem, TLastSchemaValues>[]
 ) =>
-  createRule<Array<TItem>, TLastSchemфValues>((array, ctx) => {
+  createRule<Array<TItem>, TLastSchemaValues>((array, ctx) => {
     const validationItemsResult = array.map((item) =>
-      compose<TItem, TLastSchemфValues>(...rules)(item, ctx),
+      compose<TItem, TLastSchemaValues>(...rules)(item, ctx),
     );
 
     if (validationItemsResult.some((result) => result !== undefined)) {

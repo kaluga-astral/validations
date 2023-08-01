@@ -31,11 +31,11 @@ const isPositiveNumber = (number: number): boolean => {
  * ```
  */
 export const positiveNumber = <
-  TLastSchemфValues extends Record<string, unknown>,
+  TLastSchemaValues extends Record<string, unknown>,
 >(
   params?: PositiveNumberParams,
 ) =>
-  createRule<number, TLastSchemфValues>((value, ctx) => {
+  createRule<number, TLastSchemaValues>((value, ctx) => {
     if (!isPositiveNumber(value)) {
       return ctx.createError({
         message: params?.message || POSITIVE_NUMBER_ERROR_INFO.message,

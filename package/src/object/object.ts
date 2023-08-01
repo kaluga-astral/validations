@@ -73,11 +73,11 @@ export type Schema<TValue extends Record<string, unknown>> = Record<
  */
 export const object = <
   TValue extends Record<string, unknown>,
-  TLastSchemфValues extends Record<string, unknown> = {},
+  TLastSchemaValues extends Record<string, unknown> = {},
 >(
   schema: Schema<TValue>,
 ) =>
-  createGuard<TLastSchemфValues, AdditionalDefOptions>(
+  createGuard<TLastSchemaValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
       const context = createContext<TValue, TValue>(
         ctx,

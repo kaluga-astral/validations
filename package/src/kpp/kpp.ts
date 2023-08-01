@@ -17,10 +17,10 @@ type KPPParams = CommonRuleParams<string> & {
  * validate('770201001');
  * ```
  */
-export const kpp = <TLastSchemфValues extends Record<string, unknown>>(
+export const kpp = <TLastSchemaValues extends Record<string, unknown>>(
   params?: KPPParams,
 ) =>
-  createRule<string, TLastSchemфValues>(
+  createRule<string, TLastSchemaValues>(
     (value, ctx) => {
       if (isStringOfZeros(value) || !KPP_REGEX.test(value)) {
         return ctx.createError({

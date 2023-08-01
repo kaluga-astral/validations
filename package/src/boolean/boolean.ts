@@ -13,10 +13,10 @@ import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
  *  validate(true);
  * ```
  */
-export const boolean = <TLastSchemфValues extends Record<string, unknown>>(
-  ...rules: ValidationRule<boolean, TLastSchemфValues>[]
+export const boolean = <TLastSchemaValues extends Record<string, unknown>>(
+  ...rules: ValidationRule<boolean, TLastSchemaValues>[]
 ) =>
-  createGuard<TLastSchemфValues>((value, ctx, { typeErrorMessage }) => {
+  createGuard<TLastSchemaValues>((value, ctx, { typeErrorMessage }) => {
     if (typeof value !== 'boolean') {
       return ctx.createError({
         ...BOOLEAN_TYPE_ERROR_INFO,
@@ -24,5 +24,5 @@ export const boolean = <TLastSchemфValues extends Record<string, unknown>>(
       });
     }
 
-    return compose<boolean, TLastSchemфValues>(...rules)(value, ctx);
+    return compose<boolean, TLastSchemaValues>(...rules)(value, ctx);
   });

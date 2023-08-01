@@ -19,10 +19,10 @@ type MobilePhoneParams = CommonRuleParams<string> & {
  * validate('79999999999');
  * ```
  */
-export const mobilePhone = <TLastSchemфValues extends Record<string, unknown>>(
+export const mobilePhone = <TLastSchemaValues extends Record<string, unknown>>(
   params?: MobilePhoneParams,
 ) =>
-  createRule<string, TLastSchemфValues>(
+  createRule<string, TLastSchemaValues>(
     (value, ctx) => {
       if (!MOBILE_PHONE_REGEX.test(value)) {
         return ctx.createError({

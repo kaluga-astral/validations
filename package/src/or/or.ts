@@ -12,10 +12,10 @@ import { ValidationResult, ValidationRule, createRule } from '../core';
  *  const result = validate('string');
  * ```
  */
-export const or = <TLastSchemфValues extends Record<string, unknown>>(
-  ...rules: ValidationRule<unknown, TLastSchemфValues>[]
+export const or = <TLastSchemaValues extends Record<string, unknown>>(
+  ...rules: ValidationRule<unknown, TLastSchemaValues>[]
 ) =>
-  createRule<unknown, TLastSchemфValues>((value, ctx) => {
+  createRule<unknown, TLastSchemaValues>((value, ctx) => {
     let result: ValidationResult;
 
     rules.some((rule) => {

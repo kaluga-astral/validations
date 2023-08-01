@@ -17,10 +17,10 @@ type OgrnIPParams = CommonRuleParams<string> & {
  * validate('7728168971');
  * ```
  */
-export const ogrnIP = <TLastSchemфValues extends Record<string, unknown>>(
+export const ogrnIP = <TLastSchemaValues extends Record<string, unknown>>(
   params?: OgrnIPParams,
 ) =>
-  createRule<string, TLastSchemфValues>(
+  createRule<string, TLastSchemaValues>(
     (value, ctx) => {
       const createOgrnIPError = () =>
         ctx.createError({
