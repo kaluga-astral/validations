@@ -1,4 +1,11 @@
-import { CommonRuleParams, createRule } from '../core';
+import {
+  CommonRuleParams,
+  createRule,
+  isCheckForSpecialCharacters,
+  isCheckValidCharacters,
+  isCheckValidLength,
+  isStartsWithAndEndsWithLetter,
+} from '../core';
 
 import { NAME_ERROR_INFO } from './constants';
 
@@ -27,28 +34,28 @@ export const name = <TValues>(params?: NameParams) =>
         });
 
       // Проверка на длину имени (минимум 1 символ, максимум 200)
-      if (value.length < 1 || value.length > 200) {
+      if (isCheckValidLength(value)) {
         return createNameError();
       }
 
       // Разрешенные символы: прописные (большие) и строчные буквы (включая ё) русского алфавита,
       // прописные (большие) буквы I и V латинского алфавита, -, пробел, точка, апостроф, запятая, открывающая и закрывающая скобка
-      if (!/^[а-яёА-ЯЁIV'-.,() ]+$/.test(value)) {
+      if (isCheckValidCharacters(value)) {
         return createNameError();
       }
 
       // Начинается с буквы и заканчивается буквой
-      if (!/^[а-яёА-ЯЁIV][а-яёА-ЯЁIV'-.,() ]*[а-яёА-ЯЁIV]$/.test(value)) {
+      if (isStartsWithAndEndsWithLetter(value)) {
         return createNameError();
       }
 
       // Не может содержать последовательно два спецсимвола/пробела
-      if (/[' .,()-]{2}/.test(value)) {
+      if (isCheckForSpecialCharacters(value)) {
         return createNameError();
       }
 
       // значение по умолчанию
-      return;
+      return undefined;
     },
     { exclude: params?.exclude },
   );

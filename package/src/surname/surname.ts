@@ -1,4 +1,11 @@
-import { CommonRuleParams, createRule } from '../core';
+import {
+  CommonRuleParams,
+  createRule,
+  isCheckForSpecialCharacters,
+  isCheckValidCharacters,
+  isCheckValidLength,
+  isStartsWithAndEndsWithLetter,
+} from '../core';
 
 import { SURNAME_ERROR_INFO } from './constants';
 
@@ -27,26 +34,27 @@ export const surname = <TValues>(params?: SurnameParams) =>
         });
 
       // Проверка на длину имени (минимум 1 символ, максимум 200)
-      if (value.length < 1 || value.length > 200) {
+      if (isCheckValidLength(value)) {
         return createSurnameError();
       }
 
-      // Проверка на допустимые символы в фамилии
-      if (!/^[а-яёА-ЯЁIV'][- а-яёА-ЯЁIV.']*$/.test(value)) {
+      // Разрешенные символы: прописные (большие) и строчные буквы (включая ё) русского алфавита,
+      // прописные (большие) буквы I и V латинского алфавита, -, пробел, точка, апостроф, запятая, открывающая и закрывающая скобка
+      if (isCheckValidCharacters(value)) {
         return createSurnameError();
       }
 
-      // Проверка, что фамилия начинается с буквы или апострофа, и заканчивается буквой
-      if (!/^[а-яёА-ЯЁIV'][а-яёА-ЯЁIV'-.,() ]*[а-яёА-ЯЁIV]$/.test(value)) {
+      // Начинается с буквы и заканчивается буквой
+      if (isStartsWithAndEndsWithLetter(value)) {
         return createSurnameError();
       }
 
       // Проверка на наличие последовательно двух специальных символов или пробелов
-      if (/[' .,()-]{2}/.test(value)) {
+      if (isCheckForSpecialCharacters(value)) {
         return createSurnameError();
       }
 
-      return;
+      return undefined;
     },
     { exclude: params?.exclude },
   );

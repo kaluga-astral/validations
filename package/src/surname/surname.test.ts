@@ -2,30 +2,30 @@ import { SURNAME_ERROR_INFO } from './constants';
 import { surname } from './surname';
 
 describe('surname', () => {
-  it.each<string>(['Иванов'])('Должно быть валидно для: %s', (value) => {
+  it.each<string>([
+    'Иванов',
+    'иванов',
+    'Иванов-Иванов',
+    'Иванов Иванов',
+    'Иванов.Иванов',
+    'Д’‎Анжело',
+    'Иванов,Иванов',
+    '(Иванов)',
+  ])('Valid for: %s', (value) => {
     expect(surname()(value)).toBeUndefined();
   });
 
-  it('Должна возвращать ошибку, если длина фамилии недопустимая', () => {
-    const error = surname()('');
-
-    expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
-  });
-
-  it('Должна возвращать ошибку, если фамилия содержит недопустимые символы', () => {
-    const error = surname()('Иванов@Иванов');
-
-    expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
-  });
-
-  it('Должна возвращать ошибку, если фамилия не начинается или не заканчивается буквой', () => {
-    const error = surname()('123Иванов');
-
-    expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
-  });
-
-  it('Должна возвращать ошибку, если фамилия содержит два или более подряд идущих спецсимволов или пробелы', () => {
-    const error = surname()('Иванов  Иванов');
+  it.each([
+    '',
+    'Иванов@Иванов',
+    'Иванов@',
+    '123Иванов',
+    'Иванов123',
+    '123Иванов123',
+    'Иванов   Иванов',
+    'Иванов--Иванов',
+  ])('Invalid for: %s', (value) => {
+    const error = surname()(value);
 
     expect(error?.cause.code).toBe(SURNAME_ERROR_INFO.code);
   });

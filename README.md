@@ -34,6 +34,9 @@
     - [kpp](#kpp)
     - [ogrnIP](#ogrnIP)
     - [ogrnUL](#ogrnUL)
+    - [name](#name)
+    - [surname](#surname)
+    - [patronymic](#patronymic)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -570,6 +573,104 @@ validate('1-22-33-5555555-6')
 :information_source: Поддерживает [exclude](#exclusion-managing)
 
 ---
+
+### name
+
+Проверяет валидно ли имя
+
+```ts
+import { string, name } from '@astral/validations';
+
+const validate = string(name());
+
+// Примеры валидных значений
+validate('Иван');
+validate('иван');
+validate('Иван-Иван');
+validate('Иван Иван');
+validate('Иван.Иван');
+validate('Иван,Иван');
+validate('(Иван)');
+validate('Д’‎Анжело');
+
+// Примеры невалидных значений
+// { message: 'Проверьте имя' }
+validate('');
+validate('Иван@Иван');
+validate('Иван@');
+validate('123Иван');
+validate('Иван123');
+validate('123Иван123');
+validate('Иван  Иван');
+validate('Иван--Иван');
+```
+
+---
+
+### surname
+
+Проверяет валидно ли фамилия
+
+```ts
+import { string, surname } from '@astral/validations';
+
+const validate = string(surname());
+
+// Примеры валидных значений
+validate('Иванов');
+validate('иванов');
+validate('Иванов-Иванов')
+validate('Иванов Иванов');
+validate('Иванов.Иванов');
+validate('Иванов,Иванов');
+validate('(Иванов)')
+validate('Д’‎Анжело')
+
+// Примеры невалидных значений
+// { message: 'Проверьте фамилию' }
+validate('');
+validate('Иванов@Иванов');
+validate('Иванов@');
+validate('123Иванов');
+validate('Иванов123');
+validate('123Иванов123');
+validate('Иванов  Иванов');
+validate('Иванов--иванов');
+```
+
+---
+
+### patronymic
+
+Проверяет валидно ли отчество
+
+```ts
+import { string, patronymic } from '@astral/validations';
+
+const validate = string(patronymic());
+
+// Примеры валидных значений
+validate('Иванович');
+validate('иванович');
+validate('Иванович-Иванович')
+validate('Иванович Иванович');
+validate('Иванович.Иванович');
+validate('Иванович,Иванович')
+validate('(Иванович)');
+validate('Д’‎Анжело')
+
+// Примеры невалидных значений
+// { message: 'Проверьте отчество' }
+validate('');
+validate('Иванович@Иванович');
+validate('Иванович@');
+validate('123Иванович');
+validate('Иванович123');
+validate('123Иванович123');
+validate('Иванович  Иванович');
+validate('Иванович--Иванович');
+```
+
 
 ## date
 
@@ -1460,74 +1561,4 @@ const isExclude = (value: string) => {
 const validate = string(kpp({ exclude: isExclude }));
 // undefined (значение не будет провалидировано)
 validate(excludeValue);
-```
-
----
-
-### name
-
-Проверяет валидна ли имя
-
-```ts
-import { string, name } from '@astral/validations';
-
-const validate = string(name());
-
-// Примеры валидных значений
-validate('Иван');
-validate('Иван-Иван');
-validate("Д'Анжело")
-
-
-// Примеры невалидных значений
-// { message: 'Проверьте имя' }
-validate('Иван123');
-validate('Иван--Иван');
-validate('Smith');
-```
-
----
-
-### surname
-
-Проверяет валидна ли фамилия
-
-```ts
-import { string, surname } from '@astral/validations';
-
-const validate = string(surname());
-
-// Примеры валидных значений
-validate('Иванов');
-validate('Иванов-Иванов');
-validate("Д'Анжело")
-
-// Примеры невалидных значений
-// { message: 'Проверьте фамилию' }
-validate('Иванов123');
-validate('Иванов--Иванов');
-validate('Smith');
-```
-
----
-
-### patronymic
-
-Проверяет валидна ли отчество
-
-```ts
-import { string, patronymic } from '@astral/validations';
-
-const validate = string(patronymic());
-
-// Примеры валидных значений
-validate('Иванович');
-validate('Иванович-Иванович');
-validate("Д'Анжело")
-
-// Примеры невалидных значений
-// { message: 'Проверьте фамилию' }
-validate('Иванович');
-validate('Иванович--Иванович');
-validate('Smith');
 ```

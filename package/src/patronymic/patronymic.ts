@@ -1,4 +1,11 @@
-import { CommonRuleParams, createRule } from '../core';
+import {
+  CommonRuleParams,
+  createRule,
+  isCheckForSpecialCharacters,
+  isCheckValidCharacters,
+  isCheckValidLength,
+  isStartsWithAndEndsWithLetter,
+} from '../core';
 
 import { PATRONYMIC_ERROR_INFO } from './constants';
 
@@ -20,34 +27,34 @@ type PatronymicParams = CommonRuleParams<string> & {
 export const patronymic = <TValues>(params?: PatronymicParams) =>
   createRule<string, TValues>(
     (value, ctx) => {
-      const createNameError = () =>
+      const createPatronymicError = () =>
         ctx.createError({
           message: params?.message || PATRONYMIC_ERROR_INFO.message,
           code: PATRONYMIC_ERROR_INFO.code,
         });
 
       // Проверка на длину отчества (минимум 1 символ, максимум 200)
-      if (value.length < 1 || value.length > 200) {
-        return createNameError();
+      if (isCheckValidLength(value)) {
+        return createPatronymicError();
       }
 
       // Разрешенные символы: прописные (большие) и строчные буквы (включая ё) русского алфавита,
       // прописные (большие) буквы I и V латинского алфавита, -, пробел, точка, апостроф, запятая, открывающая и закрывающая скобка
-      if (!/^[а-яёА-ЯЁIV'-.,() ]+$/.test(value)) {
-        return createNameError();
+      if (isCheckValidCharacters(value)) {
+        return createPatronymicError();
       }
 
       // Начинается с буквы и заканчивается буквой
-      if (!/^[а-яёА-ЯЁIV][а-яёА-ЯЁIV'-.,() ]*[а-яёА-ЯЁIV]$/.test(value)) {
-        return createNameError();
+      if (isStartsWithAndEndsWithLetter(value)) {
+        return createPatronymicError();
       }
 
       // Не может содержать последовательно два спецсимвола/пробела
-      if (/[' .,()-]{2}/.test(value)) {
-        return createNameError();
+      if (isCheckForSpecialCharacters(value)) {
+        return createPatronymicError();
       }
 
-      return;
+      return undefined;
     },
     { exclude: params?.exclude },
   );
