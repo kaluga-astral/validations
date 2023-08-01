@@ -50,6 +50,7 @@
 - [Custom rules](#custom-rules)
   - [Базовый пример](#базовый-пример)
   - [Связанные поля](#связанные-поля)
+  - [Доступ к ctx.global.values](#доступ-к-высокоуровневым-values-ctxglobalvalues)
   - [Переиспользуемое правило](#переиспользуемое-правило)
 - [Common](#common)
   - [optional](#optional)
@@ -954,7 +955,7 @@ type Values = { name: string; isAgree: boolean };
 
 const validate = object<Values>({
   name: when({
-    is: (_, ctx) => Boolean(ctx.lastSchemaValue?.isAgree),
+    is: (_, ctx) => Boolean(ctx.values?.isAgree),
     then: string(),
     otherwise: any(),
   }),
@@ -976,7 +977,7 @@ toPrettyError(
 
 Каждый guard позволяет переопределить дефолтные параметры:
 - Сообщение об ошибке типа
-- Сообщение о ошибке required
+- Сообщение об ошибке required
 - Уникальные для каждого guard параметры
 
 ```ts
@@ -1032,7 +1033,7 @@ toPrettyError(
 
 ## Связанные поля
 
-В ```ctx.lastSchemaValue``` находится value, принятое последним object.
+В ```ctx.values``` находится value, принятое последним object.
 
 ```ts
 import { object, string, toPrettyError } from '@astral/validations';
@@ -1045,7 +1046,7 @@ type Values = {
 const validate = object<Values>({
   password: string(min(9)),
   repeatPassword: string(min(9), (value, ctx) => {
-    if (value !== ctx.lastSchemaValue?.password) {
+    if (value !== ctx.values?.password) {
       return ctx.createError({
         message: 'Пароли не совпадают',
         code: 'repeat-password',
@@ -1060,6 +1061,33 @@ const validate = object<Values>({
 toPrettyError(
   validate({ password: 'qywerty123', repeatPassword: 'qywerty1234' })
 );
+```
+
+
+## Доступ к высокоуровневым values (```ctx.global.values```)
+
+В ```ctx.global.values``` находится values, полученное самым первым guard.
+
+```ts
+import { object, string, boolean, optional } from '@astral/validations';
+
+type Values = {
+  isAgree: boolean;
+  info: {
+    name: string
+  }
+};
+
+const validate = object<Values>({
+  isAgree: optional(boolean()),
+  info: object<Values['info']>({
+    name: when({
+      is: (_, ctx) => Boolean(ctx.global.values?.isAgree),
+      then: string(),
+      otherwise: any(),
+    }),
+  })
+});
 ```
 
 ## Переиспользуемое правило
@@ -1139,7 +1167,7 @@ type Values = { name: string; isAgree: boolean };
 
 const validate = object<Values>({
   name: when({
-    is: (_, ctx) => Boolean(ctx.lastSchemaValue?.isAgree),
+    is: (_, ctx) => Boolean(ctx.values?.isAgree),
     then: string(),
     otherwise: any(),
   }),
@@ -1167,7 +1195,7 @@ type Values = {
 const validate = object<Values>({
   name: string(),
   info: when({
-    is: (_, ctx) => ctx.lastSchemaValue?.name === 'Vasya',
+    is: (_, ctx) => ctx.values?.name === 'Vasya',
     then: object<ValuesInfo>({ surname: string() }),
     otherwise: any(),
   }),
@@ -1386,12 +1414,10 @@ type Values = {
   org: { data: RusOrganization | EngOrganization };
 };
 
-// второй параметр generic - это глобально валидируемое значение. Для формы это весь values
 const rusOrganization = object<RusOrganization>({
   inn: string(
-    // автоматический вывод типа для ctx.global.values
     when({
-      is: (_, ctx) => Boolean(ctx.global.values.isRus),
+      is: (_, ctx) => Boolean((ctx.global.values as Values)?.isRus),
       then: rusOrganization,
       otherwise: engOrganization,
     }),
@@ -1401,9 +1427,8 @@ const rusOrganization = object<RusOrganization>({
 
 const engOrganization = object<EngOrganization, Values>({ name: string() });
 
-// необходимо явно указать Values для типизации ctx.global.values
 const organization = when<Values>({
-  is: (_, ctx) => Boolean(ctx.global.values.isRus),
+  is: (_, ctx) => Boolean((ctx.global.values as Values)?.isRus),
   then: rusOrganization,
   otherwise: engOrganization,
 });
