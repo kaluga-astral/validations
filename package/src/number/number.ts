@@ -23,10 +23,10 @@ type AdditionalDefOptions = {
  *  validate(24);
  * ```
  */
-export const number = <TLastSchemeValues extends Record<string, unknown>>(
-  ...rules: ValidationRule<number, TLastSchemeValues>[]
+export const number = <TLastSchemфValues extends Record<string, unknown>>(
+  ...rules: ValidationRule<number, TLastSchemфValues>[]
 ) =>
-  createGuard<TLastSchemeValues, AdditionalDefOptions>(
+  createGuard<TLastSchemфValues, AdditionalDefOptions>(
     (
       value,
       ctx,
@@ -53,6 +53,6 @@ export const number = <TLastSchemeValues extends Record<string, unknown>>(
         });
       }
 
-      return compose<number, TLastSchemeValues>(...rules)(value, ctx);
+      return compose<number, TLastSchemфValues>(...rules)(value, ctx);
     },
   );

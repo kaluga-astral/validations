@@ -32,10 +32,10 @@ const calcCheckSumForInnUl = (arrSymbols: string[]) =>
  * validate('7728168971');
  * ```
  */
-export const innUL = <TLastSchemeValues extends Record<string, unknown>>(
+export const innUL = <TLastSchemфValues extends Record<string, unknown>>(
   params?: InnULParams,
 ) =>
-  createRule<string, TLastSchemeValues>(
+  createRule<string, TLastSchemфValues>(
     (value, ctx) => {
       const createInnUlError = () =>
         ctx.createError({

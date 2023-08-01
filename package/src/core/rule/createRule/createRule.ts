@@ -17,10 +17,10 @@ export type CommonRuleParams<ValidationType extends ValidationTypes> = {
  */
 type RuleExecutor<
   ValidationType extends ValidationTypes,
-  TLastSchemeValues extends Record<string, unknown>,
+  TLastSchemфValues extends Record<string, unknown>,
 > = (
   value: ValidationType,
-  ctx: ValidationContext<TLastSchemeValues>,
+  ctx: ValidationContext<TLastSchemфValues>,
 ) => ValidationResult;
 
 /**
@@ -42,20 +42,20 @@ type RuleExecutor<
 export const createRule =
   <
     ValidationType extends ValidationTypes,
-    TLastSchemeValues extends Record<string, unknown> = {},
+    TLastSchemфValues extends Record<string, unknown> = {},
   >(
-    executor: RuleExecutor<ValidationType, TLastSchemeValues>,
+    executor: RuleExecutor<ValidationType, TLastSchemфValues>,
     commonParams?: CommonRuleParams<ValidationType>,
   ) =>
   (
     value: Parameters<
-      IndependentValidationRule<ValidationType, TLastSchemeValues>
+      IndependentValidationRule<ValidationType, TLastSchemфValues>
     >[0],
     prevCtx?: Parameters<
-      IndependentValidationRule<ValidationType, TLastSchemeValues>
+      IndependentValidationRule<ValidationType, TLastSchemфValues>
     >[1],
   ): ReturnType<
-    IndependentValidationRule<ValidationType, TLastSchemeValues>
+    IndependentValidationRule<ValidationType, TLastSchemфValues>
   > => {
     // контекст создается, если он не был создан раннее
     const ctx = createContext<unknown>(prevCtx, value);
@@ -65,5 +65,5 @@ export const createRule =
       return undefined;
     }
 
-    return executor(value, ctx as ValidationContext<TLastSchemeValues>);
+    return executor(value, ctx as ValidationContext<TLastSchemфValues>);
   };

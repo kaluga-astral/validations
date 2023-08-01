@@ -26,10 +26,10 @@ type EmailParams = {
  *  validate('example@mail.ru');
  * ```
  */
-export const email = <TLastSchemeValues extends Record<string, unknown>>(
+export const email = <TLastSchemфValues extends Record<string, unknown>>(
   params?: EmailParams,
 ) =>
-  createRule<string, TLastSchemeValues>((value, ctx) => {
+  createRule<string, TLastSchemфValues>((value, ctx) => {
     if (!EMAIL_REGEXP.test(value)) {
       return ctx.createError({
         ...INVALID_EMAIL_ERROR_INFO,

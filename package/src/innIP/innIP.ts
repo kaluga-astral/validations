@@ -49,10 +49,10 @@ const calcSecondCheckSumForInnIP = (arrSymbols: string[]) =>
  * validate('384212952720');
  * ```
  */
-export const innIP = <TLastSchemeValues extends Record<string, unknown>>(
+export const innIP = <TLastSchemфValues extends Record<string, unknown>>(
   params?: InnIPParams,
 ) =>
-  createRule<string, TLastSchemeValues>(
+  createRule<string, TLastSchemфValues>(
     (value, ctx) => {
       const createInnIPError = () =>
         ctx.createError({

@@ -40,10 +40,10 @@ const compareCheckSum = (calculatedCheckSum: number, checkSum: number) => {
  * validate('15657325992');
  * ```
  */
-export const snils = <TLastSchemeValues extends Record<string, unknown>>(
+export const snils = <TLastSchemфValues extends Record<string, unknown>>(
   params?: SnilsParams,
 ) =>
-  createRule<string, TLastSchemeValues>(
+  createRule<string, TLastSchemфValues>(
     (value, ctx) => {
       const createSnilsError = () =>
         ctx.createError({

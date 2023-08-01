@@ -1,18 +1,18 @@
 import { ValidationContext, ValidationRule, createRule } from '../core';
 
-type Params<TLastSchemeValues extends Record<string, unknown>> = {
+type Params<TLastSchemфValues extends Record<string, unknown>> = {
   /**
    * @description Условие для выбора ветки
    */
-  is: (value: unknown, ctx: ValidationContext<TLastSchemeValues>) => boolean;
+  is: (value: unknown, ctx: ValidationContext<TLastSchemфValues>) => boolean;
   /**
    * Правила валидации, применяемые если is === true
    */
-  then: ValidationRule<unknown, TLastSchemeValues>;
+  then: ValidationRule<unknown, TLastSchemфValues>;
   /**
    * Правила валидации, применяемые если is === false
    */
-  otherwise: ValidationRule<unknown, TLastSchemeValues>;
+  otherwise: ValidationRule<unknown, TLastSchemфValues>;
 };
 
 /**
@@ -37,12 +37,12 @@ type Params<TLastSchemeValues extends Record<string, unknown>> = {
  * const result2 = validate({ isAgree: true, name: '' });
  * ```
  */
-export const when = <TLastSchemeValues extends Record<string, unknown>>({
+export const when = <TLastSchemфValues extends Record<string, unknown>>({
   is,
   then,
   otherwise,
-}: Params<TLastSchemeValues>) =>
-  createRule<unknown, TLastSchemeValues>((value, ctx) => {
+}: Params<TLastSchemфValues>) =>
+  createRule<unknown, TLastSchemфValues>((value, ctx) => {
     if (is(value, ctx)) {
       return then(value, ctx);
     }

@@ -9,8 +9,10 @@ export type ValidationContext<
   TLastSchemaValues extends Record<string, unknown> = {},
   TGlobalSchemaValues = unknown,
 > = DeepReadonly<{
-  // TODO
-  lastSchemaValue?: DeepPartial<TLastSchemaValues>;
+  /**
+   * @description Values последнего валидируемого object
+   */
+  values?: DeepPartial<TLastSchemaValues>;
   /**
    * @description Глобальные значения, идущие от самого верхнего правила к самому нижнему
    */

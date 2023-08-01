@@ -6,26 +6,26 @@ import { ValidationTypes } from '../../types';
  * @description Создает context валидации. Используется внутри фабрик guard и rule
  * @default по-дефолту сбрасывает все флаги в false
  */
-export function createContext<Value extends ValidationTypes>(
-  prevCtx: ValidationContext<{}, Value> | undefined,
-  value: Value,
-): ValidationContext<{}, Value>;
+export function createContext<TValue extends ValidationTypes>(
+  prevCtx: ValidationContext<{}, TValue> | undefined,
+  value: TValue,
+): ValidationContext<{}, TValue>;
 
 export function createContext<
-  Value extends ValidationTypes,
+  TValue extends ValidationTypes,
   TLastSchemaValues extends Record<string, unknown>,
 >(
   prevCtx: ValidationContext<{}> | undefined,
-  value: Value,
+  value: TValue,
   lastSchemaValue: TLastSchemaValues,
-): ValidationContext<TLastSchemaValues, Value>;
+): ValidationContext<TLastSchemaValues, TValue>;
 
 export function createContext<
-  Value extends ValidationTypes,
+  TValue extends ValidationTypes,
   TLastSchemaValues extends Record<string, unknown>,
 >(
   prevCtx: ValidationContext<TLastSchemaValues> | undefined,
-  value: Value,
+  value: TValue,
   lastSchemaValue?: TLastSchemaValues,
 ): ValidationContext<{}, unknown> {
   if (prevCtx && !lastSchemaValue) {
@@ -35,11 +35,11 @@ export function createContext<
   const currentLastSchemaValue = lastSchemaValue ? lastSchemaValue : undefined;
 
   if (prevCtx) {
-    return { ...prevCtx, lastSchemaValue };
+    return { ...prevCtx, values: currentLastSchemaValue };
   }
 
   return {
-    lastSchemaValue: currentLastSchemaValue,
+    values: currentLastSchemaValue,
     global: {
       values: value,
       overrides: {

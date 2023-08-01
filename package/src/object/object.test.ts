@@ -115,7 +115,7 @@ describe('object', () => {
           object<Field>({
             type: string(),
             param1: (_, ctx) => {
-              if (ctx.lastSchemaValue?.type === 'type1') {
+              if (ctx.values?.type === 'type1') {
                 return ctx.createError({ message: 'error', code: 'code' });
               }
 

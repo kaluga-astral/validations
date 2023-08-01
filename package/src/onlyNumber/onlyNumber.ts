@@ -17,10 +17,10 @@ type OnlyNumberParams = {
  *  validate('123');
  * ```
  */
-export const onlyNumber = <TLastSchemeValues extends Record<string, unknown>>(
+export const onlyNumber = <TLastSchemфValues extends Record<string, unknown>>(
   params?: OnlyNumberParams,
 ) =>
-  createRule<string, TLastSchemeValues>((value, ctx) => {
+  createRule<string, TLastSchemфValues>((value, ctx) => {
     const isExtraValues = Boolean(value.replace(/^[0-9]+$/g, ''));
 
     if (isExtraValues) {

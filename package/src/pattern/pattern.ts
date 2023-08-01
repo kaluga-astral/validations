@@ -19,11 +19,11 @@ type PatternParams = {
  * string(pattern(/[0-9]/))
  * ```
  */
-export const pattern = <TLastSchemeValues extends Record<string, unknown>>(
+export const pattern = <TLastSchemфValues extends Record<string, unknown>>(
   regex: RegExp,
   params?: PatternParams,
 ) =>
-  createRule<string, TLastSchemeValues>((value, ctx) => {
+  createRule<string, TLastSchemфValues>((value, ctx) => {
     if (!regex.test(value)) {
       return ctx.createError({
         code: PATTERN_ERROR_CODE,
