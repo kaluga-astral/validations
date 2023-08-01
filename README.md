@@ -1486,3 +1486,19 @@ const validate = string(kpp({ exclude: isExclude }));
 // undefined (значение не будет провалидировано)
 validate(excludeValue);
 ```
+
+# Migration guide
+
+## v3 -> v4
+
+### object
+
+Generic object guard стал принимать один параметр - валидируемое значение.
+
+### Типизация guard и rules
+
+Generics правил и guards стали принимать тип для ```ctx.values``` вместо ```ctx.global.values```.
+
+### ctx.global.values
+
+```ctx.global.values``` стал ```unknown```. Для использования необходимо вручную уточнять тип. [Пример](#доступ-к-высокоуровневым-values-ctxglobalvalues).
