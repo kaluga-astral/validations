@@ -16,11 +16,4 @@ describe('boolean', () => {
 
     expect(result).toBeUndefined();
   });
-
-  // TODO: расскомменитровать после удаления required из guard
-  // it('Valid for false', () => {
-  //   const result = boolean()(false);
-  //
-  //   expect(result).toBeUndefined();
-  // });
 });
