@@ -21,7 +21,7 @@ type Params<TLastSchemaValues extends Record<string, unknown>> = {
  * ```ts
  * type Values = { name: string; isAgree: boolean };
  *
- * const validate = object<Values, Values>({
+ * const validate = object<Values>({
  *   name: when({
  *     is: (_, ctx) => ctx.global.values.isAgree,
  *     then: string(),

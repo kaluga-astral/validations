@@ -36,7 +36,7 @@ describe('when', () => {
   it('object: позволяет указывать условные типы', () => {
     type Values = { name: string; isAgree: boolean };
 
-    const validate = object<Values, Values>({
+    const validate = object<Values>({
       name: when({
         is: (_, ctx) => Boolean(ctx.values?.isAgree),
         then: string(),
