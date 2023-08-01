@@ -18,7 +18,7 @@ type MinParams<ValidationType> = {
   getMessage?: (
     threshold: CommonThreshold,
     value: ValidationType,
-    ctx: ValidationContext<unknown>,
+    ctx: ValidationContext,
   ) => string;
 };
 
@@ -39,18 +39,18 @@ type MinParams<ValidationType> = {
 export function min<ValidationType extends Date>(
   threshold: Date,
   params?: MinParams<ValidationType>,
-): ReturnType<typeof createRule<Date, unknown>>;
+): ReturnType<typeof createRule<Date>>;
 
 export function min<ValidationType extends BaseMinValidationTypes>(
   threshold: number,
   params?: MinParams<ValidationType>,
-): ReturnType<typeof createRule<BaseMinValidationTypes, unknown>>;
+): ReturnType<typeof createRule<BaseMinValidationTypes>>;
 
 export function min<ValidationType extends CommonMinValidationTypes>(
   threshold: CommonThreshold,
   params?: MinParams<ValidationType>,
 ) {
-  return createRule<ValidationType, unknown>((value, ctx) => {
+  return createRule<ValidationType>((value, ctx) => {
     const getMessage = (typeMessage: string) =>
       params?.getMessage
         ? params.getMessage(threshold, value, ctx)

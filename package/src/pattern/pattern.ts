@@ -19,8 +19,11 @@ type PatternParams = {
  * string(pattern(/[0-9]/))
  * ```
  */
-export const pattern = <TValues>(regex: RegExp, params?: PatternParams) =>
-  createRule<string, TValues>((value, ctx) => {
+export const pattern = <TLastSchemaValues extends Record<string, unknown>>(
+  regex: RegExp,
+  params?: PatternParams,
+) =>
+  createRule<string, TLastSchemaValues>((value, ctx) => {
     if (!regex.test(value)) {
       return ctx.createError({
         code: PATTERN_ERROR_CODE,

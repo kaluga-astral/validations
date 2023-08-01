@@ -19,8 +19,10 @@ type AdditionalDefOptions = {
  *  validate(new Date('22.22.2022'));
  * ```
  */
-export const date = <TValues>(...rules: ValidationRule<Date, TValues>[]) =>
-  createGuard<TValues, AdditionalDefOptions>(
+export const date = <TLastSchemaValues extends Record<string, unknown>>(
+  ...rules: ValidationRule<Date, TLastSchemaValues>[]
+) =>
+  createGuard<TLastSchemaValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, invalidDateErrorMessage }) => {
       if (!(value instanceof Date)) {
         return ctx.createError({
@@ -36,6 +38,6 @@ export const date = <TValues>(...rules: ValidationRule<Date, TValues>[]) =>
         });
       }
 
-      return compose<Date, TValues>(...rules)(value, ctx);
+      return compose<Date, TLastSchemaValues>(...rules)(value, ctx);
     },
   );

@@ -1,5 +1,3 @@
-import { DeepPartial } from 'utility-types';
-
 import { ValidationContext } from '../types';
 import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
@@ -8,27 +6,42 @@ import { ValidationTypes } from '../../types';
  * @description Создает context валидации. Используется внутри фабрик guard и rule
  * @default по-дефолту сбрасывает все флаги в false
  */
-export function createContext<Value extends ValidationTypes>(
-  prevCtx: ValidationContext<Value> | undefined,
-  value: Value,
-): ValidationContext<Value>;
+export function createContext<TValue extends ValidationTypes>(
+  prevCtx: ValidationContext<{}, TValue> | undefined,
+  value: TValue,
+): ValidationContext<{}, TValue>;
 
-export function createContext<Value extends ValidationTypes, Values>(
-  prevCtx: ValidationContext<Values> | undefined,
-  value: Value,
-): ValidationContext<Values>;
+export function createContext<
+  TValue extends ValidationTypes,
+  TLastSchemaValues extends Record<string, unknown>,
+>(
+  prevCtx: ValidationContext<{}> | undefined,
+  value: TValue,
+  lastSchemaValue: TLastSchemaValues,
+): ValidationContext<TLastSchemaValues, TValue>;
 
-export function createContext<Value extends ValidationTypes, Values>(
-  prevCtx: ValidationContext<Values> | undefined,
-  value: Value,
-): ValidationContext<Values | Value> {
-  if (prevCtx) {
+export function createContext<
+  TValue extends ValidationTypes,
+  TLastSchemaValues extends Record<string, unknown>,
+>(
+  prevCtx: ValidationContext<TLastSchemaValues> | undefined,
+  value: TValue,
+  lastSchemaValue?: TLastSchemaValues,
+): ValidationContext<{}, unknown> {
+  if (prevCtx && !lastSchemaValue) {
     return prevCtx;
   }
 
+  const currentLastSchemaValue = lastSchemaValue ? lastSchemaValue : undefined;
+
+  if (prevCtx) {
+    return { ...prevCtx, values: currentLastSchemaValue };
+  }
+
   return {
+    values: currentLastSchemaValue,
     global: {
-      values: value as DeepPartial<Value | Values>,
+      values: value,
       overrides: {
         objectIsPartial: false,
       },

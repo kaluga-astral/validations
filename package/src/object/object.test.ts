@@ -7,6 +7,8 @@ import {
 } from '../core';
 import { string } from '../string';
 import { optional } from '../optional';
+import { array } from '../array';
+import { arrayItem } from '../arrayItem';
 
 import { object } from './object';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
@@ -100,5 +102,34 @@ describe('object', () => {
     const error = validate({}) as ValidationErrorMap;
 
     expect(error.cause.errorMap.name?.message).toBe('name error');
+  });
+
+  it('Позволяет получить доступ к последнему объекту из схемы', () => {
+    type Field = { type: string; param1: string };
+
+    const validate = object<{
+      fields: Field[];
+    }>({
+      fields: array(
+        arrayItem(
+          object<Field>({
+            type: string(),
+            param1: (_, ctx) => {
+              if (ctx.values?.type === 'type1') {
+                return ctx.createError({ message: 'error', code: 'code' });
+              }
+
+              return undefined;
+            },
+          }),
+        ),
+      ),
+    });
+
+    const error = validate({
+      fields: [{ type: 'type1', param1: undefined }],
+    });
+
+    expect(error?.cause.code).toBe('code');
   });
 });
