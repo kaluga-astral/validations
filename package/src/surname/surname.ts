@@ -1,9 +1,9 @@
 import {
   CommonRuleParams,
   createRule,
-  isCheckForSpecialCharacters,
+  fullNameLength,
+  hasConsecutiveChars,
   isCheckValidCharacters,
-  isCheckValidLength,
   isStartsWithAndEndsWithLetter,
 } from '../core';
 
@@ -36,7 +36,7 @@ export const surname = <TLastSchemaValues extends Record<string, unknown>>(
         });
 
       // Проверка на длину имени (минимум 1 символ, максимум 200)
-      if (isCheckValidLength(value)) {
+      if (fullNameLength(value)) {
         return createSurnameError();
       }
 
@@ -52,7 +52,7 @@ export const surname = <TLastSchemaValues extends Record<string, unknown>>(
       }
 
       // Проверка на наличие последовательно двух специальных символов или пробелов
-      if (isCheckForSpecialCharacters(value)) {
+      if (hasConsecutiveChars(value)) {
         return createSurnameError();
       }
 

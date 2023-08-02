@@ -77,6 +77,12 @@ export { ogrnUL, OGRN_UL_ERROR_INFO } from './ogrnUL';
 
 export { ogrnIP, OGRN_IP_ERROR_INFO } from './ogrnIP';
 
+export { name, NAME_ERROR_INFO } from './name';
+
+export { surname, SURNAME_ERROR_INFO } from './surname';
+
+export { patronymic, PATRONYMIC_ERROR_INFO } from './patronymic';
+
 export { any } from './any';
 
 export { when } from './when';

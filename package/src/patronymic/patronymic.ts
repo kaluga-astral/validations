@@ -1,9 +1,9 @@
 import {
   CommonRuleParams,
   createRule,
-  isCheckForSpecialCharacters,
+  fullNameLength,
+  hasConsecutiveChars,
   isCheckValidCharacters,
-  isCheckValidLength,
   isStartsWithAndEndsWithLetter,
 } from '../core';
 
@@ -36,7 +36,7 @@ export const patronymic = <TLastSchemaValues extends Record<string, unknown>>(
         });
 
       // Проверка на длину отчества (минимум 1 символ, максимум 200)
-      if (isCheckValidLength(value)) {
+      if (fullNameLength(value)) {
         return createPatronymicError();
       }
 
@@ -52,7 +52,7 @@ export const patronymic = <TLastSchemaValues extends Record<string, unknown>>(
       }
 
       // Не может содержать последовательно два спецсимвола/пробела
-      if (isCheckForSpecialCharacters(value)) {
+      if (hasConsecutiveChars(value)) {
         return createPatronymicError();
       }
 

@@ -585,25 +585,17 @@ import { string, name } from '@astral/validations';
 
 const validate = string(name());
 
-// Примеры валидных значений
+// Примеры значений из списка требований
+'https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование5.Поле"Имя"'
+
+// Valid
 validate('Иван');
 validate('иван');
-validate('Иван-Иван');
-validate('Иван Иван');
-validate('Иван.Иван');
-validate('Иван,Иван');
-validate('(Иван)');
-validate('Д’‎Анжело');
 
-// Примеры невалидных значений
+
+// Invalid
 // { message: 'Проверьте имя' }
 validate('');
-validate('Иван@Иван');
-validate('Иван@');
-validate('123Иван');
-validate('Иван123');
-validate('123Иван123');
-validate('Иван  Иван');
 validate('Иван--Иван');
 ```
 
@@ -618,25 +610,17 @@ import { string, surname } from '@astral/validations';
 
 const validate = string(surname());
 
-// Примеры валидных значений
+// Примеры значений из списка требований
+'https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование4.Поле"Фамилия"'
+
+// Valid
 validate('Иванов');
 validate('иванов');
-validate('Иванов-Иванов')
-validate('Иванов Иванов');
-validate('Иванов.Иванов');
-validate('Иванов,Иванов');
-validate('(Иванов)')
-validate('Д’‎Анжело')
 
-// Примеры невалидных значений
+
+// Invalid
 // { message: 'Проверьте фамилию' }
 validate('');
-validate('Иванов@Иванов');
-validate('Иванов@');
-validate('123Иванов');
-validate('Иванов123');
-validate('123Иванов123');
-validate('Иванов  Иванов');
 validate('Иванов--иванов');
 ```
 
@@ -651,25 +635,16 @@ import { string, patronymic } from '@astral/validations';
 
 const validate = string(patronymic());
 
-// Примеры валидных значений
+// Примеры значений из списка требований
+'https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование6.Поле"Отчество"'
+
+// Valid
 validate('Иванович');
 validate('иванович');
-validate('Иванович-Иванович')
-validate('Иванович Иванович');
-validate('Иванович.Иванович');
-validate('Иванович,Иванович')
-validate('(Иванович)');
-validate('Д’‎Анжело')
 
-// Примеры невалидных значений
+// Invalid
 // { message: 'Проверьте отчество' }
 validate('');
-validate('Иванович@Иванович');
-validate('Иванович@');
-validate('123Иванович');
-validate('Иванович123');
-validate('123Иванович123');
-validate('Иванович  Иванович');
 validate('Иванович--Иванович');
 ```
 
