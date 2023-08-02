@@ -24,8 +24,10 @@ type SurnameParams = CommonRuleParams<string> & {
  * validate("Иванов");
  * ```
  */
-export const surname = <TValues>(params?: SurnameParams) =>
-  createRule<string, TValues>(
+export const surname = <TLastSchemaValues extends Record<string, unknown>>(
+  params?: SurnameParams,
+) =>
+  createRule<string, TLastSchemaValues>(
     (value, ctx) => {
       const createSurnameError = () =>
         ctx.createError({

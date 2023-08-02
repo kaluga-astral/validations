@@ -18,7 +18,7 @@ type MaxParams<ValidationType> = {
   getMessage?: (
     threshold: CommonThreshold,
     value: ValidationType,
-    ctx: ValidationContext<unknown>,
+    ctx: ValidationContext,
   ) => string;
 };
 
@@ -39,18 +39,18 @@ type MaxParams<ValidationType> = {
 export function max<ValidationType extends Date>(
   threshold: Date,
   params?: MaxParams<ValidationType>,
-): ReturnType<typeof createRule<Date, unknown>>;
+): ReturnType<typeof createRule<Date>>;
 
 export function max<ValidationType extends BaseMaxValidationTypes>(
   threshold: number,
   params?: MaxParams<ValidationType>,
-): ReturnType<typeof createRule<BaseMaxValidationTypes, unknown>>;
+): ReturnType<typeof createRule<BaseMaxValidationTypes>>;
 
 export function max<ValidationType extends CommonMaxValidationTypes>(
   threshold: CommonThreshold,
   params?: MaxParams<ValidationType>,
 ) {
-  return createRule<ValidationType, unknown>((value, ctx) => {
+  return createRule<ValidationType, {}>((value, ctx) => {
     const getMessage = (typeMessage: string) =>
       params?.getMessage
         ? params.getMessage(threshold, value, ctx)

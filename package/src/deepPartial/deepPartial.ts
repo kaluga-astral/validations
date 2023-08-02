@@ -19,8 +19,10 @@ import { Guard, createRule } from '../core';
  *     const result = validate({ info: { info: {} } });
  * ```
  */
-export const deepPartial = <TValues>(guard: Guard<TValues>) =>
-  createRule<unknown, TValues>((value, prevCtx) =>
+export const deepPartial = <TLastSchemaValues extends Record<string, unknown>>(
+  guard: Guard<TLastSchemaValues>,
+) =>
+  createRule<unknown, TLastSchemaValues>((value, prevCtx) =>
     guard(value, {
       ...prevCtx,
       global: {

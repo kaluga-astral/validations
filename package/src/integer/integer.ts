@@ -26,8 +26,10 @@ type IntegerParams = {
  * validate(3.14)
  * ```
  */
-export const integer = <TValues>(params?: IntegerParams) =>
-  createRule<number, TValues>((value, ctx) => {
+export const integer = <TLastSchemaValues extends Record<string, unknown>>(
+  params?: IntegerParams,
+) =>
+  createRule<number, TLastSchemaValues>((value, ctx) => {
     if (!Number.isInteger(value)) {
       return ctx.createError({
         message: params?.message || INTEGER_ERROR_INFO.message,

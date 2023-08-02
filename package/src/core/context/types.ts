@@ -5,7 +5,14 @@ import { createSimpleError } from '../errors';
 /**
  * @description Контекст, который доступен в каждом правиле
  */
-export type ValidationContext<TValues> = DeepReadonly<{
+export type ValidationContext<
+  TLastSchemaValues extends Record<string, unknown> = {},
+  TGlobalSchemaValues = unknown,
+> = DeepReadonly<{
+  /**
+   * @description Values последнего валидируемого object
+   */
+  values?: DeepPartial<TLastSchemaValues>;
   /**
    * @description Глобальные значения, идущие от самого верхнего правила к самому нижнему
    */
@@ -13,7 +20,7 @@ export type ValidationContext<TValues> = DeepReadonly<{
     /**
      * @description Значения, которые валидируется guard самого высоко порядка
      */
-    values: DeepPartial<TValues>;
+    values: TGlobalSchemaValues;
     /**
      * @description Глобальные переопределения (сквозные для всех правил)
      */

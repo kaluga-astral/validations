@@ -31,12 +31,15 @@ import {
  * validateArray(values);
  * ```
  */
-export const arrayItem = <TItem extends ValidationTypes, TValues = unknown>(
-  ...rules: ValidationRule<TItem, TValues>[]
+export const arrayItem = <
+  TItem extends ValidationTypes,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(
+  ...rules: ValidationRule<TItem, TLastSchemaValues>[]
 ) =>
-  createRule<Array<TItem>, TValues>((array, ctx) => {
+  createRule<Array<TItem>, TLastSchemaValues>((array, ctx) => {
     const validationItemsResult = array.map((item) =>
-      compose<TItem, TValues>(...rules)(item, ctx),
+      compose<TItem, TLastSchemaValues>(...rules)(item, ctx),
     );
 
     if (validationItemsResult.some((result) => result !== undefined)) {

@@ -24,8 +24,10 @@ type PatronymicParams = CommonRuleParams<string> & {
  * validate("Иванович");
  * ```
  */
-export const patronymic = <TValues>(params?: PatronymicParams) =>
-  createRule<string, TValues>(
+export const patronymic = <TLastSchemaValues extends Record<string, unknown>>(
+  params?: PatronymicParams,
+) =>
+  createRule<string, TLastSchemaValues>(
     (value, ctx) => {
       const createPatronymicError = () =>
         ctx.createError({

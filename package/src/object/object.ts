@@ -5,6 +5,7 @@ import {
   Guard,
   ValidationContext,
   ValidationRule,
+  createContext,
   createErrorMap,
   createGuard,
 } from '../core';
@@ -17,12 +18,12 @@ import { OBJECT_TYPE_ERROR_INFO } from './constants';
  * @description Специальный итерфейс Guard для object. В данном интерфейсе ctx required
  * Переопределение необходимо для того, чтобы ts показывал, что ctx required в кастомных правилах
  */
-interface ObjectPropGuard<TValues> {
+interface ObjectPropGuard<TLastSchemaValues extends Record<string, unknown>> {
   (
-    value: Parameters<Guard<TValues>>[0],
-    ctx: ValidationContext<TValues>,
-  ): ReturnType<Guard<TValues>>;
-  define: Guard<TValues>['define'];
+    value: Parameters<Guard<TLastSchemaValues>>[0],
+    ctx: ValidationContext<TLastSchemaValues>,
+  ): ReturnType<Guard<TLastSchemaValues>>;
+  define: Guard<TLastSchemaValues>['define'];
 }
 
 type AdditionalDefOptions = {
@@ -35,17 +36,17 @@ type AdditionalDefOptions = {
 /**
  * @description Возможные значения, принимаемые схемой
  */
-export type SchemaValue<TValues> =
-  | ObjectPropGuard<TValues>
-  | ValidationRule<unknown, TValues>;
+export type SchemaValue<TValue extends Record<string, unknown>> =
+  | ObjectPropGuard<TValue>
+  | ValidationRule<unknown, TValue>;
 
 /**
  * @description Схема правил валдиации для объекта
  */
-export type Schema<
-  TValue extends Record<string, unknown>,
-  TValues = unknown,
-> = Record<keyof TValue, SchemaValue<TValues>>;
+export type Schema<TValue extends Record<string, unknown>> = Record<
+  keyof TValue,
+  SchemaValue<TValue>
+>;
 
 /**
  * @description Guard для объекта
@@ -72,30 +73,37 @@ export type Schema<
  */
 export const object = <
   TValue extends Record<string, unknown>,
-  TValues = unknown,
+  TLastSchemaValues extends Record<string, unknown> = {},
 >(
-  schema: Schema<TValue, TValues>,
+  schema: Schema<TValue>,
 ) =>
-  createGuard<TValues, AdditionalDefOptions>(
+  createGuard<TLastSchemaValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
+      const context = createContext<TValue, TValue>(
+        ctx,
+        value as TValue,
+        value as TValue,
+      );
+
       if (!isPlainObject(value)) {
-        return ctx.createError({
+        return context.createError({
           ...OBJECT_TYPE_ERROR_INFO,
           message: typeErrorMessage || OBJECT_TYPE_ERROR_INFO.message,
         });
       }
 
       const generateErrorMap = () => {
-        const schemaEntries = Object.entries<SchemaValue<TValues>>(schema);
-        const isOptional = ctx.global.overrides.objectIsPartial || isPartial;
+        const schemaEntries = Object.entries<SchemaValue<TValue>>(schema);
+        const isOptional =
+          context.global.overrides.objectIsPartial || isPartial;
 
         return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
           const isGuard = 'define' in rule;
 
           const callRule =
-            isGuard && isOptional ? optional(rule as Guard<TValues>) : rule;
+            isGuard && isOptional ? optional(rule as Guard<TValue>) : rule;
 
-          errorMap[key] = callRule(value[key], ctx);
+          errorMap[key] = callRule(value[key], context);
 
           return errorMap;
         }, {});
@@ -111,7 +119,6 @@ export const object = <
     },
   );
 
-export type ObjectGuard<
-  TValue extends Record<string, unknown>,
-  TValues = unknown,
-> = ReturnType<typeof object<TValue, TValues>>;
+export type ObjectGuard<TValue extends Record<string, unknown>> = ReturnType<
+  typeof object<TValue>
+>;
