@@ -35,23 +35,18 @@ export const patronymic = <TLastSchemaValues extends Record<string, unknown>>(
           code: PATRONYMIC_ERROR_INFO.code,
         });
 
-      // Проверка на длину отчества (минимум 1 символ, максимум 200)
       if (fullNameLength(value)) {
         return createPatronymicError();
       }
 
-      // Разрешенные символы: прописные (большие) и строчные буквы (включая ё) русского алфавита,
-      // прописные (большие) буквы I и V латинского алфавита, -, пробел, точка, апостроф, запятая, открывающая и закрывающая скобка
       if (isCheckValidCharacters(value)) {
         return createPatronymicError();
       }
 
-      // Начинается с буквы и заканчивается буквой
       if (isStartsWithAndEndsWithLetter(value)) {
         return createPatronymicError();
       }
 
-      // Не может содержать последовательно два спецсимвола/пробела
       if (hasConsecutiveChars(value)) {
         return createPatronymicError();
       }

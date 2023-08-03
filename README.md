@@ -580,20 +580,17 @@ validate('1-22-33-5555555-6')
 
 Проверяет валидно ли имя
 
+### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование5.Поле"Имя")
+
 ```ts
 import { string, name } from '@astral/validations';
 
 const validate = string(name());
 
-// Примеры значений из списка требований
-'https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование5.Поле"Имя"'
-
-// Valid
+// undefined
 validate('Иван');
 validate('иван');
 
-
-// Invalid
 // { message: 'Проверьте имя' }
 validate('');
 validate('Иван--Иван');
@@ -605,20 +602,17 @@ validate('Иван--Иван');
 
 Проверяет валидно ли фамилия
 
+### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование4.Поле"Фамилия")
+
 ```ts
 import { string, surname } from '@astral/validations';
 
 const validate = string(surname());
 
-// Примеры значений из списка требований
-'https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование4.Поле"Фамилия"'
-
-// Valid
+// undefined
 validate('Иванов');
 validate('иванов');
 
-
-// Invalid
 // { message: 'Проверьте фамилию' }
 validate('');
 validate('Иванов--иванов');
@@ -630,19 +624,18 @@ validate('Иванов--иванов');
 
 Проверяет валидно ли отчество
 
+### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование6.Поле"Отчество")
+
 ```ts
 import { string, patronymic } from '@astral/validations';
 
 const validate = string(patronymic());
 
-// Примеры значений из списка требований
-'https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование6.Поле"Отчество"'
-
-// Valid
+// undefined
 validate('Иванович');
 validate('иванович');
 
-// Invalid
+
 // { message: 'Проверьте отчество' }
 validate('');
 validate('Иванович--Иванович');

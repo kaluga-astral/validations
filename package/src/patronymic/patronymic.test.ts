@@ -1,66 +1,99 @@
 import { PATRONYMIC_ERROR_INFO } from './constants';
 import { patronymic } from './patronymic';
 
-// Valid
 describe('patronymic', () => {
-  it.each<string>(['Иванович', 'иванович', 'И'])('Valid for: %s', (value) => {
+  it.each([
+    [
+      'Иванович',
+      'Valid for: Иванович. Допускаются только буквы в начале и конце',
+    ],
+    ['Иванович', 'Valid for: Иванович. Допускаются строчные буквы'],
+    ['И', 'Valid for: И. Допускается минимальное количество символов - 1'],
+  ])('%s: %s', (value) => {
     expect(patronymic()(value)).toBeUndefined();
   });
 
-  it.each<string>([
-    'Иванович-Иванович',
-    'Иванович Иванович',
-    'Иванович.Иванович',
-    'Иванович,Иванович',
-    '(Иванович)',
-  ])('Valid for: %s', (value) => {
+  it.each([
+    [
+      'Иванович-Иванович',
+      'Valid for: Иванович-Иванович. Допускается дефис между буквами',
+    ],
+    [
+      'Иванович Иванович',
+      'Valid for: Иванович Иванович. Допускается пробел между буквами',
+    ],
+    [
+      'Иванович.Иванович',
+      'Valid for: Иванович.Иванович. Допускается точка между буквами',
+    ],
+    [
+      'Иванович,Иванович',
+      'Valid for: Иванович,Иванович. Допускается запятая между буквами',
+    ],
+    [
+      '(Иванович)',
+      'Valid for: (Иванович). Допускается открывающая и закрывающая скобка',
+    ],
+  ])('%s: %s', (value) => {
     expect(patronymic()(value)).toBeUndefined();
   });
 
-  it.each<string>(['Генрих-V', 'Генрих-I', 'Д’‎Анжело'])(
-    'Valid for: %s',
-    (value) => {
-      expect(patronymic()(value)).toBeUndefined();
-    },
-  );
+  it.each([
+    [
+      'Генрих-V',
+      'Valid for: Генрих-V. Допускается прописная (большая) буква: V латинского алфавита',
+    ],
+    [
+      'Генрих-I',
+      'Valid for: Генрих-I. Допускается прописная (большая) буква: I латинского алфавита',
+    ],
+    ['Д’‎Анжело', 'Valid for: Д’‎Анжело. Допускается апостроф'],
+  ])('%s: %s', (value) => {
+    expect(patronymic()(value)).toBeUndefined();
+  });
 
-  // Invalid
-  it.each<string>([Array(201).fill('а').join(''), ''])(
-    'Invalid for: %s',
-    (value) => {
-      const error = patronymic()(value);
-
-      expect(error?.cause.code).toBe(PATRONYMIC_ERROR_INFO.code);
-    },
-  );
-
-  it.each<string>([
-    'Иванович  Иванович',
-    'Иванович--Иванович',
-    'Иванович@Иванович',
-  ])('Invalid for: %s', (value) => {
+  it.each([
+    [
+      'а'.repeat(201),
+      'Invalid for: ааа........ Допускается максимальное количество символов - 200',
+    ],
+    ['', 'Invalid for: "". Допускается минимальное количество символов - 1'],
+    [
+      'Иванович  Иванович',
+      'Invalid for: Иванович  Иванович. Не допускаются двойные пробелы между буквами',
+    ],
+    [
+      'Иванович--Иванович',
+      'Invalid for: Иванович--Иванович. Не допускаются последовательно два спецсимвола',
+    ],
+  ])('%s: %s', (value) => {
     const error = patronymic()(value);
 
     expect(error?.cause.code).toBe(PATRONYMIC_ERROR_INFO.code);
   });
 
-  it.each<string>(['123Иванович', 'Иванович123', '123Иванович123'])(
-    'Invalid for: %s',
-    (value) => {
-      const error = patronymic()(value);
+  it('123Иванович: Invalid for: 123Иванович. Допускаются только буквы в начале и конце, кроме открывающей и закрывающей скобки', () => {
+    const value = '123Иванович';
+    const error = patronymic()(value);
 
-      expect(error?.cause.code).toBe(PATRONYMIC_ERROR_INFO.code);
-    },
-  );
+    expect(error?.cause.code).toBe(PATRONYMIC_ERROR_INFO.code);
+  });
 
-  it.each<string>(['Генрих-v', 'Генрих-i', 'Ivanovich'])(
-    'Invalid for: %s',
-    (value) => {
-      const error = patronymic()(value);
+  it.each([
+    [
+      'Генрих-v',
+      'Invalid for: Генрих-v. Допускается прописная (большая) буква: V латинского алфавита',
+    ],
+    [
+      'Генрих-i',
+      'Invalid for: Генрих-i. Допускается прописная (большая) буква: I латинского алфавита',
+    ],
+    ['Ivanov', 'Invalid for: Ivan. Допускаются только буквы русского алфавита'],
+  ])('%s: %s', (value) => {
+    const error = patronymic()(value);
 
-      expect(error?.cause.code).toBe(PATRONYMIC_ERROR_INFO.code);
-    },
-  );
+    expect(error?.cause.code).toBe(PATRONYMIC_ERROR_INFO.code);
+  });
 
   it('Должна возвращать ошибку с пользовательским сообщением', () => {
     const customMessage = 'Пользовательское сообщение';

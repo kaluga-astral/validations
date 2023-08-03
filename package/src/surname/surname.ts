@@ -35,23 +35,18 @@ export const surname = <TLastSchemaValues extends Record<string, unknown>>(
           code: SURNAME_ERROR_INFO.code,
         });
 
-      // Проверка на длину имени (минимум 1 символ, максимум 200)
       if (fullNameLength(value)) {
         return createSurnameError();
       }
 
-      // Разрешенные символы: прописные (большие) и строчные буквы (включая ё) русского алфавита,
-      // прописные (большие) буквы I и V латинского алфавита, -, пробел, точка, апостроф, запятая, открывающая и закрывающая скобка
       if (isCheckValidCharacters(value)) {
         return createSurnameError();
       }
 
-      // Начинается с буквы и заканчивается буквой
       if (isStartsWithAndEndsWithLetter(value)) {
         return createSurnameError();
       }
 
-      // Проверка на наличие последовательно двух специальных символов или пробелов
       if (hasConsecutiveChars(value)) {
         return createSurnameError();
       }

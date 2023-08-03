@@ -6,8 +6,11 @@ describe('isCheckValidCharacters', () => {
     ['@#$%', true],
     ['i', true],
     ['v', true],
+  ])('Возвращает "%s" со значением %s', (value, expected) => {
+    expect(isCheckValidCharacters(value)).toBe(expected);
+  });
 
-    ['I', false],
+  it.each([
     ['V', false],
     ['тест', false],
     ['Тест Тест', false],
