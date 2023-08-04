@@ -1,11 +1,24 @@
 import { hasConsecutiveChars } from './hasConsecutiveChars';
 
 describe('hasConsecutiveChars', () => {
-  it('Возвращает true, если содержит двойной пробел', () => {
-    expect(hasConsecutiveChars('Тест  Тест')).toBeTruthy();
-  });
-
-  it('Возвращает true, если значение содержит последовательно два специальных символа', () => {
-    expect(hasConsecutiveChars('Тест--Тест')).toBeTruthy();
-  });
+  it.each([
+    'Тест--Тест',
+    'Тест++Тест',
+    'Тест__Тест',
+    'Тест//Тест',
+    'Тест||Тест',
+    'Тест??Тест',
+    'Тест!!Тест',
+    'Тест<<Тест',
+    'Тест..Тест',
+    'Тест,,Тест',
+    'Тест::Тест',
+    'Тест==Тест',
+    'Тест@@Тест',
+    'Тест``Тест',
+    'Тест  Тест',
+  ])(
+    'Invalid for %s: Не может содержать последовательно два спецсимвола/пробела',
+    (value) => expect(hasConsecutiveChars(value)).toBeTruthy(),
+  );
 });

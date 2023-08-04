@@ -3,7 +3,7 @@ import {
   createRule,
   fullNameLength,
   hasConsecutiveChars,
-  isCheckValidCharacters,
+  isFullNameValidCharacters,
   isStartsWithAndEndsWithLetter,
 } from '../core';
 
@@ -39,7 +39,7 @@ export const name = <TLastSchemaValues extends Record<string, unknown>>(
         return createNameError();
       }
 
-      if (isCheckValidCharacters(value)) {
+      if (isFullNameValidCharacters(value)) {
         return createNameError();
       }
 

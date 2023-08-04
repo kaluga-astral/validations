@@ -8,6 +8,6 @@ export * from './isStartsWithAndEndsWithLetter';
 
 export * from './hasConsecutiveChars';
 
-export * from './isCheckValidCharacters';
+export * from './isFullNameValidCharacters';
 
 export * from './fullNameLength';

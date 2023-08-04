@@ -3,7 +3,7 @@ import {
   createRule,
   fullNameLength,
   hasConsecutiveChars,
-  isCheckValidCharacters,
+  isFullNameValidCharacters,
   isStartsWithAndEndsWithLetter,
 } from '../core';
 
@@ -39,7 +39,7 @@ export const patronymic = <TLastSchemaValues extends Record<string, unknown>>(
         return createPatronymicError();
       }
 
-      if (isCheckValidCharacters(value)) {
+      if (isFullNameValidCharacters(value)) {
         return createPatronymicError();
       }
 

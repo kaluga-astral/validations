@@ -1,17 +1,19 @@
 import { fullNameLength } from './fullNameLength';
 
 describe('fullNameLength', () => {
-  it.each([
-    ['', true],
-    ['а'.repeat(201), true],
-  ])('Возвращает "%s" со значением %s', (value, expected) => {
-    expect(fullNameLength(value)).toBe(expected);
+  it('Допускается минимальное количество символов - 1', () => {
+    expect(fullNameLength('')).toBeTruthy();
   });
 
-  it.each([
-    ['a', false],
-    ['а'.repeat(200), false],
-  ])('Возвращает "%s" со значением %s', (value, expected) => {
-    expect(fullNameLength(value)).toBe(expected);
+  it('Допускается максимальное количество символов - 200', () => {
+    expect(fullNameLength('а'.repeat(201))).toBeTruthy();
+  });
+
+  it('Допускается минимальное количество символов - 1', () => {
+    expect(fullNameLength('а')).toBeFalsy();
+  });
+
+  it('Допускается максимальное количество символов - 200', () => {
+    expect(fullNameLength('а'.repeat(200))).toBeFalsy();
   });
 });
