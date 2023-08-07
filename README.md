@@ -34,6 +34,9 @@
     - [kpp](#kpp)
     - [ogrnIP](#ogrnIP)
     - [ogrnUL](#ogrnUL)
+    - [personName](#personName)
+    - [personSurname](#personSurname)
+    - [personPatronymic](#personPatronymic)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -572,6 +575,72 @@ validate('1-22-33-5555555-6')
 :information_source: Поддерживает [exclude](#exclusion-managing)
 
 ---
+
+### personName
+
+Проверяет валидно ли имя
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование5.Поле"Имя")
+
+```ts
+import { string, personName } from '@astral/validations';
+
+const validate = string(personName());
+
+// undefined
+validate('Иван');
+validate('иван');
+
+// { message: 'Проверьте имя' }
+validate('');
+validate('Иван--Иван');
+```
+
+---
+
+### personSurname
+
+Проверяет валидно ли фамилия
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование4.Поле"Фамилия")
+
+```ts
+import { string, personSurname } from '@astral/validations';
+
+const validate = string(personSurname());
+
+// undefined
+validate('Иванов');
+validate('иванов');
+
+// { message: 'Проверьте фамилию' }
+validate('');
+validate('Иванов--иванов');
+```
+
+---
+
+### personPatronymic
+
+Проверяет валидно ли отчество
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование6.Поле"Отчество")
+
+```ts
+import { string, personPatronymic } from '@astral/validations';
+
+const validate = string(personPatronymic());
+
+// undefined
+validate('Иванович');
+validate('иванович');
+
+
+// { message: 'Проверьте отчество' }
+validate('');
+validate('Иванович--Иванович');
+```
+
 
 ## date
 
