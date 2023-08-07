@@ -1,3 +1,3 @@
 export * from './constants';
 
-export * from './surname';
+export * from './personName';

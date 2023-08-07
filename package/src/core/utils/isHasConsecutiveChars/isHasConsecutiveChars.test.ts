@@ -1,6 +1,6 @@
-import { hasConsecutiveChars } from './hasConsecutiveChars';
+import { isHasConsecutiveChars } from './isHasConsecutiveChars';
 
-describe('hasConsecutiveChars', () => {
+describe('isHasConsecutiveChars', () => {
   it.each([
     'Тест--Тест',
     'Тест++Тест',
@@ -19,6 +19,6 @@ describe('hasConsecutiveChars', () => {
     'Тест  Тест',
   ])(
     'Invalid for %s: Не может содержать последовательно два спецсимвола/пробела',
-    (value) => expect(hasConsecutiveChars(value)).toBeTruthy(),
+    (value) => expect(isHasConsecutiveChars(value)).toBeTruthy(),
   );
 });

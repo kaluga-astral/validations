@@ -6,8 +6,8 @@ export * from './resetTime';
 
 export * from './isStartsWithAndEndsWithLetter';
 
-export * from './hasConsecutiveChars';
+export * from './isHasConsecutiveChars';
 
 export * from './isFullNameValidCharacters';
 
-export * from './fullNameLength';
+export * from './isValidFullNameLength';

@@ -34,9 +34,9 @@
     - [kpp](#kpp)
     - [ogrnIP](#ogrnIP)
     - [ogrnUL](#ogrnUL)
-    - [name](#name)
-    - [surname](#surname)
-    - [patronymic](#patronymic)
+    - [personName](#personName)
+    - [personSurname](#personSurname)
+    - [personPatronymic](#personPatronymic)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -576,16 +576,16 @@ validate('1-22-33-5555555-6')
 
 ---
 
-### name
+### personName
 
 Проверяет валидно ли имя
 
 #### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование5.Поле"Имя")
 
 ```ts
-import { string, name } from '@astral/validations';
+import { string, personName } from '@astral/validations';
 
-const validate = string(name());
+const validate = string(personName());
 
 // undefined
 validate('Иван');
@@ -598,16 +598,16 @@ validate('Иван--Иван');
 
 ---
 
-### surname
+### personSurname
 
 Проверяет валидно ли фамилия
 
 #### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование4.Поле"Фамилия")
 
 ```ts
-import { string, surname } from '@astral/validations';
+import { string, personSurname } from '@astral/validations';
 
-const validate = string(surname());
+const validate = string(personSurname());
 
 // undefined
 validate('Иванов');
@@ -620,16 +620,16 @@ validate('Иванов--иванов');
 
 ---
 
-### patronymic
+### personPatronymic
 
 Проверяет валидно ли отчество
 
 #### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-Требование6.Поле"Отчество")
 
 ```ts
-import { string, patronymic } from '@astral/validations';
+import { string, personPatronymic } from '@astral/validations';
 
-const validate = string(patronymic());
+const validate = string(personPatronymic());
 
 // undefined
 validate('Иванович');

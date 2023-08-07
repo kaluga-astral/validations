@@ -1,6 +1,6 @@
 import { ErrorInfo, createErrorCode } from '../core';
 
-export const PATRONYMIC_ERROR_INFO: ErrorInfo = {
-  code: createErrorCode('patronymic'),
+export const PERSON_PATRONYMIC_ERROR_INFO: ErrorInfo = {
+  code: createErrorCode('personPatronymic'),
   message: 'Проверьте отчество',
 };

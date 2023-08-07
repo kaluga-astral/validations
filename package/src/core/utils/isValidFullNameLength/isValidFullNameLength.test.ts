@@ -1,19 +1,19 @@
-import { fullNameLength } from './fullNameLength';
+import { isValidFullNameLength } from './isValidFullNameLength';
 
-describe('fullNameLength', () => {
+describe('isValidFullNameLength', () => {
   it('Допускается минимальное количество символов - 1', () => {
-    expect(fullNameLength('')).toBeTruthy();
+    expect(isValidFullNameLength('')).toBeTruthy();
   });
 
   it('Допускается максимальное количество символов - 200', () => {
-    expect(fullNameLength('а'.repeat(201))).toBeTruthy();
+    expect(isValidFullNameLength('а'.repeat(201))).toBeTruthy();
   });
 
   it('Допускается минимальное количество символов - 1', () => {
-    expect(fullNameLength('а')).toBeFalsy();
+    expect(isValidFullNameLength('а')).toBeFalsy();
   });
 
   it('Допускается максимальное количество символов - 200', () => {
-    expect(fullNameLength('а'.repeat(200))).toBeFalsy();
+    expect(isValidFullNameLength('а'.repeat(200))).toBeFalsy();
   });
 });

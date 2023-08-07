@@ -1,6 +1,6 @@
 import { ErrorInfo, createErrorCode } from '../core';
 
-export const SURNAME_ERROR_INFO: ErrorInfo = {
-  code: createErrorCode('surname'),
+export const PERSON_SURNAME_ERROR_INFO: ErrorInfo = {
+  code: createErrorCode('personSurname'),
   message: 'Проверьте фамилию',
 };
