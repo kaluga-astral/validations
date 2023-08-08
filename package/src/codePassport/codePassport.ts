@@ -28,7 +28,7 @@ export const codePassport = <TLastSchemaValues extends Record<string, unknown>>(
           code: CODE_PASSPORT_ERROR_INFO.code,
         });
 
-      if (!/^(?!00)[0-3]{3}[-]{1}[0-9]{3}$/.test(value)) {
+      if (!/^(?!00)([0-9]{2}[0-3])[-]{1}[0-9]{3}$/.test(value)) {
         return createPassportError();
       }
 
