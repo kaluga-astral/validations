@@ -37,6 +37,9 @@
     - [personName](#personName)
     - [personSurname](#personSurname)
     - [personPatronymic](#personPatronymic)
+    - [seriesPassport](#seriesPassport)
+    - [numberPassport](#numberPassport)
+    - [codePassport](#codePassport)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -639,6 +642,69 @@ validate('иванович');
 // { message: 'Проверьте отчество' }
 validate('');
 validate('Иванович--Иванович');
+```
+
+---
+
+### seriesPassport
+
+Проверяет валидна ли серия паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.1.Серияпаспорта)
+
+```ts
+import { string, seriesPassport } from '@astral/validations';
+
+const validate = string(seriesPassport());
+
+// undefined
+validate('92 17');
+
+// { message: 'Проверьте серию' }
+validate('9217');
+validate('9 15');
+```
+
+---
+
+### numberPassport
+
+Проверяет валиден ли номер паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.2.Номерпаспорта)
+
+```ts
+import { string, numberPassport } from '@astral/validations';
+
+const validate = string(numberPassport());
+
+// undefined
+validate('704564');
+
+// { message: 'Проверьте номер' }
+validate('7045648385');
+validate('7045');
+```
+
+---
+
+### codePassport
+
+Проверяет валиден ли код паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.3.Кодподразделения)
+
+```ts
+import { string, codePassport } from '@astral/validations';
+
+const validate = string(codePassport());
+
+// undefined
+validate('123-256');
+
+// { message: 'Проверьте код' }
+validate('000-456');
+validate('123|256');
 ```
 
 

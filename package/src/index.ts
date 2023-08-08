@@ -81,6 +81,12 @@ export { personName, PERSON_NAME_ERROR_INFO } from './personName';
 
 export { personSurname, PERSON_SURNAME_ERROR_INFO } from './personSurname';
 
+export { seriesPassport, SERIES_PASSPORT_ERROR_INFO } from './seriesPassport';
+
+export { numberPassport, NUMBER_PASSPORT_ERROR_INFO } from './numberPassport';
+
+export { codePassport, CODE_PASSPORT_ERROR_INFO } from './codePassport';
+
 export {
   personPatronymic,
   PERSON_PATRONYMIC_ERROR_INFO,
