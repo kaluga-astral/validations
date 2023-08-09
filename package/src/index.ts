@@ -81,11 +81,26 @@ export { personName, PERSON_NAME_ERROR_INFO } from './personName';
 
 export { personSurname, PERSON_SURNAME_ERROR_INFO } from './personSurname';
 
-export { seriesPassport, SERIES_PASSPORT_ERROR_INFO } from './seriesPassport';
+export {
+  passportSeries,
+  PASSPORT_SERIES_ERROR_INFO,
+  PASSPORT_SERIES_ERROR_LENGTH_INFO,
+  PASSPORT_SERIES_ONLY_DIGITS_ERROR_INFO,
+} from './passportSeries';
 
-export { numberPassport, NUMBER_PASSPORT_ERROR_INFO } from './numberPassport';
+export {
+  passportNumber,
+  PASSPORT_NUMBER_ERROR_INFO,
+  PASSPORT_NUMBER_LENGTH_ERROR_INFO,
+  PASSPORT_NUMBER_ONLY_DIGITS_ERROR_INFO,
+} from './passportNumber';
 
-export { codePassport, CODE_PASSPORT_ERROR_INFO } from './codePassport';
+export {
+  passportCode,
+  PASSPORT_CODE_ERROR_INFO,
+  PASSPORT_CODE_LENGTH_ERROR_INFO,
+  PASSPORT_CODE_ONLY_DIGITS_ERROR_INFO,
+} from './passportCode';
 
 export {
   personPatronymic,

@@ -37,9 +37,9 @@
     - [personName](#personName)
     - [personSurname](#personSurname)
     - [personPatronymic](#personPatronymic)
-    - [seriesPassport](#seriesPassport)
-    - [numberPassport](#numberPassport)
-    - [codePassport](#codePassport)
+    - [passportSeries](#passportSeries)
+    - [passportNumber](#passportNumber)
+    - [passportCode](#passportCode)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -646,65 +646,80 @@ validate('Иванович--Иванович');
 
 ---
 
-### seriesPassport
+### passportSeries
 
 Проверяет валидна ли серия паспорта
 
 #### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.1.Серияпаспорта)
 
 ```ts
-import { string, seriesPassport } from '@astral/validations';
+import { string, passportSeries } from '@astral/validations';
 
-const validate = string(seriesPassport());
+const validate = string(passportSeries());
 
 // undefined
-validate('92 17');
+validate('9217');
 
 // { message: 'Проверьте серию' }
-validate('9217');
-validate('9 15');
+validate('0017');
+
+// { message: 'Длина поля должна быть равна 4 символам' }
+validate('917');
+
+// { message: 'Только цифры' }
+validate('91а7');
 ```
 
 ---
 
-### numberPassport
+### passportNumber
 
 Проверяет валиден ли номер паспорта
 
 #### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.2.Номерпаспорта)
 
 ```ts
-import { string, numberPassport } from '@astral/validations';
+import { string, passportNumber } from '@astral/validations';
 
-const validate = string(numberPassport());
+const validate = string(passportNumber());
 
 // undefined
 validate('704564');
 
 // { message: 'Проверьте номер' }
-validate('7045648385');
+validate('000100');
+
+// { message: 'Длина поля должна быть равна 6 символам' }
 validate('7045');
+
+// { message: 'Только цифры' }
+validate('70а5');
 ```
 
 ---
 
-### codePassport
+### passportCode
 
 Проверяет валиден ли код паспорта
 
 #### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.3.Кодподразделения)
 
 ```ts
-import { string, codePassport } from '@astral/validations';
+import { string, passportCode } from '@astral/validations';
 
-const validate = string(codePassport());
+const validate = string(passportCode());
 
 // undefined
-validate('123-256');
+validate('123256');
 
 // { message: 'Проверьте код' }
 validate('000-456');
-validate('123|256');
+
+// { message: 'Длина поля должна быть равна 6 символам' }
+validate('1234');
+
+// { message: 'Только цифры' }
+validate('1а3');
 ```
 
 
