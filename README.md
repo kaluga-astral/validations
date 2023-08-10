@@ -37,6 +37,9 @@
     - [personName](#personName)
     - [personSurname](#personSurname)
     - [personPatronymic](#personPatronymic)
+    - [passportSeries](#passportSeries)
+    - [passportNumber](#passportNumber)
+    - [passportCode](#passportCode)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -639,6 +642,84 @@ validate('иванович');
 // { message: 'Проверьте отчество' }
 validate('');
 validate('Иванович--Иванович');
+```
+
+---
+
+### passportSeries
+
+Проверяет валидна ли серия паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.1.Серияпаспорта)
+
+```ts
+import { string, passportSeries } from '@astral/validations';
+
+const validate = string(passportSeries());
+
+// undefined
+validate('9217');
+
+// { message: 'Проверьте серию' }
+validate('0017');
+
+// { message: 'Длина поля должна быть равна 4 символам' }
+validate('917');
+
+// { message: 'Только цифры' }
+validate('91а7');
+```
+
+---
+
+### passportNumber
+
+Проверяет валиден ли номер паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.2.Номерпаспорта)
+
+```ts
+import { string, passportNumber } from '@astral/validations';
+
+const validate = string(passportNumber());
+
+// undefined
+validate('704564');
+
+// { message: 'Проверьте номер' }
+validate('000100');
+
+// { message: 'Длина поля должна быть равна 6 символам' }
+validate('7045');
+
+// { message: 'Только цифры' }
+validate('70а5');
+```
+
+---
+
+### passportCode
+
+Проверяет валиден ли код паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.3.Кодподразделения)
+
+```ts
+import { string, passportCode } from '@astral/validations';
+
+const validate = string(passportCode());
+
+// undefined
+validate('123256');
+
+// { message: 'Проверьте код' }
+validate('000-456');
+
+// { message: 'Длина поля должна быть равна 6 символам' }
+validate('1234');
+
+// { message: 'Только цифры' }
+validate('1а3');
 ```
 
 

@@ -87,6 +87,27 @@ export { personName, PERSON_NAME_ERROR_INFO } from './personName';
 export { personSurname, PERSON_SURNAME_ERROR_INFO } from './personSurname';
 
 export {
+  passportSeries,
+  PASSPORT_SERIES_ERROR_INFO,
+  PASSPORT_SERIES_ERROR_LENGTH_INFO,
+  PASSPORT_SERIES_ONLY_DIGITS_ERROR_INFO,
+} from './passportSeries';
+
+export {
+  passportNumber,
+  PASSPORT_NUMBER_ERROR_INFO,
+  PASSPORT_NUMBER_LENGTH_ERROR_INFO,
+  PASSPORT_NUMBER_ONLY_DIGITS_ERROR_INFO,
+} from './passportNumber';
+
+export {
+  passportCode,
+  PASSPORT_CODE_ERROR_INFO,
+  PASSPORT_CODE_LENGTH_ERROR_INFO,
+  PASSPORT_CODE_ONLY_DIGITS_ERROR_INFO,
+} from './passportCode';
+
+export {
   personPatronymic,
   PERSON_PATRONYMIC_ERROR_INFO,
 } from './personPatronymic';
