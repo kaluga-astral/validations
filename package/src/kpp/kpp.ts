@@ -1,6 +1,17 @@
-import { CommonRuleParams, createRule, isStringOfZeros } from '../core';
+import {
+  CommonRuleParams,
+  ErrorInfo,
+  createRule,
+  isNoDoubleZeroStart,
+  isStringOfZeros,
+} from '../core';
 
-import { INVALID_KPP_ERROR_INFO, KPP_REGEX } from './constants';
+import {
+  INVALID_KPP_ERROR_INFO,
+  KPP_DOUBLE_ZERO_START_ERROR_INFO,
+  KPP_REGEX,
+  KPP_ZEROS_ONLY_ERROR_INFO,
+} from './constants';
 
 type KPPParams = CommonRuleParams<string> & {
   /**
@@ -22,11 +33,22 @@ export const kpp = <TLastSchemaValues extends Record<string, unknown>>(
 ) =>
   createRule<string, TLastSchemaValues>(
     (value, ctx) => {
-      if (isStringOfZeros(value) || !KPP_REGEX.test(value)) {
-        return ctx.createError({
-          ...INVALID_KPP_ERROR_INFO,
-          message: params?.message || INVALID_KPP_ERROR_INFO.message,
+      const createKppError = (errorInfoObj: ErrorInfo) =>
+        ctx.createError({
+          message: params?.message || errorInfoObj.message,
+          code: errorInfoObj.code,
         });
+
+      if (!KPP_REGEX.test(value)) {
+        return createKppError(INVALID_KPP_ERROR_INFO);
+      }
+
+      if (isStringOfZeros(value)) {
+        return createKppError(KPP_ZEROS_ONLY_ERROR_INFO);
+      }
+
+      if (!isNoDoubleZeroStart(value)) {
+        return createKppError(KPP_DOUBLE_ZERO_START_ERROR_INFO);
       }
 
       return undefined;

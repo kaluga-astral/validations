@@ -67,7 +67,12 @@ export { innUL, INN_UL_ERROR_INFO } from './innUL';
 
 export { innIP, INN_IP_ERROR_INFO } from './innIP';
 
-export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
+export {
+  kpp,
+  INVALID_KPP_ERROR_INFO,
+  KPP_DOUBLE_ZERO_START_ERROR_INFO,
+  KPP_ZEROS_ONLY_ERROR_INFO,
+} from './kpp';
 
 export { snils, SNILS_ERROR_INFO } from './snils';
 
