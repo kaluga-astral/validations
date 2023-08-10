@@ -1,6 +1,6 @@
 import { ErrorInfo, createErrorCode } from '../core';
 
-export const KPP_PATTERN_ERROR_INFO: ErrorInfo = {
+export const INVALID_KPP_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('kpp-invalid-pattern'),
   message: 'Проверьте КПП',
 };

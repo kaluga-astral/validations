@@ -2,8 +2,8 @@ import { expect } from 'vitest';
 
 import { kpp } from './kpp';
 import {
+  INVALID_KPP_ERROR_INFO,
   KPP_DOUBLE_ZERO_START_ERROR_INFO,
-  KPP_PATTERN_ERROR_INFO,
   KPP_ZEROS_ONLY_ERROR_INFO,
 } from './constants';
 
@@ -38,7 +38,7 @@ describe('KPP', () => {
       const validate = kpp();
       const error = validate(value);
 
-      expect(error?.cause.code).toEqual(KPP_PATTERN_ERROR_INFO.code);
+      expect(error?.cause.code).toEqual(INVALID_KPP_ERROR_INFO.code);
     },
   );
 

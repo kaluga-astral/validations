@@ -69,7 +69,7 @@ export { innIP, INN_IP_ERROR_INFO } from './innIP';
 
 export {
   kpp,
-  KPP_PATTERN_ERROR_INFO,
+  INVALID_KPP_ERROR_INFO,
   KPP_DOUBLE_ZERO_START_ERROR_INFO,
   KPP_ZEROS_ONLY_ERROR_INFO,
 } from './kpp';

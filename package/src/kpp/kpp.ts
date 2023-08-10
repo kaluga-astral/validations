@@ -7,8 +7,8 @@ import {
 } from '../core';
 
 import {
+  INVALID_KPP_ERROR_INFO,
   KPP_DOUBLE_ZERO_START_ERROR_INFO,
-  KPP_PATTERN_ERROR_INFO,
   KPP_REGEX,
   KPP_ZEROS_ONLY_ERROR_INFO,
 } from './constants';
@@ -40,7 +40,7 @@ export const kpp = <TLastSchemaValues extends Record<string, unknown>>(
         });
 
       if (!KPP_REGEX.test(value)) {
-        return createKppError(KPP_PATTERN_ERROR_INFO);
+        return createKppError(INVALID_KPP_ERROR_INFO);
       }
 
       if (isStringOfZeros(value)) {
