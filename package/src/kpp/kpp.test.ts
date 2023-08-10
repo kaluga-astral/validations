@@ -21,6 +21,13 @@ describe('KPP', () => {
     expect(error?.cause.code).toEqual(INVALID_KPP_ERROR_INFO.code);
   });
 
+  it('Возвращает ошибку, если КПП начинается на 00', () => {
+    const validate = kpp();
+    const error = validate('0026SA454');
+
+    expect(error?.cause.code).toEqual(INVALID_KPP_ERROR_INFO.code);
+  });
+
   it.each<string>(['a', '95145370511', '156-573-259 92'])(
     'Invalid for: %s',
     (value) => {
