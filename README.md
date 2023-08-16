@@ -25,6 +25,7 @@
     - [min](#min-string)
     - [max](#max-string)
     - [email](#email)
+    - [guid](#guid)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [snils](#snils)
@@ -382,6 +383,25 @@ const validateEmail = email({ invalidLengthMessage: 'слишком длинны
 
 // { message: 'слишком длинный email' }
 validateEmail('longlonglong.......')
+```
+
+---
+
+### guid
+
+Проверяет валиден ли GUID.
+
+```ts
+import { string, guid } from '@astral/validations';
+
+const validate = string(guid());
+
+// undefined
+validate('C56A4180-65AA-42EC-A945-5FD21DEC0538');
+
+
+// { message: 'Некорректный GUID' }
+validate('x56a4180-h5aa-42ec-a945-5fd21dec0538');
 ```
 
 ---

@@ -61,6 +61,8 @@ export {
   INVALID_EMAIL_ERROR_INFO,
 } from './email';
 
+export { guid, INVALID_GUID_ERROR_INFO } from './guid';
+
 export { mobilePhone, MOBILE_PHONE_ERROR_INFO } from './mobilePhone';
 
 export { innUL, INN_UL_ERROR_INFO } from './innUL';
