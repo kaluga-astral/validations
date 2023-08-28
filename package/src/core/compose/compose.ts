@@ -1,5 +1,5 @@
 import { ValidationResult } from '../types';
-import { IndependentValidationRule, ValidationRule } from '../rule';
+import { IndependentValidationRule, ValidationRule, callRule } from '../rule';
 import { ValidationContext } from '../context';
 
 /**
@@ -16,6 +16,7 @@ export const compose =
   (value, ctx) =>
     rules.reduce<ValidationResult>(
       (result, rule) =>
-        result || rule(value, ctx as ValidationContext<TLastSchemaValues>),
+        result ||
+        callRule(rule, value, ctx as ValidationContext<TLastSchemaValues>),
       undefined,
     );

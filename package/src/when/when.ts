@@ -1,4 +1,9 @@
-import { ValidationContext, ValidationRule, createRule } from '../core';
+import {
+  ValidationContext,
+  ValidationRule,
+  callRule,
+  createRule,
+} from '../core';
 
 type Params<TLastSchemaValues extends Record<string, unknown>> = {
   /**
@@ -44,8 +49,8 @@ export const when = <TLastSchemaValues extends Record<string, unknown>>({
 }: Params<TLastSchemaValues>) =>
   createRule<unknown, TLastSchemaValues>((value, ctx) => {
     if (is(value, ctx)) {
-      return then(value, ctx);
+      return callRule(then, value, ctx);
     }
 
-    return otherwise(value, ctx);
+    return callRule(otherwise, value, ctx);
   });
