@@ -59,6 +59,7 @@
   - [Связанные поля](#связанные-поля)
   - [Доступ к ctx.global.values](#доступ-к-высокоуровневым-values-ctxglobalvalues)
   - [Переиспользуемое правило](#переиспользуемое-правило)
+  - [Кастомная условная валидация](#кастомная-условная-валидация)
 - [Common](#common)
   - [optional](#optional)
   - [when. Условная валидация](#when-условная-валидация)
@@ -1292,6 +1293,34 @@ validate('Hello');
 
 // { message: 'Должен содержать "world"' } 
 includesWorld()('Hello')
+```
+
+## Кастомная условная валидация
+
+Для условной валидации рекомендуется использовать [when](#when-условная-валидация), но также доступна возможность реализации кастомной условной валидации.
+
+```ts
+import { object, string, boolean, optional } from '@astral/validations';
+
+type Values = {
+  isAgree: boolean;
+  info: {
+    name: string
+  }
+};
+
+const validate = object<Values>({
+  isAgree: optional(boolean()),
+  info: object<Values['info']>({
+    name: (value, ctx) => {
+      if(ctx.global.values?.isAgree) {
+        return string();
+      }
+      
+      return any();
+    }
+  })
+});
 ```
 
 ---
