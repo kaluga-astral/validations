@@ -2,7 +2,7 @@ import { ValidationRule, compose, createRule } from '../core';
 
 /**
  * @description Выключает любые проверки и валидирует value
- * @param rules - правила, валидирующие string или unknown value
+ * @param rules - правила, валидирующие любые значения
  * @example
  * ```ts
  *   type Values = { name: string; surname?: string };

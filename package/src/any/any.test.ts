@@ -21,9 +21,20 @@ describe('any', () => {
     expect(result).toBeUndefined();
   });
 
-  it('Принимает transform() для валидации значения в input', () => {
-    //@ts-ignore
-    const validate = any(transform((value) => new Date(value), date()));
+  it('any позволяет делать композицию для правил', () => {
+    const validate = any(
+      transform((value) => {
+        if (
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          value instanceof Date
+        ) {
+          return new Date(value);
+        } else {
+          throw new Error('Некорректный тип переданного значения');
+        }
+      }, date()),
+    );
 
     const result = validate('12.22.2022');
 
