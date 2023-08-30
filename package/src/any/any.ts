@@ -1,7 +1,8 @@
-import { createRule } from '../core';
+import { ValidationRule, compose, createRule } from '../core';
 
 /**
- * @description Выключает любые проверки
+ * @description Выключает любые проверки и валидирует value
+ * @param rules - правила, валидирующие string или unknown value
  * @example
  * ```ts
  *   type Values = { name: string; surname?: string };
@@ -11,6 +12,19 @@ import { createRule } from '../core';
  *   // undefined
  *   validate({});
  * ```
+ *   const validate = any(transform((value) => new Date(value), date()));
+ *
+ *    // undefined
+ *    validate('12.22.2022');
+ *
+ *    // invalid date error
+ *    validate('13.22.2022');
+ * ```
  */
-export const any = <TLastSchemaValues extends Record<string, unknown>>() =>
-  createRule<unknown, TLastSchemaValues>(() => undefined);
+
+export const any = <TLastSchemaValues extends Record<string, unknown>>(
+  ...rules: ValidationRule<unknown, TLastSchemaValues>[]
+) =>
+  createRule<unknown, TLastSchemaValues>((value, ctx) => {
+    return compose<unknown, TLastSchemaValues>(...rules)(value, ctx);
+  });
