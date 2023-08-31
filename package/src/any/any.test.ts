@@ -1,6 +1,8 @@
 import { object } from '../object';
-import { transform } from '../transform';
-import { date } from '../date';
+import { personName } from '../personName';
+import { string } from '../string';
+import { max } from '../max';
+import { min } from '../min';
 
 import { any } from './any';
 
@@ -22,21 +24,9 @@ describe('any', () => {
   });
 
   it('any позволяет делать композицию для правил', () => {
-    const validate = any(
-      transform((value) => {
-        if (
-          typeof value === 'string' ||
-          typeof value === 'number' ||
-          value instanceof Date
-        ) {
-          return new Date(value);
-        } else {
-          throw new Error('Некорректный тип переданного значения');
-        }
-      }, date()),
-    );
+    const validate = any(string(personName(), max(9), min(5)));
 
-    const result = validate('12.22.2022');
+    const result = validate('Иван-Иван');
 
     expect(result).toBeUndefined();
   });
