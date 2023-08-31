@@ -61,13 +61,20 @@ export {
   INVALID_EMAIL_ERROR_INFO,
 } from './email';
 
+export { guid, INVALID_GUID_ERROR_INFO } from './guid';
+
 export { mobilePhone, MOBILE_PHONE_ERROR_INFO } from './mobilePhone';
 
 export { innUL, INN_UL_ERROR_INFO } from './innUL';
 
 export { innIP, INN_IP_ERROR_INFO } from './innIP';
 
-export { kpp, INVALID_KPP_ERROR_INFO } from './kpp';
+export {
+  kpp,
+  INVALID_KPP_ERROR_INFO,
+  KPP_DOUBLE_ZERO_START_ERROR_INFO,
+  KPP_ZEROS_ONLY_ERROR_INFO,
+} from './kpp';
 
 export { snils, SNILS_ERROR_INFO } from './snils';
 
@@ -80,6 +87,27 @@ export { ogrnIP, OGRN_IP_ERROR_INFO } from './ogrnIP';
 export { personName, PERSON_NAME_ERROR_INFO } from './personName';
 
 export { personSurname, PERSON_SURNAME_ERROR_INFO } from './personSurname';
+
+export {
+  passportSeries,
+  PASSPORT_SERIES_ERROR_INFO,
+  PASSPORT_SERIES_ERROR_LENGTH_INFO,
+  PASSPORT_SERIES_ONLY_DIGITS_ERROR_INFO,
+} from './passportSeries';
+
+export {
+  passportNumber,
+  PASSPORT_NUMBER_ERROR_INFO,
+  PASSPORT_NUMBER_LENGTH_ERROR_INFO,
+  PASSPORT_NUMBER_ONLY_DIGITS_ERROR_INFO,
+} from './passportNumber';
+
+export {
+  passportCode,
+  PASSPORT_CODE_ERROR_INFO,
+  PASSPORT_CODE_LENGTH_ERROR_INFO,
+  PASSPORT_CODE_ONLY_DIGITS_ERROR_INFO,
+} from './passportCode';
 
 export {
   personPatronymic,

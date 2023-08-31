@@ -53,4 +53,28 @@ describe('when', () => {
 
     expect(result2?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
+
+  it('then: позволяет кастомному правилу возвращать guard', () => {
+    const validate = when({
+      is: () => true,
+      then: () => string(),
+      otherwise: number(),
+    });
+
+    const error = validate(20);
+
+    expect(error?.cause.code).toBe(STRING_TYPE_ERROR_INFO.code);
+  });
+
+  it('otherwise: позволяет кастомному правилу возвращать guard', () => {
+    const validate = when({
+      is: () => false,
+      then: string(),
+      otherwise: () => number(),
+    });
+
+    const error = validate('string');
+
+    expect(error?.cause.code).toBe(NUMBER_TYPE_ERROR_INFO.code);
+  });
 });

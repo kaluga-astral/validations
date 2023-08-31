@@ -25,6 +25,7 @@
     - [min](#min-string)
     - [max](#max-string)
     - [email](#email)
+    - [guid](#guid)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [snils](#snils)
@@ -37,6 +38,9 @@
     - [personName](#personName)
     - [personSurname](#personSurname)
     - [personPatronymic](#personPatronymic)
+    - [passportSeries](#passportSeries)
+    - [passportNumber](#passportNumber)
+    - [passportCode](#passportCode)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -55,6 +59,7 @@
   - [Связанные поля](#связанные-поля)
   - [Доступ к ctx.global.values](#доступ-к-высокоуровневым-values-ctxglobalvalues)
   - [Переиспользуемое правило](#переиспользуемое-правило)
+  - [Кастомная условная валидация](#кастомная-условная-валидация)
 - [Common](#common)
   - [optional](#optional)
   - [when. Условная валидация](#when-условная-валидация)
@@ -383,6 +388,25 @@ validateEmail('longlonglong.......')
 
 ---
 
+### guid
+
+Проверяет валиден ли GUID.
+
+```ts
+import { string, guid } from '@astral/validations';
+
+const validate = string(guid());
+
+// undefined
+validate('C56A4180-65AA-42EC-A945-5FD21DEC0538');
+
+
+// { message: 'Некорректный GUID' }
+validate('x56a4180-h5aa-42ec-a945-5fd21dec0538');
+```
+
+---
+
 ### pattern
 
 Проверяет строку на соответствие регулярному выражению.
@@ -639,6 +663,84 @@ validate('иванович');
 // { message: 'Проверьте отчество' }
 validate('');
 validate('Иванович--Иванович');
+```
+
+---
+
+### passportSeries
+
+Проверяет валидна ли серия паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.1.Серияпаспорта)
+
+```ts
+import { string, passportSeries } from '@astral/validations';
+
+const validate = string(passportSeries());
+
+// undefined
+validate('9217');
+
+// { message: 'Проверьте серию' }
+validate('0017');
+
+// { message: 'Длина поля должна быть равна 4 символам' }
+validate('917');
+
+// { message: 'Только цифры' }
+validate('91а7');
+```
+
+---
+
+### passportNumber
+
+Проверяет валиден ли номер паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.2.Номерпаспорта)
+
+```ts
+import { string, passportNumber } from '@astral/validations';
+
+const validate = string(passportNumber());
+
+// undefined
+validate('704564');
+
+// { message: 'Проверьте номер' }
+validate('000100');
+
+// { message: 'Длина поля должна быть равна 6 символам' }
+validate('7045');
+
+// { message: 'Только цифры' }
+validate('70а5');
+```
+
+---
+
+### passportCode
+
+Проверяет валиден ли код паспорта
+
+#### [Требования на реализацию](https://track.astral.ru/soft/wiki/pages/viewpage.action?pageId=3813152849#id-Требованиянареализацию-8.3.Кодподразделения)
+
+```ts
+import { string, passportCode } from '@astral/validations';
+
+const validate = string(passportCode());
+
+// undefined
+validate('123256');
+
+// { message: 'Проверьте код' }
+validate('000-456');
+
+// { message: 'Длина поля должна быть равна 6 символам' }
+validate('1234');
+
+// { message: 'Только цифры' }
+validate('1а3');
 ```
 
 
@@ -1198,6 +1300,34 @@ validate('Hello');
 
 // { message: 'Должен содержать "world"' } 
 includesWorld()('Hello')
+```
+
+## Кастомная условная валидация
+
+Для условной валидации рекомендуется использовать [when](#when-условная-валидация), но также доступна возможность реализации кастомной условной валидации.
+
+```ts
+import { object, string, boolean, optional } from '@astral/validations';
+
+type Values = {
+  isAgree: boolean;
+  info: {
+    name: string
+  }
+};
+
+const validate = object<Values>({
+  isAgree: optional(boolean()),
+  info: object<Values['info']>({
+    name: (value, ctx) => {
+      if(ctx.global.values?.isAgree) {
+        return string();
+      }
+      
+      return any();
+    }
+  })
+});
 ```
 
 ---

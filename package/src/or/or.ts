@@ -1,4 +1,9 @@
-import { ValidationResult, ValidationRule, createRule } from '../core';
+import {
+  ValidationResult,
+  ValidationRule,
+  callRule,
+  createRule,
+} from '../core';
 
 /**
  * @description Выполняет переданные правила аналогично оператору ||. Если одно из правил не завершилось ошибкой, то or вернет undefined
@@ -19,7 +24,7 @@ export const or = <TLastSchemaValues extends Record<string, unknown>>(
     let result: ValidationResult;
 
     rules.some((rule) => {
-      result = rule(value, ctx);
+      result = callRule(rule, value, ctx);
 
       return result ? false : true;
     });

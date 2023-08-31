@@ -21,7 +21,7 @@ export type ValidationRule<
 > = (
   value: TValue,
   ctx: ValidationContext<TLastSchemaValues>,
-) => ValidationResult;
+) => ValidationResult | ValidationRule<TValue, TLastSchemaValues>;
 
 /**
  * @description Композиционное правило валидации, умеющее работать с любыми значениями.

@@ -5,6 +5,7 @@ import {
   Guard,
   ValidationContext,
   ValidationRule,
+  callRule as callRecursiveRule,
   createContext,
   createErrorMap,
   createGuard,
@@ -103,7 +104,7 @@ export const object = <
           const callRule =
             isGuard && isOptional ? optional(rule as Guard<TValue>) : rule;
 
-          errorMap[key] = callRule(value[key], context);
+          errorMap[key] = callRecursiveRule(callRule, value[key], context);
 
           return errorMap;
         }, {});
