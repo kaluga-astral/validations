@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
 
-import { REQUIRED_ERROR_INFO, ValidationRule } from '../../rule';
+import { IndependentValidationRule, REQUIRED_ERROR_INFO } from '../../rule';
 import { createErrorCode } from '../../errors';
 import { optional } from '../../../optional';
 import { createContext } from '../../context';
@@ -78,11 +78,12 @@ describe('createGuard', () => {
   });
 
   it('Сбрасывает ctx.isOptional для последующей цепочки правил', () => {
-    const guard = (rule: ValidationRule<unknown>) => createGuard(rule);
+    const guard = (rule: IndependentValidationRule<unknown, {}>) =>
+      createGuard((value, ctx) => rule(value, ctx));
 
     const validate = optional(
       guard((_, ctx) => {
-        expect(ctx.isOptional).toBeFalsy();
+        expect(ctx?.isOptional).toBeFalsy();
 
         return undefined;
       }),

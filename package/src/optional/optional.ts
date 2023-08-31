@@ -1,6 +1,7 @@
 import {
   IndependentValidationRule,
   ValidationRule,
+  callRule,
   createContext,
 } from '../core';
 
@@ -13,4 +14,4 @@ export const optional =
     rule: ValidationRule<unknown, TLastSchemaValues>,
   ): IndependentValidationRule<unknown, TLastSchemaValues> =>
   (value, ctx) =>
-    rule(value, createContext(ctx, value, { isOptional: true }));
+    callRule(rule, value, createContext(ctx, value, { isOptional: true }));
