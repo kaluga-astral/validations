@@ -4,6 +4,17 @@ import { ValidationContext } from '../types';
 import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
 
+type Params<TLastSchemaValues extends Record<string, unknown>> = {
+  /**
+   * Value последнего валидируемого объекта
+   */
+  lastSchemaValue?: DeepPartial<TLastSchemaValues>;
+  /**
+   * Позволяет создать ctx, в котором будет соответсвующий isOptional
+   */
+  isOptional?: boolean;
+};
+
 /**
  * @description Создает context валидации. Используется внутри фабрик guard и rule
  * @default по-дефолту сбрасывает все флаги в false
@@ -14,27 +25,26 @@ export function createContext<
 >(
   prevCtx: ValidationContext<Record<string, unknown>> | undefined,
   value: TValue,
-  lastSchemaValue?: DeepPartial<TLastSchemaValues>,
+  { lastSchemaValue, isOptional }: Params<TLastSchemaValues> = {},
 ): ValidationContext<TLastSchemaValues> {
-  if (prevCtx && !lastSchemaValue) {
-    return prevCtx as ValidationContext<TLastSchemaValues>;
-  }
-
-  const currentLastSchemaValue = lastSchemaValue ? lastSchemaValue : undefined;
-
   if (prevCtx) {
-    return { ...prevCtx, values: currentLastSchemaValue };
+    return {
+      ...prevCtx,
+      isOptional: isOptional ?? prevCtx.isOptional,
+      values:
+        lastSchemaValue || (prevCtx.values as DeepPartial<TLastSchemaValues>),
+    };
   }
 
   return {
-    values: currentLastSchemaValue,
+    values: lastSchemaValue,
     global: {
       values: value,
       overrides: {
         objectIsPartial: false,
       },
     },
-    isOptional: false,
+    isOptional: isOptional ?? false,
     createError: createSimpleError,
   };
 }

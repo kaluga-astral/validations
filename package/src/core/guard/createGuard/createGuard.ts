@@ -96,7 +96,11 @@ export const createGuard = <
         prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
         value,
-        value as DeepPartial<TLastSchemaValues>,
+        {
+          lastSchemaValue: value as DeepPartial<TLastSchemaValues>,
+          // скидываем isOptional, чтобы оно не прошло ниже по дереву правил
+          isOptional: false,
+        },
       );
 
       const validationResult = compose<unknown, TLastSchemaValues>(

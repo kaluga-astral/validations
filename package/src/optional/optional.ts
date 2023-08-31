@@ -1,10 +1,16 @@
-import { Guard } from '../core';
+import {
+  IndependentValidationRule,
+  ValidationRule,
+  createContext,
+} from '../core';
 
 /**
  * @description Выключает проверку на required в guard
- * @param guard - правило, проверяющее тип значения
  * @example object({ name: optional(string(min(22))) })
  */
-export const optional = <TLastSchemaValues extends Record<string, unknown>>(
-  guard: Guard<TLastSchemaValues>,
-) => guard.define({ isOptional: true });
+export const optional =
+  <TLastSchemaValues extends Record<string, unknown>>(
+    rule: ValidationRule<unknown, TLastSchemaValues>,
+  ): IndependentValidationRule<unknown, TLastSchemaValues> =>
+  (value, ctx) =>
+    rule(value, createContext(ctx, value, { isOptional: true }));

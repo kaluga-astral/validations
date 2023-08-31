@@ -80,11 +80,9 @@ export const object = <
 ) =>
   createGuard<TLastSchemaValues, AdditionalDefOptions>(
     (value, ctx, { typeErrorMessage, isPartial }) => {
-      const context = createContext<TValue, TValue>(
-        ctx,
-        value as TValue,
-        value as DeepPartial<TValue>,
-      );
+      const context = createContext<TValue, TValue>(ctx, value as TValue, {
+        lastSchemaValue: value as DeepPartial<TValue>,
+      });
 
       if (!isPlainObject(value)) {
         return context.createError({

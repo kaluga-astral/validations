@@ -1,5 +1,9 @@
-import { REQUIRED_ERROR_INFO } from '../../rule';
+import { expect } from 'vitest';
+
+import { REQUIRED_ERROR_INFO, ValidationRule } from '../../rule';
 import { createErrorCode } from '../../errors';
+import { optional } from '../../../optional';
+import { createContext } from '../../context';
 
 import { createGuard } from './createGuard';
 
@@ -65,11 +69,34 @@ describe('createGuard', () => {
 
   it('Создает новый контекст, если его не было', () => {
     const guard = createGuard((_, ctx) => {
-      expect(ctx.global.values).toBe('');
+      expect(ctx.global.values).toBe(2);
 
       return undefined;
     });
 
-    guard('');
+    guard(2);
+  });
+
+  it('Сбрасывает ctx.isOptional для последующей цепочки правил', () => {
+    const guard = (rule: ValidationRule<unknown>) => createGuard(rule);
+
+    const validate = optional(
+      guard((_, ctx) => {
+        expect(ctx.isOptional).toBeFalsy();
+
+        return undefined;
+      }),
+    );
+
+    validate(2);
+  });
+
+  it('ctx.isOptional=true: отключает required', () => {
+    const guard = createGuard(() => undefined);
+
+    const ctx = createContext(undefined, '', { isOptional: true });
+    const error = guard(undefined, ctx);
+
+    expect(error?.message).toBeUndefined();
   });
 });
