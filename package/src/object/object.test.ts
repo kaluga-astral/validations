@@ -132,4 +132,14 @@ describe('object', () => {
 
     expect(error?.cause.code).toBe('code');
   });
+
+  it('Позволяет из кастомного правила возвращать guard', () => {
+    const validate = object<{ name: string }>({
+      name: () => string(),
+    });
+
+    const error = validate({}) as ValidationErrorMap;
+
+    expect(error.cause.errorMap.name?.message).toBe('Обязательно');
+  });
 });
