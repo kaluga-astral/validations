@@ -92,13 +92,13 @@ export const createGuard = <
         isOptional: prevCtx?.isOptional || defOptions.isOptional,
       };
 
+      // пересоздается контекст. При этом isOptional сбрасывается, чтобы дальше по цепочке он не утек
       const ctx = createContext<unknown, TLastSchemaValues>(
         prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
         value,
         {
           lastSchemaValue: value as DeepPartial<TLastSchemaValues>,
-          // скидываем isOptional, чтобы оно не прошло ниже по дереву правил
           isOptional: false,
         },
       );
