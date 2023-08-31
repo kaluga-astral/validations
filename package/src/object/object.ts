@@ -1,4 +1,5 @@
 import isPlainObject from 'is-plain-obj';
+import { DeepPartial } from 'utility-types';
 
 import {
   ErrorMap,
@@ -82,7 +83,7 @@ export const object = <
       const context = createContext<TValue, TValue>(
         ctx,
         value as TValue,
-        value as TValue,
+        value as DeepPartial<TValue>,
       );
 
       if (!isPlainObject(value)) {

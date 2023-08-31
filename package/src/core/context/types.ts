@@ -8,15 +8,15 @@ import { createSimpleError } from '../errors';
 export type ValidationContext<
   TLastSchemaValues extends Record<string, unknown> = {},
   TGlobalSchemaValues = unknown,
-> = DeepReadonly<{
+> = {
   /**
    * @description Values последнего валидируемого object
    */
-  values?: DeepPartial<TLastSchemaValues>;
+  readonly values?: DeepPartial<TLastSchemaValues>;
   /**
    * @description Глобальные значения, идущие от самого верхнего правила к самому нижнему
    */
-  global: {
+  readonly global: DeepReadonly<{
     /**
      * @description Значения, которые валидируется guard самого высоко порядка
      */
@@ -30,9 +30,10 @@ export type ValidationContext<
        */
       objectIsPartial: boolean;
     };
-  };
+  }>;
   /**
    * @description Фабрика ошибок. Возвращает новую ошибку валидации
    */
-  createError: typeof createSimpleError;
-}>;
+  readonly createError: typeof createSimpleError;
+  isOptional: boolean;
+};

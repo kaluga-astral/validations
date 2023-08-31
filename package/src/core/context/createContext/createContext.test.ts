@@ -14,6 +14,7 @@ describe('createContext', () => {
         overrides: { objectIsPartial: true },
       },
       createError: createSimpleError,
+      isOptional: false,
     };
 
     const resultCtx = createContext(ctx, '');

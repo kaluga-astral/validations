@@ -1,3 +1,5 @@
+import { DeepPartial } from 'utility-types';
+
 import { ValidationResult } from '../../types';
 import { REQUIRED_ERROR_INFO, required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
@@ -48,9 +50,12 @@ export interface Guard<
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type GuardExecutor<AddDefOptions extends Record<string, unknown>> = (
+type GuardExecutor<
+  TLastSchemaValues extends Record<string, unknown>,
+  AddDefOptions extends Record<string, unknown>,
+> = (
   value: unknown,
-  ctx: ValidationContext<Record<string, unknown>>,
+  ctx: ValidationContext<TLastSchemaValues>,
   defOptions: DefOptions<AddDefOptions>,
 ) => ValidationResult;
 
@@ -74,7 +79,7 @@ export const createGuard = <
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
 >(
-  executeGuard: GuardExecutor<AddDefOptions>,
+  executeGuard: GuardExecutor<TLastSchemaValues, AddDefOptions>,
 ) => {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (defOptions: DefOptions<AddDefOptions> = {}) => {
@@ -82,22 +87,28 @@ export const createGuard = <
       value: unknown,
       prevCtx?: ValidationContext<TLastSchemaValues>,
     ) => {
-      const ctx = createContext<unknown>(
+      const actualDefOptions: DefOptions<AddDefOptions> = {
+        ...defOptions,
+        isOptional: prevCtx?.isOptional || defOptions.isOptional,
+      };
+
+      const ctx = createContext<unknown, TLastSchemaValues>(
         prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
         value,
+        value as DeepPartial<TLastSchemaValues>,
       );
 
       const validationResult = compose<unknown, TLastSchemaValues>(
         // возможность переопределить дефолтный message для required
-        required({ message: defOptions?.requiredErrorMessage }),
+        required({ message: actualDefOptions?.requiredErrorMessage }),
         (interValue: unknown, interCtx: ValidationContext<TLastSchemaValues>) =>
-          executeGuard(interValue, interCtx, defOptions),
+          executeGuard(interValue, interCtx, actualDefOptions),
       )(value, ctx as ValidationContext<TLastSchemaValues>);
 
       // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
       if (
-        defOptions?.isOptional &&
+        actualDefOptions?.isOptional &&
         validationResult?.cause.code === REQUIRED_ERROR_INFO.code
       ) {
         return undefined;

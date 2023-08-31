@@ -1,3 +1,5 @@
+import { DeepPartial } from 'utility-types';
+
 import { ValidationContext } from '../types';
 import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
@@ -6,30 +8,16 @@ import { ValidationTypes } from '../../types';
  * @description Создает context валидации. Используется внутри фабрик guard и rule
  * @default по-дефолту сбрасывает все флаги в false
  */
-export function createContext<TValue extends ValidationTypes>(
-  prevCtx: ValidationContext<{}, TValue> | undefined,
-  value: TValue,
-): ValidationContext<{}, TValue>;
-
 export function createContext<
   TValue extends ValidationTypes,
-  TLastSchemaValues extends Record<string, unknown>,
+  TLastSchemaValues extends Record<string, unknown> = {},
 >(
-  prevCtx: ValidationContext<{}> | undefined,
+  prevCtx: ValidationContext<Record<string, unknown>> | undefined,
   value: TValue,
-  lastSchemaValue: TLastSchemaValues,
-): ValidationContext<TLastSchemaValues, TValue>;
-
-export function createContext<
-  TValue extends ValidationTypes,
-  TLastSchemaValues extends Record<string, unknown>,
->(
-  prevCtx: ValidationContext<TLastSchemaValues> | undefined,
-  value: TValue,
-  lastSchemaValue?: TLastSchemaValues,
-): ValidationContext<{}, unknown> {
+  lastSchemaValue?: DeepPartial<TLastSchemaValues>,
+): ValidationContext<TLastSchemaValues> {
   if (prevCtx && !lastSchemaValue) {
-    return prevCtx;
+    return prevCtx as ValidationContext<TLastSchemaValues>;
   }
 
   const currentLastSchemaValue = lastSchemaValue ? lastSchemaValue : undefined;
@@ -46,6 +34,7 @@ export function createContext<
         objectIsPartial: false,
       },
     },
+    isOptional: false,
     createError: createSimpleError,
   };
 }
