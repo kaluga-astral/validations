@@ -36,21 +36,27 @@ type MaxParams<ValidationType> = {
  *  date(max(new Date())));
  * ```
  */
-export function max<ValidationType extends Date>(
+export function max<
+  ValidationType extends Date,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(
   threshold: Date,
   params?: MaxParams<ValidationType>,
-): ReturnType<typeof createRule<Date>>;
+): ReturnType<typeof createRule<Date, TLastSchemaValues>>;
 
-export function max<ValidationType extends BaseMaxValidationTypes>(
+export function max<
+  ValidationType extends BaseMaxValidationTypes,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(
   threshold: number,
   params?: MaxParams<ValidationType>,
-): ReturnType<typeof createRule<BaseMaxValidationTypes>>;
+): ReturnType<typeof createRule<BaseMaxValidationTypes, TLastSchemaValues>>;
 
-export function max<ValidationType extends CommonMaxValidationTypes>(
-  threshold: CommonThreshold,
-  params?: MaxParams<ValidationType>,
-) {
-  return createRule<ValidationType, {}>((value, ctx) => {
+export function max<
+  ValidationType extends CommonMaxValidationTypes,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(threshold: CommonThreshold, params?: MaxParams<ValidationType>) {
+  return createRule<ValidationType, TLastSchemaValues>((value, ctx) => {
     const getMessage = (typeMessage: string) =>
       params?.getMessage
         ? params.getMessage(threshold, value, ctx)
