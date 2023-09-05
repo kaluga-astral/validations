@@ -1120,7 +1120,7 @@ validate([1, 2]);
 
 ## any
 
-Позволяет выключить любые проверки.
+Позволяет выключить любые проверки и делать композицию для правил, валидирующих любые значения.
 
 ```ts
 type Values = { name: string; isAgree: boolean };
@@ -1142,8 +1142,15 @@ toPrettyError(
   validate({ isAgree: true, name: '' })
 );
 ```
+```ts
+  const validate = any(transform((value) => new Date(value), date()));
 
----
+// undefined
+validate('12.22.2022');
+
+// invalid date error
+validate('13.22.2022');
+```
 
 ## Define. Переопределение дефолтных параметров guard
 

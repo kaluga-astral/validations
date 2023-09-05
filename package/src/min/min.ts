@@ -36,21 +36,27 @@ type MinParams<ValidationType> = {
  *  date(min(new Date())));
  * ```
  */
-export function min<ValidationType extends Date>(
+export function min<
+  ValidationType extends Date,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(
   threshold: Date,
   params?: MinParams<ValidationType>,
-): ReturnType<typeof createRule<Date>>;
+): ReturnType<typeof createRule<Date, TLastSchemaValues>>;
 
-export function min<ValidationType extends BaseMinValidationTypes>(
+export function min<
+  ValidationType extends BaseMinValidationTypes,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(
   threshold: number,
   params?: MinParams<ValidationType>,
-): ReturnType<typeof createRule<BaseMinValidationTypes>>;
+): ReturnType<typeof createRule<BaseMinValidationTypes, TLastSchemaValues>>;
 
-export function min<ValidationType extends CommonMinValidationTypes>(
-  threshold: CommonThreshold,
-  params?: MinParams<ValidationType>,
-) {
-  return createRule<ValidationType>((value, ctx) => {
+export function min<
+  ValidationType extends CommonMinValidationTypes,
+  TLastSchemaValues extends Record<string, unknown> = {},
+>(threshold: CommonThreshold, params?: MinParams<ValidationType>) {
+  return createRule<ValidationType, TLastSchemaValues>((value, ctx) => {
     const getMessage = (typeMessage: string) =>
       params?.getMessage
         ? params.getMessage(threshold, value, ctx)
