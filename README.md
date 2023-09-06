@@ -1464,6 +1464,45 @@ validate(new Date())
 
 ---
 
+# Async
+Пакет поддерживает асинхронную валидацию.
+
+Guard, поддерживающие асинхронную валидацию имеют постфикссы ```async```:
+- ```objectAsync```
+- ```stringAsync```
+
+Пример:
+
+```ts
+type Values = {
+    nickname: string;
+    phone: string;
+};
+
+const validate = objectAsync<Values>({
+    phone: string(),
+    nickname: stringAsync(min(3), async (value, ctx) => {
+        const nicknameIsAvailable = await checkNickname(value);
+
+        if (nicknameIsAvailable) {
+            return undefined;
+        }
+
+        return ctx.createError({
+            code: 'nickname-available',
+            message: 'Nickname занят',
+        });
+    }),
+});
+
+const result = await validate({ phone: '79308999999', nickname: 'Vasya' });
+
+// { nickname: 'Nickname занят' }
+toPrettyError(result);
+```
+
+---
+
 # Integrations
 
 ## react-hook-form
