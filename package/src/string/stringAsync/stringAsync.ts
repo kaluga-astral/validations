@@ -7,6 +7,10 @@ import {
 import { isString } from '../utils';
 import { STRING_TYPE_ERROR_INFO } from '../constants';
 
+/**
+ * Позволяет использовать для валидации асинхронные правила
+ * @example stringAsync(async () => undefined)
+ */
 export const stringAsync = <TLastSchemaValues extends Record<string, unknown>>(
   ...rules: Array<
     | ValidationRule<string, TLastSchemaValues>

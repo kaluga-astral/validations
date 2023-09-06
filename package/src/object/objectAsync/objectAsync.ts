@@ -62,8 +62,7 @@ export type AsyncSchema<TValue extends Record<string, unknown>> = Record<
 >;
 
 /**
- * @description Guard для объекта
- * @param schema - схема валидации объекта
+ * @description Guard для объекта, который поддерживает асинхронную валидацию
  * @example
  * ```ts
  * type Values = {
@@ -74,13 +73,22 @@ export type AsyncSchema<TValue extends Record<string, unknown>> = Record<
  *
  * const values: Values = { name: 'Vasya', info: { surname: 'Vasin' } };
  *
- * const validateObject = object<Values>({
- *   name: string(min(2)),
+ * const validateObject = objectAsync<Values>({
+ *   name: string(min(2), async (value, ctx) => {
+ *     const result = await validateName(value);
+ *
+ *     return result.isInvalid
+ *       ? ctx.createError({
+ *           message: 'Имя занято',
+ *           code: 'name-is-not-available',
+ *         })
+ *       : undefined;
+ *   }),
  *   age: optional(number()),
  *   info: object<Values['info']>({ surname: string(min(2)) }),
  *   customField: (value, ctx) => {
- *     return ctx.createError({ message: 'error', code: 'custom error' })
- *   }
+ *     return ctx.createError({ message: 'error', code: 'custom error' });
+ *   },
  * });
  * ```
  */

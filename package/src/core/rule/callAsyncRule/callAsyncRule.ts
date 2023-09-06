@@ -6,6 +6,7 @@ import { logger } from '../../logger';
 
 /**
  * Позволяет рекурсивно вызывать асинхронные правила. Rule может возвращать другой rule
+ * Если один из rule выбросит exception, то функция его обработает и вернет дефолтную ошибку
  */
 export const callAsyncRule = <
   TValue,
