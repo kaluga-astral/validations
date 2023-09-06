@@ -34,6 +34,8 @@ type AsyncGuardExecutor<AddDefOptions extends Record<string, unknown>> = (
   defOptions: GuardDefOptions<AddDefOptions>,
 ) => Promise<ValidationResult>;
 
+// TODO: необходимо реализовать переиспользование логики между createGuard и createAsyncGuard. Также подумать над унифицированием создания guard
+
 /**
  * @description Создает guard. Guard - функция, проверяющая тип значения
  * По-дефолту проверяет value на required. Для выключения required необходимо использовать optional().

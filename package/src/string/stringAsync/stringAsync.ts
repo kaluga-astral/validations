@@ -7,6 +7,8 @@ import {
 import { isString } from '../utils';
 import { STRING_TYPE_ERROR_INFO } from '../constants';
 
+// TODO: необходимо реализовать переиспользование логики между string и stringAsync
+
 /**
  * Позволяет использовать для валидации асинхронные правила
  * @example stringAsync(async () => undefined)

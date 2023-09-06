@@ -61,6 +61,8 @@ export type AsyncSchema<TValue extends Record<string, unknown>> = Record<
   AsyncSchemaValue<TValue>
 >;
 
+// TODO: необходимо реализовать переиспользование логики между object и objectAsync
+
 /**
  * @description Guard для объекта, который поддерживает асинхронную валидацию
  * @example
