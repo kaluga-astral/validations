@@ -1,9 +1,4 @@
-import {
-  AsyncValidationRule,
-  ValidationRule,
-  composeAsync,
-  createAsyncGuard,
-} from '../core';
+import { AsyncValidationRule, ValidationRule, createAsyncGuard } from '../core';
 import { string } from '../string';
 
 export const stringAsync = <TLastSchemaValues extends Record<string, unknown>>(
@@ -11,10 +6,4 @@ export const stringAsync = <TLastSchemaValues extends Record<string, unknown>>(
     | ValidationRule<string, TLastSchemaValues>
     | AsyncValidationRule<string, TLastSchemaValues>
   >
-) =>
-  createAsyncGuard<TLastSchemaValues>((value, ctx, defOptions) =>
-    composeAsync<unknown, TLastSchemaValues>(
-      string().define(defOptions),
-      ...rules,
-    )(value, ctx),
-  );
+) => createAsyncGuard<TLastSchemaValues, string>(string(), rules);

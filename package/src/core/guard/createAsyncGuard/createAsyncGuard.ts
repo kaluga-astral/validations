@@ -1,8 +1,14 @@
-import { ValidationResult } from '../../types';
-import { REQUIRED_ERROR_INFO, required } from '../../rule';
+import { ValidationResult, ValidationTypes } from '../../types';
+import {
+  AsyncValidationRule,
+  REQUIRED_ERROR_INFO,
+  ValidationRule,
+  required,
+} from '../../rule';
 import { ValidationContext, createContext } from '../../context';
 import { composeAsync } from '../../composeAsync';
 import { GuardDefOptions, GuardValue } from '../types';
+import { Guard } from '../createGuard';
 
 /**
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
@@ -52,46 +58,32 @@ type AsyncGuardExecutor<AddDefOptions extends Record<string, unknown>> = (
  */
 export const createAsyncGuard = <
   TLastSchemaValues extends Record<string, unknown>,
+  TValidationType extends ValidationTypes,
   AddDefOptions extends Record<string, unknown> = {},
 >(
-  executeGuard: AsyncGuardExecutor<AddDefOptions>,
+  guard: Guard<TLastSchemaValues, AddDefOptions>,
+  rules: Array<
+    | ValidationRule<TValidationType, TLastSchemaValues>
+    | AsyncValidationRule<TValidationType, TLastSchemaValues>
+  >,
 ) => {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (
     defOptions: GuardDefOptions<AddDefOptions> = {},
   ) => {
-    const guard = async (
+    const innerGuard = (
       value: unknown,
-      prevCtx?: ValidationContext<TLastSchemaValues>,
-    ) => {
-      const ctx = createContext<unknown>(
-        prevCtx,
-        // при создании контекста сейчас не имеет значение какого типа будет ctx.values
-        value,
-      );
+      ctx?: ValidationContext<TLastSchemaValues>,
+    ) =>
+      composeAsync<TValidationType, TLastSchemaValues>(
+        guard.define(defOptions),
+        ...rules,
+      )(value as TValidationType, ctx);
 
-      const validationResult = await composeAsync<unknown, TLastSchemaValues>(
-        // возможность переопределить дефолтный message для required
-        required({ message: defOptions?.requiredErrorMessage }),
-        (interValue: unknown, interCtx: ValidationContext<TLastSchemaValues>) =>
-          executeGuard(interValue, interCtx, defOptions),
-      )(value, ctx as ValidationContext<TLastSchemaValues>);
-
-      // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
-      if (
-        defOptions?.isOptional &&
-        validationResult?.cause.code === REQUIRED_ERROR_INFO.code
-      ) {
-        return undefined;
-      }
-
-      return validationResult;
-    };
-
-    guard.define = (overridesDefOptions: GuardDefOptions<AddDefOptions>) =>
+    innerGuard.define = (overridesDefOptions: GuardDefOptions<AddDefOptions>) =>
       createInnerGuard(overridesDefOptions);
 
-    return guard;
+    return innerGuard;
   };
 
   return createInnerGuard();

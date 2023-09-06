@@ -14,7 +14,7 @@ export interface Guard<
   (
     value: GuardValue,
     ctx?: ValidationContext<TLastSchemaValues>,
-  ): Promise<ValidationResult>;
+  ): ValidationResult;
   /**
    * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
