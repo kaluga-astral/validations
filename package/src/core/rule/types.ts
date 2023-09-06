@@ -43,7 +43,11 @@ export type AsyncValidationRule<
 > = (
   value: TValue,
   ctx: ValidationContext<TLastSchemaValues>,
-) => Promise<ValidationResult | ValidationRule<TValue, TLastSchemaValues>>;
+) => Promise<
+  | ValidationResult
+  | AsyncValidationRule<TValue, TLastSchemaValues>
+  | ValidationRule<TValue, TLastSchemaValues>
+>;
 
 /**
  * @description Композиционное правило валидации, умеющее работать с любыми значениями.
