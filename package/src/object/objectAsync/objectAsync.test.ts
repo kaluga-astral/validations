@@ -5,13 +5,11 @@ import {
   createErrorMap,
   createSimpleError,
 } from '../../core';
-import { string } from '../../string';
+import { string, stringAsync } from '../../string';
 import { optional } from '../../optional';
-import { array } from '../../array';
-import { arrayItem } from '../../arrayItem';
+import { OBJECT_TYPE_ERROR_INFO } from '../constants';
 
 import { objectAsync } from './objectAsync';
-import { OBJECT_TYPE_ERROR_INFO } from './constants';
 
 class TestClass {
   value = 22;
@@ -20,10 +18,10 @@ class TestClass {
 describe('objectAsync', () => {
   it.each<unknown>([NaN, createErrorCode('error'), true])(
     'Возвращает ошибку типа, если value не пустое и не объект - %s',
-    (value) => {
-      const validate = object<{}>({});
+    async (value) => {
+      const validate = objectAsync<{}>({});
 
-      const result = validate(value);
+      const result = await validate(value);
 
       expect(result?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     },
@@ -31,10 +29,10 @@ describe('objectAsync', () => {
 
   it.each<unknown>([new Date(), [1, 2], new TestClass()])(
     'Возвращает ошибку, если value не простой объект - %s',
-    (value) => {
-      const validate = object<{}>({});
+    async (value) => {
+      const validate = objectAsync<{}>({});
 
-      const result = validate(value);
+      const result = await validate(value);
 
       expect(result?.cause.code).toBe(OBJECT_TYPE_ERROR_INFO.code);
     },
@@ -42,40 +40,40 @@ describe('objectAsync', () => {
 
   it.each<unknown>([{ value: 'value' }])(
     'Не возвращает ошибку, если value простой объект - %j',
-    (value) => {
-      const validate = object<{}>({});
+    async (value) => {
+      const validate = objectAsync<{}>({});
 
-      const result = validate(value);
+      const result = await validate(value);
 
       expect(result).toBeUndefined();
     },
   );
 
-  it('object.define:typeErrorMessage: позволяет переопределить сообщение ошибки типа', () => {
-    const validate = object<{}>({}).define({
+  it('object.define:typeErrorMessage: позволяет переопределить сообщение ошибки типа', async () => {
+    const validate = objectAsync<{}>({}).define({
       typeErrorMessage: 'custom type error',
     });
 
-    const error = validate('string');
+    const error = await validate('string');
 
     expect(error?.message).toBe('custom type error');
   });
 
-  it('object.define:isPartial: выключает required для всех свойств объекта', () => {
-    const validate = object<{ name: string; surname: string }>({
+  it('object.define:isPartial: выключает required для всех свойств объекта', async () => {
+    const validate = objectAsync<{ name: string; surname: string }>({
       name: string(),
       surname: string(),
     }).define({
       isPartial: true,
     });
 
-    const result = validate({});
+    const result = await validate({});
 
     expect(result).toBeUndefined();
   });
 
-  it('Генерирует ошибку для object', () => {
-    const validate = object<{ name: string; surname: string }>({
+  it('Генерирует ошибку для object', async () => {
+    const validate = objectAsync<{ name: string; surname: string }>({
       name: string(),
       surname: optional(string()),
     });
@@ -85,13 +83,13 @@ describe('objectAsync', () => {
       surname: createSimpleError(REQUIRED_ERROR_INFO),
     });
 
-    const error = validate({}) as ValidationErrorMap;
+    const error = await validate({});
 
     expect(error).toEqual(expectError);
   });
 
-  it('Поддерживает кастомные валидации для полей объекта', () => {
-    const validate = object<{ name: string }>({
+  it('Поддерживает кастомные валидации для полей объекта', async () => {
+    const validate = objectAsync<{ name: string }>({
       name: (_, ctx) =>
         ctx.createError({
           message: 'name error',
@@ -99,47 +97,30 @@ describe('objectAsync', () => {
         }),
     });
 
-    const error = validate({}) as ValidationErrorMap;
+    const error = (await validate({})) as ValidationErrorMap;
 
-    expect(error.cause.errorMap.name?.message).toBe('name error');
+    expect(error?.cause.errorMap.name?.message).toBe('name error');
   });
 
-  it('Позволяет получить доступ к последнему объекту из схемы', () => {
-    type Field = { type: string; param1: string };
-
-    const validate = object<{
-      fields: Field[];
-    }>({
-      fields: array(
-        arrayItem(
-          object<Field>({
-            type: string(),
-            param1: (_, ctx) => {
-              if (ctx.values?.type === 'type1') {
-                return ctx.createError({ message: 'error', code: 'code' });
-              }
-
-              return undefined;
-            },
-          }),
-        ),
-      ),
-    });
-
-    const error = validate({
-      fields: [{ type: 'type1', param1: undefined }],
-    });
-
-    expect(error?.cause.code).toBe('code');
-  });
-
-  it('Позволяет из кастомного правила возвращать guard', () => {
-    const validate = object<{ name: string }>({
+  it('Позволяет из кастомного правила возвращать guard', async () => {
+    const validate = objectAsync<{ name: string }>({
       name: () => string(),
     });
 
-    const error = validate({}) as ValidationErrorMap;
+    const error = (await validate({})) as ValidationErrorMap;
 
     expect(error.cause.errorMap.name?.message).toBe('Обязательно');
+  });
+
+  it('Позволяет использовать асинхронные guard и правила в схеме', async () => {
+    const validate = objectAsync<{ name: string }>({
+      name: stringAsync(async (_, ctx) =>
+        ctx.createError({ code: 'code', message: 'error1' }),
+      ),
+    });
+
+    const error = (await validate({ name: 'name' })) as ValidationErrorMap;
+
+    expect(error.cause.errorMap.name?.message).toBe('error1');
   });
 });
