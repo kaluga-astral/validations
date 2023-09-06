@@ -65,6 +65,7 @@
   - [when. Условная валидация](#when-условная-валидация)
   - [transform](#transform)
   - [or](#or)
+- [Async](#async)
 - [Integrations](#integrations)
   - [react-hook-form](#react-hook-form)
 - [Guides](#guides)
