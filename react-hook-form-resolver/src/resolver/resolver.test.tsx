@@ -4,7 +4,9 @@ import {
   array,
   arrayItem,
   object,
+  objectAsync,
   string,
+  stringAsync,
 } from '@astral/validations';
 import { Ref, ResolverOptions, useFieldArray, useForm } from 'react-hook-form';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -136,6 +138,48 @@ describe('resolver', () => {
 
       expect(errorText).toBeVisible();
       expect(errorType).toBeVisible();
+    });
+  });
+
+  it('Поддерживает асинхронную валидацию', async () => {
+    type Values = { info: { name: string } };
+
+    const validationSchema = objectAsync<Values>({
+      info: objectAsync<Values['info']>({
+        name: stringAsync(async (_, ctx) =>
+          ctx.createError({ code: 'error', message: 'Async error' }),
+        ),
+      }),
+    });
+
+    const TestForm = () => {
+      const { register, handleSubmit, formState } = useForm<Values>({
+        resolver: resolver<Values>(validationSchema),
+        defaultValues: { info: { name: 'Vasya' } },
+      });
+
+      return (
+        <form onSubmit={handleSubmit(() => {})}>
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <input {...register('info.name')} />
+          {formState.errors.info?.name && (
+            <>
+              <p>{formState.errors.info.name.message}</p>
+              <p>{formState.errors.info.name.type}</p>
+            </>
+          )}
+          <button type="submit">submit</button>
+        </form>
+      );
+    };
+
+    render(<TestForm />);
+    fireEvent.submit(screen.getByText('submit'));
+
+    await waitFor(() => {
+      const errorText = screen.getByText('Async error');
+
+      expect(errorText).toBeVisible();
     });
   });
 });
