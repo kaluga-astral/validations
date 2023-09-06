@@ -2,7 +2,7 @@ import {
   AsyncValidationRule,
   ValidationRule,
   composeAsync,
-  createAsyncGuard,
+  createGuard,
 } from '../../core';
 import { isString } from '../utils';
 import { STRING_TYPE_ERROR_INFO } from '../constants';
@@ -19,15 +19,13 @@ export const stringAsync = <TLastSchemaValues extends Record<string, unknown>>(
     | AsyncValidationRule<string, TLastSchemaValues>
   >
 ) =>
-  createAsyncGuard<TLastSchemaValues>(
-    async (value, ctx, { typeErrorMessage }) => {
-      if (!isString(value)) {
-        return ctx.createError({
-          ...STRING_TYPE_ERROR_INFO,
-          message: typeErrorMessage || STRING_TYPE_ERROR_INFO.message,
-        });
-      }
+  createGuard<TLastSchemaValues>(async (value, ctx, { typeErrorMessage }) => {
+    if (!isString(value)) {
+      return ctx.createError({
+        ...STRING_TYPE_ERROR_INFO,
+        message: typeErrorMessage || STRING_TYPE_ERROR_INFO.message,
+      });
+    }
 
-      return composeAsync(...rules)(value, ctx);
-    },
-  );
+    return composeAsync(...rules)(value, ctx);
+  });

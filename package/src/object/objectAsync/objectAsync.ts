@@ -8,9 +8,9 @@ import {
   ValidationContext,
   ValidationRule,
   callAsyncRule as callAsyncRecursiveRule,
-  createAsyncGuard,
   createContext,
   createErrorMap,
+  createGuard,
 } from '../../core';
 import { optional } from '../../optional';
 import { isEmptyErrors } from '../isEmptyErrors';
@@ -100,7 +100,7 @@ export const objectAsync = <
 >(
   schema: AsyncSchema<TValue>,
 ) =>
-  createAsyncGuard<TLastSchemaValues, AdditionalDefOptions>(
+  createGuard<TLastSchemaValues, AdditionalDefOptions>(
     async (value, ctx, { typeErrorMessage, isPartial }) => {
       const context = createContext<TValue, TValue>(
         ctx,

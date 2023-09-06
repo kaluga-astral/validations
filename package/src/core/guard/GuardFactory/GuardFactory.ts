@@ -1,7 +1,7 @@
-import { ValidationResult } from '../../types';
+import { GuardDefOptions, GuardValue } from '../types';
 import { required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
-import { GuardDefOptions, GuardValue } from '../types';
+import { ValidationResult } from '../../types';
 
 /**
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
@@ -62,40 +62,92 @@ type AsyncGuardExecutor<AddDefOptions extends Record<string, unknown>> = (
   ctx: ValidationContext<Record<string, unknown>>,
   defOptions: GuardDefOptions<AddDefOptions>,
 ) => Promise<ValidationResult>;
+//
+// export abstract class GuardFactory<
+//   AddDefOptions extends Record<string, unknown> = {},
+// > {
+//   abstract createSync<
+//     TLastSchemaValues extends Record<string, unknown>,
+//   >(): Guard<TLastSchemaValues, AddDefOptions>;
+//
+//   abstract createAsync<
+//     TLastSchemaValues extends Record<string, unknown>,
+//   >(): AsyncGuard<TLastSchemaValues, AddDefOptions>;
+//
+//   private executeGuard<TLastSchemaValues extends Record<string, unknown>>(
+//     executor: GuardExecutor<AddDefOptions>,
+//   ): Guard<TLastSchemaValues, AddDefOptions>;
+//   private executeGuard<TLastSchemaValues extends Record<string, unknown>>(
+//     executor: AsyncGuardExecutor<AddDefOptions>,
+//   ): AsyncGuard<TLastSchemaValues, AddDefOptions>;
+//
+//   private executeGuard<TLastSchemaValues extends Record<string, unknown>>(
+//     executor: GuardExecutor<AddDefOptions> | AsyncGuardExecutor<AddDefOptions>,
+//   ) {
+//     // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
+//     const createInnerGuard = (
+//       defOptions: GuardDefOptions<AddDefOptions> = {},
+//     ) => {
+//       const guard = (
+//         value: unknown,
+//         prevCtx?: ValidationContext<TLastSchemaValues>,
+//       ) => {
+//         const ctx = createContext<unknown>(
+//           prevCtx,
+//           // при создании контекста сейчас не имеет значение какого типа будет ctx.values
+//           value,
+//         );
+//
+//         const requiredResult = required({
+//           message: defOptions?.requiredErrorMessage,
+//         })(value, ctx);
+//
+//         if (defOptions?.isOptional && requiredResult) {
+//           return undefined;
+//         }
+//
+//         return requiredResult || executor(value, ctx, defOptions);
+//       };
+//
+//       guard.define = (overridesDefOptions: GuardDefOptions<AddDefOptions>) =>
+//         createInnerGuard(overridesDefOptions);
+//
+//       return guard;
+//     };
+//
+//     return createInnerGuard();
+//   }
+//
+//   protected createSyncGuard = <
+//     TLastSchemaValues extends Record<string, unknown>,
+//   >(
+//     executor: GuardExecutor<AddDefOptions>,
+//   ): Guard<TLastSchemaValues, AddDefOptions> => this.executeGuard(executor);
+//
+//   protected createAsyncGuard = <
+//     TLastSchemaValues extends Record<string, unknown>,
+//   >(
+//     executor: GuardExecutor<AddDefOptions>,
+//   ): Guard<TLastSchemaValues, AddDefOptions> => this.executeGuard(executor);
+// }
 
-/**
- * @description Создает guard. Guard - функция, проверяющая тип значения
- * По-дефолту проверяет value на required. Для выключения required необходимо использовать optional().
- * После первого вызова guard в прототипу функции становится доступен метод define, который позволяет переопределить дефолтное поведение guard (например, изменить текст для required правила)
- * @example
- * ```ts
- * const string = <TLastSchemaValues extends Record<string, unknown>>(...rules: ValidationRule<string, TValues>[]) =>
- *   createGuard<string, TValues>((value, ctx) => {
- *     if (typeof value !== 'string') {
- *       return ctx.createError({ code: 'custom error', message: 'Не строка' });
- *     }
- *
- *     return compose<string, TValues>(...rules)(value, ctx);
- *   });
- * ```
- */
 export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
-  AddDefOptions extends Record<string, unknown> = {},
+  AddDefOptions extends Record<string, unknown>,
 >(
   executor: GuardExecutor<AddDefOptions>,
 ): Guard<TLastSchemaValues, AddDefOptions>;
 
 export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
-  AddDefOptions extends Record<string, unknown> = {},
+  AddDefOptions extends Record<string, unknown>,
 >(
   executor: AsyncGuardExecutor<AddDefOptions>,
 ): AsyncGuard<TLastSchemaValues, AddDefOptions>;
 
 export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
-  AddDefOptions extends Record<string, unknown> = {},
+  AddDefOptions extends Record<string, unknown>,
 >(executor: GuardExecutor<AddDefOptions> | AsyncGuardExecutor<AddDefOptions>) {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (
