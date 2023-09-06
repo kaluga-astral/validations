@@ -5,7 +5,7 @@ import { composeAsync } from '../../composeAsync';
 import { GuardDefOptions, GuardValue } from '../types';
 
 /**
- * @description Интерфейс функции guard, которая в прототипе содержит метод define
+ * @description Интерфейс асинхронной функции guard, которая в прототипе содержит метод define
  */
 export interface AsyncGuard<
   TLastSchemaValues extends Record<string, unknown> = {},
