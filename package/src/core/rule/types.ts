@@ -13,6 +13,17 @@ export type IndependentValidationRule<
 ) => ValidationResult;
 
 /**
+ * @description Самостоятельное асинхронное правило для валидации. Может использоваться вне guard'ов
+ */
+export type AsyncIndependentValidationRule<
+  TValue,
+  TLastSchemaValues extends Record<string, unknown>,
+> = (
+  value: TValue,
+  ctx?: ValidationContext<TLastSchemaValues>,
+) => Promise<ValidationResult>;
+
+/**
  * @description Правило для валидации, работающее исключительно с guard'ами
  */
 export type ValidationRule<
@@ -22,6 +33,17 @@ export type ValidationRule<
   value: TValue,
   ctx: ValidationContext<TLastSchemaValues>,
 ) => ValidationResult | ValidationRule<TValue, TLastSchemaValues>;
+
+/**
+ * @description Асинхронное правило для валидации, работающее исключительно с guard'ами
+ */
+export type AsyncValidationRule<
+  TValue,
+  TLastSchemaValues extends Record<string, unknown> = {},
+> = (
+  value: TValue,
+  ctx: ValidationContext<TLastSchemaValues>,
+) => Promise<ValidationResult | ValidationRule<TValue, TLastSchemaValues>>;
 
 /**
  * @description Композиционное правило валидации, умеющее работать с любыми значениями.

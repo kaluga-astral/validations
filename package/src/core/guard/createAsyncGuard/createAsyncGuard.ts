@@ -1,13 +1,13 @@
 import { ValidationResult } from '../../types';
 import { REQUIRED_ERROR_INFO, required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
-import { compose } from '../../compose';
+import { composeAsync } from '../../composeAsync';
 import { GuardDefOptions, GuardValue } from '../types';
 
 /**
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
  */
-export interface Guard<
+export interface AsyncGuard<
   TLastSchemaValues extends Record<string, unknown> = {},
   AddDefOptions extends Record<string, unknown> = {},
 > {
@@ -22,17 +22,17 @@ export interface Guard<
    */
   define(
     options: GuardDefOptions<AddDefOptions>,
-  ): Guard<TLastSchemaValues, AddDefOptions>;
+  ): AsyncGuard<TLastSchemaValues, AddDefOptions>;
 }
 
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type GuardExecutor<AddDefOptions extends Record<string, unknown>> = (
+type AsyncGuardExecutor<AddDefOptions extends Record<string, unknown>> = (
   value: unknown,
   ctx: ValidationContext<Record<string, unknown>>,
   defOptions: GuardDefOptions<AddDefOptions>,
-) => ValidationResult;
+) => Promise<ValidationResult>;
 
 /**
  * @description Создает guard. Guard - функция, проверяющая тип значения
@@ -50,17 +50,17 @@ type GuardExecutor<AddDefOptions extends Record<string, unknown>> = (
  *   });
  * ```
  */
-export const createGuard = <
+export const createAsyncGuard = <
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
 >(
-  executeGuard: GuardExecutor<AddDefOptions>,
+  executeGuard: AsyncGuardExecutor<AddDefOptions>,
 ) => {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (
     defOptions: GuardDefOptions<AddDefOptions> = {},
   ) => {
-    const guard = (
+    const guard = async (
       value: unknown,
       prevCtx?: ValidationContext<TLastSchemaValues>,
     ) => {
@@ -70,7 +70,7 @@ export const createGuard = <
         value,
       );
 
-      const validationResult = compose<unknown, TLastSchemaValues>(
+      const validationResult = await composeAsync<unknown, TLastSchemaValues>(
         // возможность переопределить дефолтный message для required
         required({ message: defOptions?.requiredErrorMessage }),
         (interValue: unknown, interCtx: ValidationContext<TLastSchemaValues>) =>
