@@ -1,14 +1,16 @@
 export {
   object,
+  objectAsync,
   OBJECT_TYPE_ERROR_INFO,
   type Schema,
   type SchemaValue,
   type ObjectGuard,
+  type ObjectAsyncGuard,
 } from './object';
 
 export { optional } from './optional';
 
-export { string, STRING_TYPE_ERROR_INFO } from './string';
+export { string, STRING_TYPE_ERROR_INFO, stringAsync } from './string';
 
 export { date, INVALID_DATE_ERROR_INFO, DATE_TYPE_ERROR_INFO } from './date';
 

@@ -1,4 +1,8 @@
-import { ObjectGuard, toPlainError } from '@astral/validations';
+import {
+  ObjectAsyncGuard,
+  ObjectGuard,
+  toPlainError,
+} from '@astral/validations';
 import {
   FieldError,
   FieldErrors,
@@ -9,7 +13,7 @@ import {
 import { validateFieldsNatively } from '@hookform/resolvers';
 
 /**
- * @description Позволяет выполнять object валидацию для формы react-hook-form
+ * @description Позволяет выполнять object или objectAsync валидацию для формы react-hook-form
  * @param validateBySchema
  * @example
  * ```tsx
@@ -43,10 +47,12 @@ import { validateFieldsNatively } from '@hookform/resolvers';
  */
 export const resolver =
   <TFieldValues extends FieldValues = FieldValues>(
-    validateBySchema: ObjectGuard<TFieldValues>,
+    validateBySchema:
+      | ObjectGuard<TFieldValues>
+      | ObjectAsyncGuard<TFieldValues>,
   ): Resolver<TFieldValues> =>
-  (values, _, options) => {
-    const validationResult = validateBySchema(values);
+  async (values, _, options) => {
+    const validationResult = await validateBySchema(values);
 
     if (validationResult) {
       const resolverError = toPlainError<FieldError>(
