@@ -15,7 +15,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { resolver } from './resolver';
 
 describe('resolver', () => {
-  it('Формирует ошибку, требуемую для rhf', () => {
+  it('Формирует ошибку, требуемую для rhf', async () => {
     const nameFieldRef = {} as Ref;
 
     type ArrayValue = { name: string };
@@ -36,7 +36,11 @@ describe('resolver', () => {
       shouldUseNativeValidation: false,
     };
 
-    const result = resolver<Values>(validationSchema)(values, {}, rhfOptions);
+    const result = await resolver<Values>(validationSchema)(
+      values,
+      {},
+      rhfOptions,
+    );
 
     const expectedResult = {
       values: {},
