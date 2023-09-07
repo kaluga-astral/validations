@@ -65,6 +65,7 @@
   - [when. Условная валидация](#when-условная-валидация)
   - [transform](#transform)
   - [or](#or)
+- [Async](#async)
 - [Integrations](#integrations)
   - [react-hook-form](#react-hook-form)
 - [Guides](#guides)
@@ -1460,6 +1461,45 @@ validate(20)
 
 // { message: 'Не число' }
 validate(new Date())
+```
+
+---
+
+# Async
+Пакет поддерживает асинхронную валидацию.
+
+Guard, поддерживающие асинхронную валидацию имеют постфиксы ```async```:
+- ```objectAsync```
+- ```stringAsync```
+
+Пример:
+
+```ts
+type Values = {
+    nickname: string;
+    phone: string;
+};
+
+const validate = objectAsync<Values>({
+    phone: string(),
+    nickname: stringAsync(min(3), async (value, ctx) => {
+        const nicknameIsAvailable = await checkNickname(value);
+
+        if (nicknameIsAvailable) {
+            return undefined;
+        }
+
+        return ctx.createError({
+            code: 'nickname-available',
+            message: 'Nickname занят',
+        });
+    }),
+});
+
+const result = await validate({ phone: '79308999999', nickname: 'Vasya' });
+
+// { nickname: 'Nickname занят' }
+toPrettyError(result);
 ```
 
 ---
