@@ -14,6 +14,7 @@ describe('createContext', () => {
         overrides: { objectIsPartial: true },
       },
       createError: createSimpleError,
+      isOptional: false,
     };
 
     const resultCtx = createContext(ctx, '');
@@ -35,7 +36,9 @@ describe('createContext', () => {
 
   it('При передаче lastSchemaValue значение устанавливается в контекст', () => {
     const resultCtx = createContext(undefined, 'globalValue', {
-      field: 'name',
+      lastSchemaValue: {
+        field: 'name',
+      },
     });
 
     expect(resultCtx.values).toEqual({ field: 'name' });
@@ -43,18 +46,18 @@ describe('createContext', () => {
 
   it('lastSchemaValue перетирается, если был передан параметр', () => {
     const resultCtx = createContext(
-      createContext(undefined, 'value1', { field: 1 }),
+      createContext(undefined, 'value1', { lastSchemaValue: { field: 1 } }),
       'value2',
-      {
-        field: 2,
-      },
+      { lastSchemaValue: { field: 2 } },
     );
 
     expect(resultCtx.values).toEqual({ field: 2 });
   });
 
-  it('сохраняется предыдущий lastSchemaValue, если при вызове не было нового lastSchemaValue', () => {
-    const prevCtx = createContext(undefined, 'value1', { field: 1 });
+  it('Сохраняется предыдущий lastSchemaValue, если при вызове не было нового lastSchemaValue', () => {
+    const prevCtx = createContext(undefined, 'value1', {
+      lastSchemaValue: { field: 1 },
+    });
 
     const currentCtx = createContext(prevCtx, 'value');
 
@@ -70,5 +73,35 @@ describe('createContext', () => {
     });
 
     expect(error instanceof ValidationSimpleError).toBeTruthy();
+  });
+
+  it('params.isOptional: берется из предыдущего контекста', () => {
+    const ctx = {
+      global: {
+        values: undefined,
+        overrides: { objectIsPartial: true },
+      },
+      createError: createSimpleError,
+      isOptional: true,
+    };
+
+    const resultCtx = createContext(ctx, '');
+
+    expect(resultCtx.isOptional).toBe(ctx.isOptional);
+  });
+
+  it('params.isOptional: контекст содержит флаг из params', () => {
+    const ctx = {
+      global: {
+        values: undefined,
+        overrides: { objectIsPartial: true },
+      },
+      createError: createSimpleError,
+      isOptional: true,
+    };
+
+    const resultCtx = createContext(ctx, '', { isOptional: false });
+
+    expect(resultCtx.isOptional).toBeFalsy();
   });
 });

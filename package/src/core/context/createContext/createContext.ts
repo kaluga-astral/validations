@@ -1,51 +1,50 @@
+import { DeepPartial } from 'utility-types';
+
 import { ValidationContext } from '../types';
 import { createSimpleError } from '../../errors';
 import { ValidationTypes } from '../../types';
+
+type Params<TLastSchemaValues extends Record<string, unknown>> = {
+  /**
+   * Value последнего валидируемого объекта
+   */
+  lastSchemaValue?: DeepPartial<TLastSchemaValues>;
+  /**
+   * Позволяет создать ctx, в котором будет соответсвующий isOptional
+   */
+  isOptional?: boolean;
+};
 
 /**
  * @description Создает context валидации. Используется внутри фабрик guard и rule
  * @default по-дефолту сбрасывает все флаги в false
  */
-export function createContext<TValue extends ValidationTypes>(
-  prevCtx: ValidationContext<{}, TValue> | undefined,
-  value: TValue,
-): ValidationContext<{}, TValue>;
-
 export function createContext<
   TValue extends ValidationTypes,
-  TLastSchemaValues extends Record<string, unknown>,
+  TLastSchemaValues extends Record<string, unknown> = {},
 >(
-  prevCtx: ValidationContext<{}> | undefined,
+  prevCtx: ValidationContext<Record<string, unknown>> | undefined,
   value: TValue,
-  lastSchemaValue: TLastSchemaValues,
-): ValidationContext<TLastSchemaValues, TValue>;
-
-export function createContext<
-  TValue extends ValidationTypes,
-  TLastSchemaValues extends Record<string, unknown>,
->(
-  prevCtx: ValidationContext<TLastSchemaValues> | undefined,
-  value: TValue,
-  lastSchemaValue?: TLastSchemaValues,
-): ValidationContext<{}, unknown> {
-  if (prevCtx && !lastSchemaValue) {
-    return prevCtx;
-  }
-
-  const currentLastSchemaValue = lastSchemaValue ? lastSchemaValue : undefined;
-
+  { lastSchemaValue, isOptional }: Params<TLastSchemaValues> = {},
+): ValidationContext<TLastSchemaValues> {
   if (prevCtx) {
-    return { ...prevCtx, values: currentLastSchemaValue };
+    return {
+      ...prevCtx,
+      isOptional: isOptional ?? prevCtx.isOptional,
+      values:
+        lastSchemaValue || (prevCtx.values as DeepPartial<TLastSchemaValues>),
+    };
   }
 
   return {
-    values: currentLastSchemaValue,
+    values: lastSchemaValue,
     global: {
       values: value,
       overrides: {
         objectIsPartial: false,
       },
     },
+    isOptional: isOptional ?? false,
     createError: createSimpleError,
   };
 }

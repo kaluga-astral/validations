@@ -1,4 +1,5 @@
 import isPlainObject from 'is-plain-obj';
+import { DeepPartial } from 'utility-types';
 
 import {
   AsyncGuard,
@@ -102,11 +103,9 @@ export const objectAsync = <
 ) =>
   createGuard<TLastSchemaValues, AdditionalDefOptions>(
     async (value, ctx, { typeErrorMessage, isPartial }) => {
-      const context = createContext<TValue, TValue>(
-        ctx,
-        value as TValue,
-        value as TValue,
-      );
+      const context = createContext<TValue, TValue>(ctx, value as TValue, {
+        lastSchemaValue: value as DeepPartial<TValue>,
+      });
 
       if (!isPlainObject(value)) {
         return context.createError({

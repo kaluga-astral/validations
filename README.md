@@ -1364,6 +1364,26 @@ validate({
 });
 ```
 
+Позволяет делать optional вложенные правила:
+
+```ts
+type Values = { name: string | number; isAgree: boolean };
+
+const validate = object<Values>({
+  name: optional(
+    when({
+      is: (_, ctx) => Boolean(ctx.values?.isAgree),
+      then: string(),
+      otherwise: number(),
+    })
+  ),
+  isAgree: optional(boolean()),
+});
+
+// undefined
+validate({ isAgree: false, name: undefined });
+```
+
 ---
 
 ## when. Условная валидация
