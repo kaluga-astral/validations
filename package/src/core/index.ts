@@ -12,4 +12,6 @@ export * from './rule';
 
 export * from './compose';
 
+export * from './composeAsync';
+
 export * from './utils';

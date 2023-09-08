@@ -1,30 +1,7 @@
-import { DeepPartial } from 'utility-types';
-
 import { ValidationResult } from '../../types';
-import { REQUIRED_ERROR_INFO, required } from '../../rule';
+import { required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
-import { compose } from '../../compose';
-
-type DefOptions<AddDefOptions extends Record<string, unknown>> =
-  Partial<AddDefOptions> & {
-    /**
-     * @description Переопределяет дефолтное сообщения ошибки для required
-     * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
-     */
-    requiredErrorMessage?: string;
-    /**
-     * @description Переопределяет сообщение об ошибке типа
-     * @example string.define({ typeErrorMessage: 'ИНН не может быть числом' })(inn())
-     */
-    typeErrorMessage?: string;
-    /**
-     * @description Позволяет выключать проверку на required
-     * @default false
-     */
-    isOptional?: boolean;
-  };
-
-type GuardValue = unknown;
+import { GuardDefOptions, GuardValue } from '../types';
 
 /**
  * @description Интерфейс функции guard, которая в прототипе содержит метод define
@@ -43,21 +20,48 @@ export interface Guard<
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
   define(
-    options: DefOptions<AddDefOptions>,
+    options: GuardDefOptions<AddDefOptions>,
   ): Guard<TLastSchemaValues, AddDefOptions>;
+}
+
+/**
+ * @description Интерфейс асинхронной функции guard, которая в прототипе содержит метод define
+ */
+export interface AsyncGuard<
+  TLastSchemaValues extends Record<string, unknown> = {},
+  AddDefOptions extends Record<string, unknown> = {},
+> {
+  (
+    value: GuardValue,
+    ctx?: ValidationContext<TLastSchemaValues>,
+  ): Promise<ValidationResult>;
+  /**
+   * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
+   * @param options - параметры, позволяющие переопределить дефолтные настройки guard
+   * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
+   */
+  define(
+    options: GuardDefOptions<AddDefOptions>,
+  ): AsyncGuard<TLastSchemaValues, AddDefOptions>;
 }
 
 /**
  * @description Функция, которая позволяет определять частную логику для guard
  */
-type GuardExecutor<
-  TLastSchemaValues extends Record<string, unknown>,
-  AddDefOptions extends Record<string, unknown>,
-> = (
+type GuardExecutor<AddDefOptions extends Record<string, unknown>> = (
   value: unknown,
-  ctx: ValidationContext<TLastSchemaValues>,
-  defOptions: DefOptions<AddDefOptions>,
+  ctx: ValidationContext<Record<string, unknown>>,
+  defOptions: GuardDefOptions<AddDefOptions>,
 ) => ValidationResult;
+
+/**
+ * @description Функция, которая позволяет определять частную логику для guard
+ */
+type AsyncGuardExecutor<AddDefOptions extends Record<string, unknown>> = (
+  value: unknown,
+  ctx: ValidationContext<Record<string, unknown>>,
+  defOptions: GuardDefOptions<AddDefOptions>,
+) => Promise<ValidationResult>;
 
 /**
  * @description Создает guard. Guard - функция, проверяющая тип значения
@@ -75,57 +79,54 @@ type GuardExecutor<
  *   });
  * ```
  */
-export const createGuard = <
+export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
 >(
-  executeGuard: GuardExecutor<TLastSchemaValues, AddDefOptions>,
-) => {
+  executor: GuardExecutor<AddDefOptions>,
+): Guard<TLastSchemaValues, AddDefOptions>;
+
+export function createGuard<
+  TLastSchemaValues extends Record<string, unknown>,
+  AddDefOptions extends Record<string, unknown> = {},
+>(
+  executor: AsyncGuardExecutor<AddDefOptions>,
+): AsyncGuard<TLastSchemaValues, AddDefOptions>;
+
+export function createGuard<
+  TLastSchemaValues extends Record<string, unknown>,
+  AddDefOptions extends Record<string, unknown> = {},
+>(executor: GuardExecutor<AddDefOptions> | AsyncGuardExecutor<AddDefOptions>) {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
-  const createInnerGuard = (defOptions: DefOptions<AddDefOptions> = {}) => {
+  const createInnerGuard = (
+    defOptions: GuardDefOptions<AddDefOptions> = {},
+  ) => {
     const guard = (
       value: unknown,
       prevCtx?: ValidationContext<TLastSchemaValues>,
     ) => {
-      const actualDefOptions: DefOptions<AddDefOptions> = {
-        ...defOptions,
-        isOptional: prevCtx?.isOptional || defOptions.isOptional,
-      };
-
-      // пересоздается контекст. При этом isOptional сбрасывается, чтобы дальше по цепочке он не утек
-      const ctx = createContext<unknown, TLastSchemaValues>(
+      const ctx = createContext<unknown>(
         prevCtx,
         // при создании контекста сейчас не имеет значение какого типа будет ctx.values
         value,
-        {
-          lastSchemaValue: value as DeepPartial<TLastSchemaValues>,
-          isOptional: false,
-        },
       );
 
-      const validationResult = compose<unknown, TLastSchemaValues>(
-        // возможность переопределить дефолтный message для required
-        required({ message: actualDefOptions?.requiredErrorMessage }),
-        (interValue: unknown, interCtx: ValidationContext<TLastSchemaValues>) =>
-          executeGuard(interValue, interCtx, actualDefOptions),
-      )(value, ctx as ValidationContext<TLastSchemaValues>);
+      const requiredResult = required({
+        message: defOptions?.requiredErrorMessage,
+      })(value, ctx);
 
-      // если включен isOptional режим и required упал с ошибкой, то необходимо проигнорировать ошибку
-      if (
-        actualDefOptions?.isOptional &&
-        validationResult?.cause.code === REQUIRED_ERROR_INFO.code
-      ) {
+      if (defOptions?.isOptional && requiredResult) {
         return undefined;
       }
 
-      return validationResult;
+      return requiredResult || executor(value, ctx, defOptions);
     };
 
-    guard.define = (overridesDefOptions: DefOptions<AddDefOptions>) =>
+    guard.define = (overridesDefOptions: GuardDefOptions<AddDefOptions>) =>
       createInnerGuard(overridesDefOptions);
 
     return guard;
   };
 
   return createInnerGuard();
-};
+}
