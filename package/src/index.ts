@@ -8,7 +8,7 @@ export {
   type ObjectAsyncGuard,
 } from './object';
 
-export { optional } from './optional';
+export { optional, optionalAsync } from './optional';
 
 export { string, STRING_TYPE_ERROR_INFO, stringAsync } from './string';
 
