@@ -1529,7 +1529,7 @@ const validate = objectAsync<Values>({
     })),
 });
 
-const result = await validate({ phone: '79308999999', nickname: 'Vasya', fullname: '' });
+const result = await validate({ phone: '79308999999', nickname: 'Vasya', fullName: '' });
 
 // { nickname: 'Nickname занят' }
 toPrettyError(result);
