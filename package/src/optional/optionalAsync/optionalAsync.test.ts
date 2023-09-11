@@ -7,7 +7,7 @@ import { createErrorCode } from '../../core';
 import { optionalAsync } from './optionalAsync';
 
 describe('optionalAsync', () => {
-  it('objectAsync', async () => {
+  it('Делает проверку в objectAsync() необязательной', async () => {
     const validate = optionalAsync(objectAsync<{}>({}));
 
     const result = await validate(undefined);
@@ -15,7 +15,7 @@ describe('optionalAsync', () => {
     expect(result).toBeUndefined();
   });
 
-  it('stringAsync', async () => {
+  it('Делает проверку в stringAsync() необязательной', async () => {
     const validate = optionalAsync(
       stringAsync(async (val, ctx) => {
         if (val === 'error trigger') {
