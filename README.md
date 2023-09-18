@@ -1491,6 +1491,7 @@ validate(new Date())
 Guard, поддерживающие асинхронную валидацию имеют постфиксы ```async```:
 - ```objectAsync```
 - ```stringAsync```
+- ```optionalAsync```
 
 Пример:
 
@@ -1514,9 +1515,21 @@ const validate = objectAsync<Values>({
             message: 'Nickname занят',
         });
     }),
+    fullName: optionalAsync(stringAsync(async (value, ctx) => {
+        const nicknameIsAvailable = await checkNickname(value);
+
+        if (nicknameIsAvailable) {
+            return undefined;
+        }
+
+        return ctx.createError({
+            code: 'nickname-available',
+            message: 'Nickname занят',
+        });
+    })),
 });
 
-const result = await validate({ phone: '79308999999', nickname: 'Vasya' });
+const result = await validate({ phone: '79308999999', nickname: 'Vasya', fullName: '' });
 
 // { nickname: 'Nickname занят' }
 toPrettyError(result);
