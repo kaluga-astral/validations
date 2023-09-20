@@ -29,6 +29,7 @@
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [containsNumbers](#containsNumbers)
+    - [containsDifferentCases](#containsDifferentCases)
     - [snils](#snils)
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
@@ -463,6 +464,26 @@ validate('test12345')
 
 // { message: 'Строка должна содержать числа' }
 validate('test')
+```
+
+---
+
+### containsDifferentCases
+
+Проверяет на наличие в строке символов разных регистров
+
+```ts
+import { string, containsDifferentCases } from '@astral/validations';
+
+const validate = string(containsDifferentCases());
+
+// undefined
+validate('testTEST')
+validate('тестТЕСТ')
+
+// { message: 'Строка должна содержать символы разного регистра' }
+validate('test')
+validate('ТЕСТ')
 ```
 
 ---
