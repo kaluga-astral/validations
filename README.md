@@ -30,6 +30,7 @@
     - [onlyNumber](#onlyNumber)
     - [containsNumbers](#containsNumbers)
     - [containsDifferentCases](#containsDifferentCases)
+    - [containsPunctuationMarks](#containsPunctuationMarks)
     - [snils](#snils)
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
@@ -484,6 +485,24 @@ validate('тестТЕСТ')
 // { message: 'Строка должна содержать символы разного регистра' }
 validate('test')
 validate('ТЕСТ')
+```
+
+---
+
+### containsPunctuationMarks
+
+Проверяет на наличие в строке знаков пунктуации !$%&’()+,-./:;<=>?@[]^_{|}”
+
+```ts
+import { string, containsPunctuationMarks } from '@astral/validations';
+
+const validate = string(containsPunctuationMarks());
+
+// undefined
+validate('test?')
+
+// { message: 'Строка должна содержать знаки пунктуации' }
+validate('test')
 ```
 
 ---
