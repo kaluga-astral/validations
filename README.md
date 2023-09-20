@@ -28,6 +28,7 @@
     - [guid](#guid)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
+    - [containsNumbers](#containsNumbers)
     - [snils](#snils)
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
@@ -444,6 +445,24 @@ validate('12345')
 validate('a12345')
 validate('1.2345')
 validate('-1.2345')
+```
+
+---
+
+### containsNumbers
+
+Проверяет на наличие чисел в строке
+
+```ts
+import { string, containsNumbers } from '@astral/validations';
+
+const validate = string(containsNumbers());
+
+// undefined
+validate('test12345')
+
+// { message: 'Строка должна содержать числа' }
+validate('test')
 ```
 
 ---
