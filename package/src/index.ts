@@ -55,6 +55,21 @@ export { pattern, PATTERN_ERROR_CODE } from './pattern';
 
 export { onlyNumber, ONLY_NUMBER_ERROR_CODE } from './onlyNumber';
 
+export {
+  containsNumbers,
+  CONTAINS_NUMBERS_ERROR_CODE,
+} from './containsNumbers';
+
+export {
+  containsPunctuationMarks,
+  CONTAINS_PUNCTUATION_MARKS_ERROR_CODE,
+} from './containsPunctuationMarks';
+
+export {
+  containsDifferentCases,
+  CONTAINS_DIFFERENT_CASES_ERROR_CODE,
+} from './containsDifferentCases';
+
 export { toPlainError } from './toPlainError';
 
 export {
