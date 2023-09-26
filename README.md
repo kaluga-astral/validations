@@ -28,6 +28,9 @@
     - [guid](#guid)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
+    - [containsNumbers](#containsNumbers)
+    - [containsDifferentCases](#containsDifferentCases)
+    - [containsPunctuationMarks](#containsPunctuationMarks)
     - [snils](#snils)
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
@@ -444,6 +447,62 @@ validate('12345')
 validate('a12345')
 validate('1.2345')
 validate('-1.2345')
+```
+
+---
+
+### containsNumbers
+
+Проверяет на наличие чисел в строке
+
+```ts
+import { string, containsNumbers } from '@astral/validations';
+
+const validate = string(containsNumbers());
+
+// undefined
+validate('test12345')
+
+// { message: 'Строка должна содержать числа' }
+validate('test')
+```
+
+---
+
+### containsDifferentCases
+
+Проверяет на наличие в строке символов разных регистров
+
+```ts
+import { string, containsDifferentCases } from '@astral/validations';
+
+const validate = string(containsDifferentCases());
+
+// undefined
+validate('testTEST')
+validate('тестТЕСТ')
+
+// { message: 'Строка должна содержать символы разного регистра' }
+validate('test')
+validate('ТЕСТ')
+```
+
+---
+
+### containsPunctuationMarks
+
+Проверяет на наличие в строке знаков пунктуации !$%&’()+,-./:;<=>?@[]^_{|}”
+
+```ts
+import { string, containsPunctuationMarks } from '@astral/validations';
+
+const validate = string(containsPunctuationMarks());
+
+// undefined
+validate('test?')
+
+// { message: 'Строка должна содержать знаки пунктуации' }
+validate('test')
 ```
 
 ---

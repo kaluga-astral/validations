@@ -4,6 +4,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       { "devDependencies": true, "packageDir": ["./", "../"] }
-    ]
+    ],
+    "quotes": ["error", "single", { "avoidEscape": true }]
   }
 }
