@@ -141,6 +141,7 @@ export function createGuard<
       };
 
       const ctx = createContext<unknown, TLastSchemaValues>(prevCtx, value, {
+        // данная конструкция останавливает погружение isOptional в последующие guard
         isOptional: false,
       });
 
