@@ -1,5 +1,3 @@
-import { expect } from 'vitest';
-
 import {
   REQUIRED_ERROR_INFO,
   ValidationErrorMap,
