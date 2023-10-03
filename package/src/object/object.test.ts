@@ -133,6 +133,20 @@ describe('object', () => {
     expect(error?.cause.code).toBe('code');
   });
 
+  it('Позволяет получить доступ к последнему объекту из схемы из guard', () => {
+    type Values = { type: string };
+
+    const validate = object<Values>({
+      type: string((_, ctx) => {
+        expect(ctx.values).toEqual({ type: 'type1' });
+
+        return undefined;
+      }),
+    });
+
+    validate({ type: 'type1' });
+  });
+
   it('Позволяет из кастомного правила возвращать guard', () => {
     const validate = object<{ name: string }>({
       name: () => string(),

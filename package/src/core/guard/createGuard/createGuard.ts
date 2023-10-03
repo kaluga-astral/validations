@@ -1,5 +1,3 @@
-import { DeepPartial } from 'utility-types';
-
 import { ValidationResult } from '../../types';
 import { required } from '../../rule';
 import { ValidationContext, createContext } from '../../context';
@@ -142,15 +140,10 @@ export function createGuard<
         isOptional: prevCtx?.isOptional || defOptions.isOptional,
       };
 
-      const ctx = createContext<unknown, TLastSchemaValues>(
-        prevCtx,
-        // при создании контекста сейчас не имеет значение какого типа будет ctx.values
-        value,
-        {
-          lastSchemaValue: value as DeepPartial<TLastSchemaValues>,
-          isOptional: false,
-        },
-      );
+      const ctx = createContext<unknown, TLastSchemaValues>(prevCtx, value, {
+        // данная конструкция останавливает погружение isOptional в последующие guard
+        isOptional: false,
+      });
 
       const requiredResult = required({
         message: actualDefOptions?.requiredErrorMessage,

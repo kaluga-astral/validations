@@ -100,4 +100,20 @@ describe('createGuard', () => {
 
     expect(error?.message).toBeUndefined();
   });
+
+  it('ctx.values: не перетирает предыдущие значения контекста', () => {
+    const guard = createGuard((_, ctx) => {
+      expect(ctx.values).toEqual({ value: 22 });
+
+      return undefined;
+    });
+
+    guard(
+      { prop: 33 },
+      createContext(undefined, '', {
+        lastSchemaValue: { value: 22 },
+        isOptional: true,
+      }),
+    );
+  });
 });
