@@ -98,10 +98,7 @@ export const object = <
           context.global.overrides.objectIsPartial || isPartial;
 
         return schemaEntries.reduce<ErrorMap>((errorMap, [key, rule]) => {
-          const isGuard = 'define' in rule;
-
-          const callRule =
-            isGuard && isOptional ? optional(rule as Guard<TValue>) : rule;
+          const callRule = isOptional ? optional(rule) : rule;
 
           errorMap[key] = callRecursiveRule(callRule, value[key], context);
 
