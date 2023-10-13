@@ -47,6 +47,7 @@
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
+    - [minYearsOld](#min-years-old-date)
   - [boolean](#boolean)
   - [object](#object)
     - [partial](#partial)
@@ -869,6 +870,30 @@ validate(new Date('15-11-2022'));
 
 // undefined
 validate(new Date('02-01-2021'));
+
+```
+
+---
+
+### #min years old date
+
+Принимает возраст и вычитает переданное количество лет из текущей даты. Позволяет кастомизировать текст ошибки.
+
+```ts
+import { date, minYearsOld } from '@astral/validations';
+
+const validate = date(
+  minYearsOld(18, {
+    customErrorMessage:
+            'Только совершеннолетние могут воспользоваться данной услугой',
+  }),
+);
+
+// { message: 'Только совершеннолетние могут воспользоваться данной услугой' }
+validate(new Date('15.11.2022'));
+
+// undefined
+validate(new Date('10.10.2005'));
 
 ```
 
