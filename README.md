@@ -890,7 +890,7 @@ const validate = date(
 );
 
 // { message: 'Только совершеннолетние могут воспользоваться данной услугой' }
-validate(new Date('15-11-2022'));
+validate(new Date('15.11.2022'));
 
 // undefined
 validate(new Date('10.10.2005'));
