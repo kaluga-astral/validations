@@ -13,7 +13,7 @@ import {
   createErrorMap,
   createGuard,
 } from '../../core';
-import { optional } from '../../optional';
+import { optionalAsync } from '../../optional';
 import { isEmptyErrors } from '../isEmptyErrors';
 import { OBJECT_TYPE_ERROR_INFO } from '../constants';
 
@@ -121,10 +121,7 @@ export const objectAsync = <
 
         const results = await Promise.all(
           schemaEntries.map(([key, rule]) => {
-            const isGuard = 'define' in rule;
-
-            const callRule =
-              isGuard && isOptional ? optional(rule as Guard<TValue>) : rule;
+            const callRule = isOptional ? optionalAsync(rule) : rule;
 
             return callAsyncRecursiveRule(callRule, value[key], context);
           }),
