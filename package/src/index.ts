@@ -29,6 +29,8 @@ export { arrayItem } from './arrayItem';
 
 export { deepPartial } from './deepPartial';
 
+export { partial } from './partial';
+
 export {
   min,
   STRING_MIN_ERROR_CODE,
