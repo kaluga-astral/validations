@@ -1,6 +1,7 @@
 import {
   AsyncIndependentValidationRule,
   AsyncValidationRule,
+  ValidationRule,
   callAsyncRule,
   createContext,
 } from '../../core';
@@ -13,7 +14,9 @@ import {
  */
 export const optionalAsync =
   <TLastSchemaValues extends Record<string, unknown>>(
-    rule: AsyncValidationRule<unknown, TLastSchemaValues>,
+    rule:
+      | AsyncValidationRule<unknown, TLastSchemaValues>
+      | ValidationRule<unknown, TLastSchemaValues>,
   ): AsyncIndependentValidationRule<unknown, TLastSchemaValues> =>
   async (value, ctx) => {
     return callAsyncRule(
