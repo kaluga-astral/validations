@@ -26,6 +26,7 @@
     - [max](#max-string)
     - [email](#email)
     - [guid](#guid)
+    - [length](#length)
     - [pattern](#pattern)
     - [onlyNumber](#onlyNumber)
     - [containsNumbers](#containsNumbers)
@@ -408,6 +409,25 @@ validate('C56A4180-65AA-42EC-A945-5FD21DEC0538');
 
 // { message: 'Некорректный GUID' }
 validate('x56a4180-h5aa-42ec-a945-5fd21dec0538');
+```
+
+---
+
+### length
+
+Проверяет значение на соответствие длине.
+
+```ts
+import { string, length } from '@astral/validations';
+
+const validate = string(length(5));
+
+// undefined
+validate('aaaaaa');
+
+
+// { message: 'Кол-во символов должно быть: 5' }
+validate('abc');
 ```
 
 ---

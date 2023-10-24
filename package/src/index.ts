@@ -82,6 +82,8 @@ export {
 
 export { guid, INVALID_GUID_ERROR_INFO } from './guid';
 
+export { length, STRING_LENGTH_ERROR_CODE } from './length';
+
 export { mobilePhone, MOBILE_PHONE_ERROR_INFO } from './mobilePhone';
 
 export { innUL, INN_UL_ERROR_INFO } from './innUL';
