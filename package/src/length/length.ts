@@ -11,7 +11,7 @@ type LengthParams = {
 
 /**
  * @description Проверяет значение на соответствие длине. Работает с: string
- * @param quantity - целевой кол-во символов
+ * @param len - целевой кол-во символов
  * @example
  *  // Длина строки должна быть 5 символов
  *  const validate = string(length(5));
@@ -24,16 +24,16 @@ type LengthParams = {
  *
  */
 export const length = <TLastSchemaValues extends Record<string, unknown>>(
-  quantity: number,
+  len: number,
   params?: LengthParams,
 ) =>
   createRule<string, TLastSchemaValues>((value, ctx) => {
     const currentLength = value.trim().length;
 
-    if (currentLength !== quantity) {
+    if (currentLength !== len) {
       return ctx.createError({
         code: STRING_LENGTH_ERROR_CODE,
-        message: params?.message || `Кол-во символов должно быть: ${quantity}`,
+        message: params?.message || `Кол-во символов должно быть: ${len}`,
       });
     }
 
