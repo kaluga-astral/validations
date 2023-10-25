@@ -423,7 +423,7 @@ import { string, length } from '@astral/validations';
 const validate = string(length(5));
 
 // undefined
-validate('aaaaaa');
+validate('aaaaa');
 
 
 // { message: 'Кол-во символов должно быть: 5' }
