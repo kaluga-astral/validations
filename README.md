@@ -596,6 +596,51 @@ validate('+384212952720')
 
 ---
 
+### innFL
+
+Проверяет валиден ли ИНН ФЛ
+
+```ts
+import { string, innFL } from '@astral/validations';
+
+const validate = string(innFL());
+
+// undefined
+validate('384212952720')
+validate('000000000000')
+
+// { message: 'Некорректный ИНН ФЛ' }
+validate('3842129527')
+validate('384212952a20')
+validate('+384212952720')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
+### innTwelveSymbols
+
+Проверяет валиден ли ИНН из 12 символов
+
+```ts
+import { string, innTwelveSymbols } from '@astral/validations';
+
+const validate = string(innTwelveSymbols());
+
+// undefined
+validate('384212952720')
+
+// { message: 'Некорректный ИНН' }
+validate('3842129527')
+validate('384212952a20')
+validate('+384212952720')
+```
+
+:information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
 ### kpp
 
 Проверяет валиден ли КПП

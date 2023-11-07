@@ -86,7 +86,14 @@ export { mobilePhone, MOBILE_PHONE_ERROR_INFO } from './mobilePhone';
 
 export { innUL, INN_UL_ERROR_INFO } from './innUL';
 
+export {
+  innTwelveSymbols,
+  INN_12_SYMBOLS_ERROR_INFO,
+} from './innTwelveSymbols';
+
 export { innIP, INN_IP_ERROR_INFO } from './innIP';
+
+export { innFL, INN_FL_ERROR_INFO } from './innFL';
 
 export {
   kpp,
