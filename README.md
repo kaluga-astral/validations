@@ -35,6 +35,8 @@
     - [mobilePhone](#mobilePhone)
     - [innUL](#innUL)
     - [innIP](#innIP)
+    - [innFL](#innFL)
+    - [innTwelveSymbols](#innTwelveSymbols)
     - [kpp](#kpp)
     - [ogrnIP](#ogrnIP)
     - [ogrnUL](#ogrnUL)
