@@ -45,6 +45,7 @@
     - [passportSeries](#passportSeries)
     - [passportNumber](#passportNumber)
     - [passportCode](#passportCode)
+    - [textField](#textField)
   - [date](#date)
     - [min](#min-date)
     - [max](#max-date)
@@ -546,6 +547,27 @@ validate('156-573-259 92')
 ```
 
 :information_source: Поддерживает [exclude](#exclusion-managing)
+
+---
+
+### textField
+
+Проверяет валидно ли текстовое поле
+
+```ts
+import { string, textField } from '@astral/validations';
+
+const validate = string(textField());
+
+// undefined
+validate('!@#$%^&*()-_=+|[]{};:",.<>/?')
+validate('абвАБВ abcABC')
+
+// { message: 'Содержит запрещённые символы' }
+validate('😀')
+validate('∑')
+validate('٩(◕‿◕｡)۶')
+```
 
 ---
 

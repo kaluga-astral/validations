@@ -12,6 +12,12 @@ export { optional, optionalAsync } from './optional';
 
 export { string, STRING_TYPE_ERROR_INFO, stringAsync } from './string';
 
+export {
+  textField,
+  INVALID_TEXT_FIELD_ERROR_INFO,
+  LENGTH_TEXT_FIELD_ERROR_INFO,
+} from './textField';
+
 export { date, INVALID_DATE_ERROR_INFO, DATE_TYPE_ERROR_INFO } from './date';
 
 export {
