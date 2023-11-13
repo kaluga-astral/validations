@@ -4,13 +4,9 @@ import {
   isNoDoubleZeroStart,
   isStringOfZeros,
 } from '../core';
+import { innTwelveSymbols } from '../innTwelveSymbols';
 
-import {
-  FIRST_INN_IP_DECODING,
-  INN_IP_ERROR_INFO,
-  INN_IP_LENGTH,
-  SECOND_INN_IP_DECODING,
-} from './constants';
+import { INN_IP_ERROR_INFO } from './constants';
 
 type InnIPParams = CommonRuleParams<string> & {
   /**
@@ -18,28 +14,6 @@ type InnIPParams = CommonRuleParams<string> & {
    */
   message?: string;
 };
-
-const calcFirstCheckSumForInnIP = (arrSymbols: string[]) =>
-  (arrSymbols
-    .slice(0, -2)
-    .reduce(
-      (sum, symbol, index) =>
-        FIRST_INN_IP_DECODING[index] * Number(symbol) + sum,
-      0,
-    ) %
-    11) %
-  10;
-
-const calcSecondCheckSumForInnIP = (arrSymbols: string[]) =>
-  (arrSymbols
-    .slice(0, -1)
-    .reduce(
-      (sum, symbol, index) =>
-        SECOND_INN_IP_DECODING[index] * Number(symbol) + sum,
-      0,
-    ) %
-    11) %
-  10;
 
 /**
  * @description Проверяет валиден ли ИНН ИП
@@ -68,20 +42,7 @@ export const innIP = <TLastSchemaValues extends Record<string, unknown>>(
         return createInnIPError();
       }
 
-      if (value.length !== INN_IP_LENGTH) {
-        return createInnIPError();
-      }
-
-      const arrSymbols = value.split('');
-
-      const firstChecksum = calcFirstCheckSumForInnIP(arrSymbols);
-
-      const secondChecksum = calcSecondCheckSumForInnIP(arrSymbols);
-
-      if (
-        Number(value[10]) !== firstChecksum &&
-        Number(value[11]) !== secondChecksum
-      ) {
+      if (innTwelveSymbols()(value) !== undefined) {
         return createInnIPError();
       }
 
