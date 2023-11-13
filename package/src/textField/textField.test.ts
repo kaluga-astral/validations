@@ -20,14 +20,14 @@ describe('textField', () => {
     '   абв   ',
     '      ',
     'Авада кедавра...',
-  ])('Valid for: %s', (value) => {
+  ])('Валидное значения: %s', (value) => {
     const result = textField()(value);
 
     expect(result).toBeUndefined();
   });
 
   it.each<string>(['∑', '⛔️', '😀', '1⃣', '👍', '٩(◕‿◕｡)۶'])(
-    'Invalid for: %s',
+    'Невалидное значения: %s',
     (value) => {
       const error = textField()(value);
 
@@ -35,32 +35,32 @@ describe('textField', () => {
     },
   );
 
-  it('Props:customLength: изменённое ограничение длины', () => {
+  it('Изменённое ограничение длины', () => {
     const error = textField({ customLength: 2 })('abcABC');
 
     expect(error?.message).toBe(LENGTH_TEXT_FIELD_ERROR_INFO.message);
   });
 
-  it('Valid default length message', () => {
+  it('Дефолтная ошибка при превышении длины', () => {
     const error = textField()(getLongText());
 
     expect(error?.message).toBe(LENGTH_TEXT_FIELD_ERROR_INFO.message);
   });
 
-  it('Valid default message', () => {
+  it('Дефолтная ошибка при некорректных символах', () => {
     const error = textField()('😀');
 
     expect(error?.message).toBe(INVALID_TEXT_FIELD_ERROR_INFO.message);
   });
 
-  it('Valid custom length message', () => {
+  it('Кастомная ошибка при превышении длины', () => {
     const validate = textField({ invalidLengthMessage: customMessage });
     const error = validate(getLongText());
 
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid custom message', () => {
+  it('Кастомная ошибка при некорректных символах', () => {
     const error = textField({ message: customMessage })('😀');
 
     expect(error?.message).toBe(customMessage);
