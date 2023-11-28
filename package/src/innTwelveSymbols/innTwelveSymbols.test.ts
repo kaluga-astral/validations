@@ -3,7 +3,7 @@ import { innTwelveSymbols } from './innTwelveSymbols';
 
 describe('innTwelveSymbols', () => {
   it.each<string>(['447572010132', '384212952720'])(
-    'Valid for: %s',
+    'Значение "%s" валидно',
     (value) => {
       expect(innTwelveSymbols()(value)).toBeUndefined();
     },
@@ -24,7 +24,7 @@ describe('innTwelveSymbols', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Invalid for: %s', (value) => {
+  ])('Значение "%s" не валидно', (value) => {
     const error = innTwelveSymbols()(value);
 
     expect(error?.cause.code).toBe(INN_12_SYMBOLS_ERROR_INFO.code);

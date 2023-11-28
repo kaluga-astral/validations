@@ -26,7 +26,7 @@ describe('passportCode', () => {
   );
 
   it.each(['124556', '125435', '126434', '129732'])(
-    'Invalid for %s: Третья цифра в коде должна принимать значения: 0, 1, 2, 3',
+    'Возвращает ошибку для "%s" потому, что третья цифра кода отлична от: 0, 1, 2, 3',
     (value) => {
       const error = passportCode()(value);
 
@@ -35,7 +35,7 @@ describe('passportCode', () => {
   );
 
   it.each(['', '1', '12', '123', '1234', '12345', '1264434'])(
-    'Invalid for %s: Допускается длина поля - 6 символов',
+    'Возвращает ошибку для "%s" потому, что длина поля отличается от 6',
     (value) => {
       const error = passportCode()(value);
 
@@ -43,7 +43,7 @@ describe('passportCode', () => {
     },
   );
 
-  it('Должна возвращать ошибку с пользовательским сообщением', () => {
+  it('Позволяет указать кастомный message ошибки', () => {
     const customMessage = 'Пользовательское сообщение';
     const error = passportCode({ message: customMessage })('err');
 

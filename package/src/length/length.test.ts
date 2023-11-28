@@ -11,7 +11,7 @@ describe('length', () => {
     { value: '12345', len: 5 },
     { value: 'abc123', len: 6 },
     { value: ' a b c ', len: 5 },
-  ])('length:params:%j: valid', ({ value, len }) => {
+  ])('Не возвращает ошибку для параметров: %j', ({ value, len }) => {
     const validate = string(length(len));
 
     const result = validate(value);
@@ -24,7 +24,7 @@ describe('length', () => {
     { value: '12345', len: -1 },
     { value: 'abc123', len: 2 },
     { value: ' a b c ', len: 7 },
-  ])('length:params:%j: invalid', ({ value, len }) => {
+  ])('Возвращает ошибку для параметров: %j', ({ value, len }) => {
     const validate = string(length(len));
 
     const error = validate(value);
@@ -32,7 +32,7 @@ describe('length', () => {
     expect(error?.cause.code).toBe(STRING_LENGTH_ERROR_CODE);
   });
 
-  it('params.message: переопределение message', () => {
+  it('Позволяет переопределить дефолтный message', () => {
     const validate = string(length(5, { message: 'my message' }));
 
     const error = validate('abc123');

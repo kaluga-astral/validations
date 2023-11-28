@@ -2,7 +2,7 @@ import { INN_IP_ERROR_INFO } from './constants';
 import { innIP } from './innIP';
 
 describe('innIP', () => {
-  it.each<string>(['384212952720'])('Valid for: %s', (value) => {
+  it.each<string>(['384212952720'])('Значение "%s" валидно', (value) => {
     expect(innIP()(value)).toBeUndefined();
   });
 
@@ -33,7 +33,7 @@ describe('innIP', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Invalid for: %s', (value) => {
+  ])('Значение "%s" не валидно', (value) => {
     const error = innIP()(value);
 
     expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);

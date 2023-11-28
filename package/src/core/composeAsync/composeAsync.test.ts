@@ -22,7 +22,7 @@ describe('composeAsync', () => {
     expect(result?.message).toBe('error1');
   });
 
-  it('Поддерживаем вложенность правил', async () => {
+  it('Поддерживает вложенность правил', async () => {
     const validate = composeAsync(
       async () => undefined,
       async () => async () =>
@@ -37,7 +37,7 @@ describe('composeAsync', () => {
     expect(result?.message).toBe('error2');
   });
 
-  it('Поддерживается вложенность', async () => {
+  it('Поддерживает вложенность', async () => {
     const composed1 = composeAsync(
       async () =>
         createSimpleError({

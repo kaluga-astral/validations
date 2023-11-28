@@ -34,7 +34,7 @@ describe('containsPunctuationMarks', () => {
     'f{',
     'f|',
     'f}',
-  ])('value:%s: valid', (value) => {
+  ])('Значение "%s" валидно', (value) => {
     const validate = containsPunctuationMarks();
 
     const result = validate(value);
@@ -42,7 +42,7 @@ describe('containsPunctuationMarks', () => {
     expect(result).toBeUndefined();
   });
 
-  it.each<string>(['fff', 'FFF'])('value:%s: invalid', (value) => {
+  it.each<string>(['fff', 'FFF'])('Значение "%s" не валидно', (value) => {
     const validate = containsPunctuationMarks();
 
     const error = validate(value);
@@ -50,7 +50,7 @@ describe('containsPunctuationMarks', () => {
     expect(error?.cause.code).toEqual(CONTAINS_PUNCTUATION_MARKS_ERROR_CODE);
   });
 
-  it('params.message: позволяет переопределить message', () => {
+  it('Позволяет переопределить дефолтный message ошибки', () => {
     const validate = containsPunctuationMarks({ message: 'my message' });
 
     const error = validate('aa');

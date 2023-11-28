@@ -3,7 +3,7 @@ import { ogrnUL } from './ogrnUL';
 
 describe('ogrnUL', () => {
   it.each<string>(['8104338364837', '1214000000092'])(
-    'Valid for: %s',
+    'Значение "%s" валидно',
     (value) => {
       expect(ogrnUL()(value)).toBeUndefined();
     },
@@ -16,7 +16,7 @@ describe('ogrnUL', () => {
   });
 
   it.each<string>(['a', '1175958000004', '1-22-33-5555555-6'])(
-    'Invalid for: %s',
+    'Значение "%s" не валидно',
     (value) => {
       const error = ogrnUL()(value);
 

@@ -2,7 +2,7 @@ import { INN_UL_ERROR_INFO } from './constants';
 import { innUL } from './innUL';
 
 describe('innUL', () => {
-  it.each<string>(['7728168971'])('Valid for: %s', (value) => {
+  it.each<string>(['7728168971'])('Значение "%s" валидно', (value) => {
     expect(innUL()(value)).toBeUndefined();
   });
 
@@ -27,7 +27,7 @@ describe('innUL', () => {
     'number',
     '384212952720',
     '7728168911',
-  ])('Invalid for: %s', (value) => {
+  ])('Значение "%s" не валидно', (value) => {
     const error = innUL()(value);
 
     expect(error?.cause.code).toBe(INN_UL_ERROR_INFO.code);

@@ -22,7 +22,7 @@ describe('containsNumbers', () => {
     '10-122',
     '2+2',
     '12`/?*',
-  ])('value:%s: valid', (value) => {
+  ])('Значение "%s" валидно', (value) => {
     const validate = containsNumbers();
 
     const result = validate(value);
@@ -42,7 +42,7 @@ describe('containsNumbers', () => {
     'aa-aa',
     'a+a',
     'aa`/?*',
-  ])('value:%s: invalid', (value) => {
+  ])('Значение "%s" не валидно', (value) => {
     const validate = containsNumbers();
 
     const error = validate(value);
@@ -50,7 +50,7 @@ describe('containsNumbers', () => {
     expect(error?.cause.code).toEqual(CONTAINS_NUMBERS_ERROR_CODE);
   });
 
-  it('params.message: позволяет переопределить message', () => {
+  it('Позволяет переопределить дефолтный message ошибки', () => {
     const validate = containsNumbers({ message: 'my message' });
 
     const error = validate('aa');

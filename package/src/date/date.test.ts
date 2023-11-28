@@ -15,7 +15,7 @@ describe('date', () => {
   );
 
   it.each<unknown>([new Date(), new Date('01.01.2000')])(
-    'Valid for: %s',
+    'Значение "%s" валидно',
     (value) => {
       const result = date()(value);
 

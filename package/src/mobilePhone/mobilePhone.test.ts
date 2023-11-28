@@ -2,7 +2,7 @@ import { MOBILE_PHONE_ERROR_INFO } from './constants';
 import { mobilePhone } from './mobilePhone';
 
 describe('mobilePhone', () => {
-  it.each<string>(['79999999999'])('Valid for: %s', (value) => {
+  it.each<string>(['79999999999'])('Значение "%s" валидно', (value) => {
     expect(mobilePhone()(value)).toBeUndefined();
   });
 
@@ -15,7 +15,7 @@ describe('mobilePhone', () => {
     '7 (999) 99-99-999',
     '7 (999) 999-99-99',
     '7(999)999-99-99',
-  ])('Invalid for: %s', (value) => {
+  ])('Значение "%s" не валидно', (value) => {
     const error = mobilePhone()(value);
 
     expect(error?.cause.code).toBe(MOBILE_PHONE_ERROR_INFO.code);

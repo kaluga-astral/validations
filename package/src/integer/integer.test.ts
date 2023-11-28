@@ -4,14 +4,14 @@ import { integer } from './integer';
 import { INTEGER_ERROR_INFO } from './constants';
 
 describe('integer', () => {
-  it.each<number>([3, 17, 5, 24])('Valid for: %s', (value) => {
+  it.each<number>([3, 17, 5, 24])('Значение "%s" валидно', (value) => {
     const validate = integer();
     const result = validate(value);
 
     expect(result).toBeUndefined();
   });
 
-  it.each<number>([5.2, 7.55, 3.14])('Invalid for: %s', (value) => {
+  it.each<number>([5.2, 7.55, 3.14])('Значение "%s" не валидно', (value) => {
     const validate = integer();
     const error = validate(value);
 

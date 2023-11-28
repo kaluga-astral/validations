@@ -34,7 +34,7 @@ describe('pattern', () => {
     expect(error?.cause.code).toBe(PATTERN_ERROR_CODE);
   });
 
-  it('params.message: позволяет переопределить message', () => {
+  it('Позволяет переопределить дефолтный message ошибки', () => {
     const validate = pattern(/abc/, { message: 'my message' });
 
     const error = validate('123');

@@ -8,7 +8,7 @@ import { array } from '../array';
 import { arrayItem } from './arrayItem';
 
 describe('arrayItem', () => {
-  it('Каждый элемент массива ошибок соответствует результату выполнения правила валидации для item', () => {
+  it('Соотносит элемент массива и результат его валидации', () => {
     const errorCode = createErrorCode('error');
 
     const validateArray = array(

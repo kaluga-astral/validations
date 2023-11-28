@@ -6,7 +6,7 @@ import { number } from './number';
 
 describe('number', () => {
   it.each<unknown>(['string', new Date(), {}, Symbol()])(
-    'Invalid for: %s',
+    'Значение "%s" не валидно',
     (value) => {
       const error = number()(value);
 
@@ -14,7 +14,7 @@ describe('number', () => {
     },
   );
 
-  it.each<unknown>([0, -2])('Valid for: %s', (value) => {
+  it.each<unknown>([0, -2])('Значение "%s" валидно', (value) => {
     const result = number()(value);
 
     expect(result).toBeUndefined();

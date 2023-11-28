@@ -9,7 +9,7 @@ import {
 
 describe('KPP', () => {
   it.each<string>(['249443332', '082645444', '0826AD444', '0826ZE444'])(
-    'Valid for: %s',
+    'Значение "%s" валидно',
     (value) => {
       const validate = kpp();
       const result = validate(value);
@@ -33,7 +33,7 @@ describe('KPP', () => {
   });
 
   it.each<string>(['a', '95145370511', '156-573-259 92'])(
-    'Invalid for: %s',
+    'Значение "%s" не валидно',
     (value) => {
       const validate = kpp();
       const error = validate(value);

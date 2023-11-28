@@ -2,7 +2,7 @@ import { INN_FL_ERROR_INFO } from './constants';
 import { innFL } from './innFL';
 
 describe('innFL', () => {
-  it.each<string>(['447572010132'])('Valid for: %s', (value) => {
+  it.each<string>(['447572010132'])('Значение "%s" валидно', (value) => {
     expect(innFL()(value)).toBeUndefined();
   });
 
@@ -27,7 +27,7 @@ describe('innFL', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Invalid for: %s', (value) => {
+  ])('Значение "%s" не валидно', (value) => {
     const error = innFL()(value);
 
     expect(error?.cause.code).toBe(INN_FL_ERROR_INFO.code);

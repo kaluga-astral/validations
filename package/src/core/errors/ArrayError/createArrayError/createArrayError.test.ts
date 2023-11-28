@@ -18,7 +18,7 @@ describe('createArrayError', () => {
     expect(error.message).toBe('Ошибка в item[1]: name error');
   });
 
-  it('В error.code попадает код из первой ошибки map', () => {
+  it('Подставляет в error.code код из первой ошибки map', () => {
     const errorArray = [
       undefined,
       createSimpleError({
@@ -32,7 +32,7 @@ describe('createArrayError', () => {
     expect(error.cause.code).toBe(errorArray[1]?.cause.code);
   });
 
-  it('В error.cause.errorArray записывается array из аргумента', () => {
+  it('Записывает array из аргумента в error.cause.errorArray', () => {
     const errorArray = [
       undefined,
       createSimpleError({

@@ -22,19 +22,19 @@ describe('createContext', () => {
     expect(ctx).toEqual(resultCtx);
   });
 
-  it('global.overrides.objectIsPartial: при создании контекста устанавливается в false', () => {
+  it('По-дефолту выключает partial для объектов', () => {
     const resultCtx = createContext(undefined, '');
 
     expect(resultCtx.global.overrides.objectIsPartial).toBeFalsy();
   });
 
-  it('При создании контекста в global.values устанавливается value', () => {
+  it('Устанавливает текущее value в ctx.global.values', () => {
     const resultCtx = createContext(undefined, 'value');
 
     expect(resultCtx.global.values).toBe('value');
   });
 
-  it('При передаче lastSchemaValue значение устанавливается в контекст', () => {
+  it('Устанавливает lastSchemaValue в контекст при явной передаче lastSchemaValue', () => {
     const resultCtx = createContext(undefined, 'globalValue', {
       lastSchemaValue: {
         field: 'name',
@@ -44,7 +44,7 @@ describe('createContext', () => {
     expect(resultCtx.values).toEqual({ field: 'name' });
   });
 
-  it('lastSchemaValue перетирается, если был передан параметр', () => {
+  it('Перетирает lastSchemaValue, если был передан параметр', () => {
     const resultCtx = createContext(
       createContext(undefined, 'value1', { lastSchemaValue: { field: 1 } }),
       'value2',
@@ -54,7 +54,7 @@ describe('createContext', () => {
     expect(resultCtx.values).toEqual({ field: 2 });
   });
 
-  it('Сохраняется предыдущий lastSchemaValue, если при вызове не было нового lastSchemaValue', () => {
+  it('Сохраняет предыдущий lastSchemaValue, если при вызове не было нового lastSchemaValue', () => {
     const prevCtx = createContext(undefined, 'value1', {
       lastSchemaValue: { field: 1 },
     });
@@ -75,7 +75,7 @@ describe('createContext', () => {
     expect(error instanceof ValidationSimpleError).toBeTruthy();
   });
 
-  it('params.isOptional: берется из предыдущего контекста', () => {
+  it('Наследует isOptional из предыдущего контекста', () => {
     const ctx = {
       global: {
         values: undefined,
@@ -90,7 +90,7 @@ describe('createContext', () => {
     expect(resultCtx.isOptional).toBe(ctx.isOptional);
   });
 
-  it('params.isOptional: контекст содержит флаг из params', () => {
+  it('params.isOptional устанавливает значение в контекст', () => {
     const ctx = {
       global: {
         values: undefined,

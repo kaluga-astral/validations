@@ -10,14 +10,14 @@ describe('array', () => {
     createErrorCode('error'),
     { value: 22 },
     new Set([1]),
-  ])('Ошибка, если не массив: %s', (value) => {
+  ])('Возвращает ошибку, если value не массив: %s', (value) => {
     const error = array()(value);
 
     expect(error?.cause.code).toBe(ARRAY_TYPE_ERROR_INFO.code);
   });
 
   it.each<Array<unknown>>([Array([1, 2]), Array([])])(
-    'Нет ошибки, если массив: %j',
+    'Не возвращает ошибку, если value является массивом: %j',
     (value) => {
       const result = array()(value);
 
