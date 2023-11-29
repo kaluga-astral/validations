@@ -9,7 +9,7 @@ describe('guid', () => {
     'C56A4180-65AA-42EC-A945-5FD21DEC',
     '7728168971',
     'C72A4140-67AA-42AF-B6945-5FD21D',
-  ])('Значение "%s" не валидно', (value) => {
+  ])('Возвращает ошибку для "%s"', (value) => {
     const validate = guid();
     const error = validate(value);
 
@@ -21,14 +21,14 @@ describe('guid', () => {
     'c56a4180-65aa-42ec-a945-5fd21dec0538',
     'C56A4180-65AA-42EC-A945-5FD21DEC0538',
     'B24070A9-15F7-44B3-8A65-0869548E55FE',
-  ])('Значение "%s" валидно', (value) => {
+  ])('Не возвращает ошибку для "%s"', (value) => {
     const validate = guid();
     const result = validate(value);
 
     expect(result).toBeUndefined();
   });
 
-  it('Validate custom message', () => {
+  it('Позволяет указать кастомный message ошибки', () => {
     const customMessage = 'CustomMessage';
     const validate = guid({ message: customMessage });
     const error = validate('test@');

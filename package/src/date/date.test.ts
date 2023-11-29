@@ -15,7 +15,7 @@ describe('date', () => {
   );
 
   it.each<unknown>([new Date(), new Date('01.01.2000')])(
-    'Значение "%s" валидно',
+    'Не возвращает ошибку для "%s"',
     (value) => {
       const result = date()(value);
 
@@ -23,7 +23,7 @@ describe('date', () => {
     },
   );
 
-  it('Для Invalid Date отдельная ошибка', () => {
+  it('Для Invalid Date возвращает отдельную ошибка', () => {
     const value = new Date('Invalid Date');
 
     const error = date()(value);

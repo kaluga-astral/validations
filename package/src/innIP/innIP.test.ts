@@ -2,9 +2,12 @@ import { INN_IP_ERROR_INFO } from './constants';
 import { innIP } from './innIP';
 
 describe('innIP', () => {
-  it.each<string>(['384212952720'])('Значение "%s" валидно', (value) => {
-    expect(innIP()(value)).toBeUndefined();
-  });
+  it.each<string>(['384212952720'])(
+    'Не возвращает ошибку для "%s"',
+    (value) => {
+      expect(innIP()(value)).toBeUndefined();
+    },
+  );
 
   it('Возвращает ошибку, если ИНН ИП состоит целиком из нулей', () => {
     const error = innIP()('000000000000');
@@ -33,13 +36,13 @@ describe('innIP', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Значение "%s" не валидно', (value) => {
+  ])('Возвращает ошибку для "%s"', (value) => {
     const error = innIP()(value);
 
     expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);
   });
 
-  it('Valid custom message', () => {
+  it('Позволяет указать кастомный message ошибки', () => {
     const customMessage = 'CustomMessage';
 
     const error = innIP({ message: customMessage })('123');
@@ -47,7 +50,7 @@ describe('innIP', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Не валидирует value, соответствующие условию в exclude', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 

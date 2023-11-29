@@ -34,7 +34,7 @@ describe('containsPunctuationMarks', () => {
     'f{',
     'f|',
     'f}',
-  ])('Значение "%s" валидно', (value) => {
+  ])('Не возвращает ошибку для "%s"', (value) => {
     const validate = containsPunctuationMarks();
 
     const result = validate(value);
@@ -42,7 +42,7 @@ describe('containsPunctuationMarks', () => {
     expect(result).toBeUndefined();
   });
 
-  it.each<string>(['fff', 'FFF'])('Значение "%s" не валидно', (value) => {
+  it.each<string>(['fff', 'FFF'])('Возвращает ошибку для "%s"', (value) => {
     const validate = containsPunctuationMarks();
 
     const error = validate(value);

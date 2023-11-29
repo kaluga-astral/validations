@@ -14,7 +14,7 @@ describe('pattern', () => {
       value: 'test@mail.ru',
       regex: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,}$/,
     },
-  ])('params:%s: valid', ({ value, regex }) => {
+  ])('Не возвращает ошибку для параметров: %s', ({ value, regex }) => {
     const validate = string(pattern(regex));
 
     const result = validate(value);
@@ -26,7 +26,7 @@ describe('pattern', () => {
     { value: '123', regex: /abc/ },
     { value: 'ddd1111', regex: /word/g },
     { value: 'abc', regex: /[0-9]/g },
-  ])('params:%s: invalid', ({ value, regex }) => {
+  ])('Возвращает ошибку для параметров: %s', ({ value, regex }) => {
     const validate = string(pattern(regex));
 
     const error = validate(value);

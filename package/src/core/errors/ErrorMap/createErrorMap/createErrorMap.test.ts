@@ -22,7 +22,7 @@ describe('createErrorMap', () => {
     expect(error.message).toBe('Ошибка в свойстве name: name error');
   });
 
-  it('В error.code попадает код из первой ошибки map', () => {
+  it('Подставляет в error.code код из первой ошибки map', () => {
     const errorMap = {
       name: createSimpleError({
         message: 'name error',
@@ -39,7 +39,7 @@ describe('createErrorMap', () => {
     expect(error.cause.code).toBe(errorMap.name.cause.code);
   });
 
-  it('В error.cause.errorMap записывается объект из аргумента', () => {
+  it('Записывает в error.cause.errorMap переданный в параметры объект', () => {
     const errorMap = {
       name: createSimpleError({
         message: 'name error',

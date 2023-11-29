@@ -2,9 +2,12 @@ import { INN_FL_ERROR_INFO } from './constants';
 import { innFL } from './innFL';
 
 describe('innFL', () => {
-  it.each<string>(['447572010132'])('Значение "%s" валидно', (value) => {
-    expect(innFL()(value)).toBeUndefined();
-  });
+  it.each<string>(['447572010132'])(
+    'Не возвращает ошибку для "%s"',
+    (value) => {
+      expect(innFL()(value)).toBeUndefined();
+    },
+  );
 
   it('Не возвращает ошибку, если ИНН ФЛ состоит целиком из нулей', () => {
     const result = innFL()('000000000000');
@@ -27,13 +30,13 @@ describe('innFL', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Значение "%s" не валидно', (value) => {
+  ])('Возвращает ошибку для "%s"', (value) => {
     const error = innFL()(value);
 
     expect(error?.cause.code).toBe(INN_FL_ERROR_INFO.code);
   });
 
-  it('Valid custom message', () => {
+  it('Позволяет указать кастомный message ошибки', () => {
     const customMessage = 'CustomMessage';
 
     const error = innFL({ message: customMessage })('123');
@@ -41,7 +44,7 @@ describe('innFL', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Не валидирует value, соответствующие условию в exclude', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 

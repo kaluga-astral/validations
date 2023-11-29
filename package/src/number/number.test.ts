@@ -6,7 +6,7 @@ import { number } from './number';
 
 describe('number', () => {
   it.each<unknown>(['string', new Date(), {}, Symbol()])(
-    'Значение "%s" не валидно',
+    'Возвращает ошибку для "%s"',
     (value) => {
       const error = number()(value);
 
@@ -14,19 +14,19 @@ describe('number', () => {
     },
   );
 
-  it.each<unknown>([0, -2])('Значение "%s" валидно', (value) => {
+  it.each<unknown>([0, -2])('Не возвращает ошибку для "%s"', (value) => {
     const result = number()(value);
 
     expect(result).toBeUndefined();
   });
 
-  it('Для NaN отдельная ошибка', () => {
+  it('Возвращает отдельную ошибку для NaN', () => {
     const error = number()(NaN);
 
     expect(error?.cause.code).toBe(NAN_NUMBER_ERROR_INFO.code);
   });
 
-  it('Для Infinity отдельная ошибка', () => {
+  it('Возвращает отдельную ошибку для Infinity', () => {
     const error = number()(Infinity);
 
     expect(error?.cause.code).toBe(INFINITY_NUMBER_ERROR_INFO.code);

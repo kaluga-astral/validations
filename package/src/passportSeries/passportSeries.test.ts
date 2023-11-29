@@ -5,18 +5,18 @@ import {
 import { passportSeries } from './passportSeries';
 
 describe('passportSeries', () => {
-  it('Допускается длина поля - 4 символа', () => {
+  it('Не возвращает ошибку для значений длиной 4 символа', () => {
     expect(passportSeries()('9217')).toBeUndefined();
   });
 
-  it('Не может начинаться с двух нулей', () => {
+  it('Возвращает ошибку для значений, начинающихся на два ноля', () => {
     const error = passportSeries()('0012');
 
     expect(error?.cause.code).toBe(PASSPORT_SERIES_ERROR_INFO.code);
   });
 
   it.each(['а92175', '92.17', '921ас', 'абв'])(
-    'Invalid for %s: Допустимые символы - цифры',
+    'Возвращает ошибку для "%s" потому, что содержит цифры',
     (value) => {
       const error = passportSeries()(value);
 
@@ -27,7 +27,7 @@ describe('passportSeries', () => {
   );
 
   it.each(['', '9', '92', '921', '92176'])(
-    'Invalid for %s: Допускается длина поля - 4 символа',
+    'Возвращает ошибку для "%s" потому, что длина отличается от 4',
     (value) => {
       const error = passportSeries()(value);
 
@@ -35,7 +35,7 @@ describe('passportSeries', () => {
     },
   );
 
-  it('Должна возвращать ошибку с пользовательским сообщением', () => {
+  it('Позволяет переопределить дефолтное сообщение об ошибке', () => {
     const customMessage = 'Пользовательское сообщение';
     const error = passportSeries({ message: customMessage })('err');
 

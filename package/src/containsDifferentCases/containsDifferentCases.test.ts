@@ -12,7 +12,7 @@ describe('containsDifferentCases', () => {
     'f78Ф',
     'ёЁ',
     'ё123Ё',
-  ])('Значение "%s" валидно', (value) => {
+  ])('Не возвращает ошибку для "%s"', (value) => {
     const validate = containsDifferentCases();
 
     const result = validate(value);
@@ -21,7 +21,7 @@ describe('containsDifferentCases', () => {
   });
 
   it.each<string>(['fff', 'FFF', 'ффф', 'ФФФ', '123', 'ёёё', 'ЁЁЁ'])(
-    'Значение "%s" не валидно',
+    'Возвращает ошибку для "%s"',
     (value) => {
       const validate = containsDifferentCases();
 

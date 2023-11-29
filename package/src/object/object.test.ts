@@ -1,3 +1,5 @@
+import { describe } from 'vitest';
+
 import {
   REQUIRED_ERROR_INFO,
   ValidationErrorMap,
@@ -51,27 +53,29 @@ describe('object', () => {
     },
   );
 
-  it('object.define:typeErrorMessage: позволяет переопределить сообщение ошибки типа', () => {
-    const validate = object<{}>({}).define({
-      typeErrorMessage: 'custom type error',
+  describe('object.define', () => {
+    it('Позволяет переопределить сообщение ошибки типа', () => {
+      const validate = object<{}>({}).define({
+        typeErrorMessage: 'custom type error',
+      });
+
+      const error = validate('string');
+
+      expect(error?.message).toBe('custom type error');
     });
 
-    const error = validate('string');
+    it('Позволяет выключить required для всех свойств объекта', () => {
+      const validate = object<{ name: string; surname: string }>({
+        name: string(),
+        surname: string(),
+      }).define({
+        isPartial: true,
+      });
 
-    expect(error?.message).toBe('custom type error');
-  });
+      const result = validate({});
 
-  it('object.define:isPartial: выключает required для всех свойств объекта', () => {
-    const validate = object<{ name: string; surname: string }>({
-      name: string(),
-      surname: string(),
-    }).define({
-      isPartial: true,
+      expect(result).toBeUndefined();
     });
-
-    const result = validate({});
-
-    expect(result).toBeUndefined();
   });
 
   it('Генерирует ошибку для object', () => {

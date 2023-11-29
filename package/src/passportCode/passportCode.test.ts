@@ -6,18 +6,18 @@ import {
 import { passportCode } from './passportCode';
 
 describe('passportCode', () => {
-  it('Допускается длина поля - 6 символов', () => {
+  it('Считает строку валидной, если длина поля отлична от 6', () => {
     expect(passportCode()('123256')).toBeUndefined();
   });
 
-  it('Не может начинаться с двух нулей', () => {
+  it('Возвращает ошибку, если значение начинается с двух нулей', () => {
     const error = passportCode()('0012');
 
     expect(error?.cause.code).toBe(PASSPORT_CODE_ERROR_INFO.code);
   });
 
   it.each(['а12345', '1.2345', '124ас', 'абв'])(
-    'Invalid for %s: Допустимые символы - цифры',
+    'Возвращает ошибку для value "%s" потому, что содержат символы, отличные от цифр',
     (value) => {
       const error = passportCode()(value);
 

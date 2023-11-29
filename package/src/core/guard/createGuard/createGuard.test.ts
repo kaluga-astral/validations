@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, expect } from 'vitest';
 
 import { IndependentValidationRule, REQUIRED_ERROR_INFO } from '../../rule';
 import { createErrorCode } from '../../errors';
@@ -29,42 +29,44 @@ describe('createGuard', () => {
     expect(error?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
 
-  it('guard.define: создает копию guard', () => {
-    const guard = createGuard(() => undefined);
+  describe('guard.define', () => {
+    it('Cоздает копию guard', () => {
+      const guard = createGuard(() => undefined);
 
-    const error = guard.define({})('value');
+      const error = guard.define({})('value');
 
-    expect(error).toBeUndefined();
-  });
+      expect(error).toBeUndefined();
+    });
 
-  it('guard.define:requiredErrorMessage: переопределяет message для required', () => {
-    const guard = createGuard(() => undefined);
+    it('Позволяет переопределить message для ошибки required', () => {
+      const guard = createGuard(() => undefined);
 
-    const error = guard.define({ requiredErrorMessage: 'custom message' })(
-      undefined,
-    );
+      const error = guard.define({ requiredErrorMessage: 'custom message' })(
+        undefined,
+      );
 
-    expect(error?.message).toBe('custom message');
-  });
+      expect(error?.message).toBe('custom message');
+    });
 
-  it('guard.define:isOptional=true: выключает required', () => {
-    const guard = createGuard(() => undefined);
+    it('Позволяет выключить дефолтную проверку на required', () => {
+      const guard = createGuard(() => undefined);
 
-    const error = guard.define({ isOptional: true })(undefined);
+      const error = guard.define({ isOptional: true })(undefined);
 
-    expect(error?.message).toBeUndefined();
-  });
+      expect(error?.message).toBeUndefined();
+    });
 
-  it('guard.define:isOptional=true: если required не вернул ошибку, то пропускает валидацию дальше', () => {
-    const errorCode = createErrorCode('error');
+    it('Пропускает валидацию дальше, если был выключен required и required не вернул ошибку', () => {
+      const errorCode = createErrorCode('error');
 
-    const guard = createGuard((_, ctx) =>
-      ctx.createError({ message: '', code: errorCode }),
-    );
+      const guard = createGuard((_, ctx) =>
+        ctx.createError({ message: '', code: errorCode }),
+      );
 
-    const error = guard.define({ isOptional: true })('value');
+      const error = guard.define({ isOptional: true })('value');
 
-    expect(error?.cause.code).toBe(errorCode);
+      expect(error?.cause.code).toBe(errorCode);
+    });
   });
 
   it('Создает новый контекст, если его не было', () => {
@@ -92,7 +94,7 @@ describe('createGuard', () => {
     validate(2);
   });
 
-  it('ctx.isOptional=true: отключает required', () => {
+  it('Отключает required, если в контексте isOptional=true', () => {
     const guard = createGuard(() => undefined);
 
     const ctx = createContext(undefined, '', { isOptional: true });
@@ -101,7 +103,7 @@ describe('createGuard', () => {
     expect(error?.message).toBeUndefined();
   });
 
-  it('ctx.values: не перетирает предыдущие значения контекста', () => {
+  it('Не перетирает предыдущее значение ctx.values, если в контексте содержится lastSchemaValue', () => {
     const guard = createGuard((_, ctx) => {
       expect(ctx.values).toEqual({ value: 22 });
 

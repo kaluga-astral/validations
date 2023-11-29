@@ -3,7 +3,7 @@ import { snils } from './snils';
 
 describe('snils', () => {
   it.each<string>(['15657325992', '95145370513'])(
-    'Значение "%s" валидно',
+    'Не возвращает ошибку для "%s"',
     (value) => {
       expect(snils()(value)).toBeUndefined();
     },
@@ -16,7 +16,7 @@ describe('snils', () => {
   });
 
   it.each<string>(['a', '95145370511', '156-573-259 92'])(
-    'Значение "%s" не валидно',
+    'Возвращает ошибку для "%s"',
     (value) => {
       const error = snils()(value);
 
@@ -24,7 +24,7 @@ describe('snils', () => {
     },
   );
 
-  it('Valid custom message', () => {
+  it('Позволяет указать кастомный message ошибки', () => {
     const customMessage = 'CustomMessage';
 
     const error = snils({ message: customMessage })('err');
@@ -32,7 +32,7 @@ describe('snils', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Не валидирует value, соответствующие условию в exclude', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 

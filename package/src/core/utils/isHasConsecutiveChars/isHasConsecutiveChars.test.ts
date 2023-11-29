@@ -18,7 +18,7 @@ describe('isHasConsecutiveChars', () => {
     'Тест``Тест',
     'Тест  Тест',
   ])(
-    'Invalid for %s: Не может содержать последовательно два спецсимвола/пробела',
+    'Возвращает false для "%s" потому, что value не может содержать последовательно два спецсимвола/пробела',
     (value) => expect(isHasConsecutiveChars(value)).toBeTruthy(),
   );
 });

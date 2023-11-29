@@ -22,7 +22,7 @@ describe('required', () => {
     new Set([]),
     Object.create({}),
     Object.create(null),
-  ])('Значение "%s" валидно', (value) => {
+  ])('Не возвращает ошибку для "%s"', (value) => {
     expect(required()(value)).toBe(undefined);
   });
 

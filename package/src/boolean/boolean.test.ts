@@ -3,7 +3,7 @@ import { boolean } from './boolean';
 
 describe('boolean', () => {
   it.each<unknown>(['string', new Date(), {}, Symbol(), 22])(
-    'Значение "%s" не валидно',
+    'Возвращает ошибку для "%s"',
     (value) => {
       const error = boolean()(value);
 

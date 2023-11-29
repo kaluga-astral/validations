@@ -22,7 +22,7 @@ describe('containsNumbers', () => {
     '10-122',
     '2+2',
     '12`/?*',
-  ])('Значение "%s" валидно', (value) => {
+  ])('Не возвращает ошибку для "%s"', (value) => {
     const validate = containsNumbers();
 
     const result = validate(value);
@@ -42,7 +42,7 @@ describe('containsNumbers', () => {
     'aa-aa',
     'a+a',
     'aa`/?*',
-  ])('Значение "%s" не валидно', (value) => {
+  ])('Возвращает ошибку для "%s"', (value) => {
     const validate = containsNumbers();
 
     const error = validate(value);

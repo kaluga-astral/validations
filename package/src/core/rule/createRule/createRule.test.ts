@@ -16,7 +16,7 @@ describe('createRule', () => {
     expect(error?.message).toBe('error');
   });
 
-  it('Если нет контекста, то создается новый', () => {
+  it('Создает новый контекст, если он не был передан', () => {
     const rule = () =>
       createRule<string>((_, ctx) => {
         expect(typeof ctx === 'object').toBeTruthy();
@@ -27,7 +27,7 @@ describe('createRule', () => {
     rule()('value');
   });
 
-  it('Params.exclude: пропускает исключения, если exclude возвращает true', () => {
+  it('Не валидирует value, удовлетворяющие условию exclude', () => {
     const rule = ({ exclude }: CommonRuleParams<string>) =>
       createRule<string>(
         (_, ctx) =>

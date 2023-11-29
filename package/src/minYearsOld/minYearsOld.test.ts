@@ -12,7 +12,7 @@ describe('minYearsOld', () => {
   it.each<{ value: Date; age: number }>([
     { value: new Date('10.10.2009'), age: 14 },
     { value: new Date('10.10.2000'), age: 16 },
-  ])('date:params:%j: valid', ({ value, age }) => {
+  ])('Не возвращает ошибку для параметров: %j', ({ value, age }) => {
     const validate = date(minYearsOld(age));
 
     const result = validate(value);
@@ -23,26 +23,32 @@ describe('minYearsOld', () => {
   it.each<{ value: Date; age: number }>([
     { value: new Date('08.10.2010'), age: 14 },
     { value: new Date('08.10.2010'), age: 16 },
-  ])('date:params:%j: invalid', ({ value, age }) => {
-    const validate = date(minYearsOld(age));
+  ])(
+    'Возвращает ошибку несоответствия минимальному возрасту для параметров: %j',
+    ({ value, age }) => {
+      const validate = date(minYearsOld(age));
 
-    const result = validate(value);
+      const result = validate(value);
 
-    expect(result?.cause.code).toBe(BIRTH_DATE_MAX_ERROR_CODE);
-  });
+      expect(result?.cause.code).toBe(BIRTH_DATE_MAX_ERROR_CODE);
+    },
+  );
 
   it.each<{ value: Date; age: number }>([
     { value: new Date('08.10.1099'), age: 14 },
     { value: new Date('08.10.1899'), age: 125 },
-  ])('date:params:%j: invalid', ({ value, age }) => {
-    const validate = date(minYearsOld(age));
+  ])(
+    'Возвращает ошибку несоответствия максимальному возрасту для параметров: %j',
+    ({ value, age }) => {
+      const validate = date(minYearsOld(age));
 
-    const result = validate(value);
+      const result = validate(value);
 
-    expect(result?.cause.code).toBe(BIRTH_DATE_MIN_ERROR_CODE);
-  });
+      expect(result?.cause.code).toBe(BIRTH_DATE_MIN_ERROR_CODE);
+    },
+  );
 
-  it('date:message: генерирует кастомный текст ошибки', () => {
+  it('Позволяет задач кастомный текст ошибки', () => {
     const validate = date(
       minYearsOld(18, {
         customErrorMessage:

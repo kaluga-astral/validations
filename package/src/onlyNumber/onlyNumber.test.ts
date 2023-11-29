@@ -5,7 +5,7 @@ import { ONLY_NUMBER_ERROR_CODE } from './constants';
 
 describe('onlyNumber', () => {
   it.each<string>(['123', '0000000', '1', '0', '91999099'])(
-    'Значение "%s" валидно',
+    'Не возвращает ошибку для "%s"',
     (value) => {
       const validate = onlyNumber();
 
@@ -31,7 +31,7 @@ describe('onlyNumber', () => {
     '10-122',
     '2+2',
     '12`/?*',
-  ])('Значение "%s" не валидно', (value) => {
+  ])('Возвращает ошибку для "%s"', (value) => {
     const validate = onlyNumber();
 
     const error = validate(value);

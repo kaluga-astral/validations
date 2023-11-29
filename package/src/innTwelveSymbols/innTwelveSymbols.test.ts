@@ -3,7 +3,7 @@ import { innTwelveSymbols } from './innTwelveSymbols';
 
 describe('innTwelveSymbols', () => {
   it.each<string>(['447572010132', '384212952720'])(
-    'Значение "%s" валидно',
+    'Не возвращает ошибку для "%s"',
     (value) => {
       expect(innTwelveSymbols()(value)).toBeUndefined();
     },
@@ -24,13 +24,13 @@ describe('innTwelveSymbols', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Значение "%s" не валидно', (value) => {
+  ])('Возвращает ошибку для "%s"', (value) => {
     const error = innTwelveSymbols()(value);
 
     expect(error?.cause.code).toBe(INN_12_SYMBOLS_ERROR_INFO.code);
   });
 
-  it('Valid custom message', () => {
+  it('Позволяет указать кастомный message ошибки', () => {
     const customMessage = 'CustomMessage';
 
     const error = innTwelveSymbols({ message: customMessage })('123');
@@ -38,7 +38,7 @@ describe('innTwelveSymbols', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Не валидирует value, соответствующие условию в exclude', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 
