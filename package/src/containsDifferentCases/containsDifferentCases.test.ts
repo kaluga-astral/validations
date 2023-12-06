@@ -12,7 +12,7 @@ describe('containsDifferentCases', () => {
     'f78Ф',
     'ёЁ',
     'ё123Ё',
-  ])('value:%s: valid', (value) => {
+  ])('Не Value "%s" невалидно', (value) => {
     const validate = containsDifferentCases();
 
     const result = validate(value);
@@ -21,7 +21,7 @@ describe('containsDifferentCases', () => {
   });
 
   it.each<string>(['fff', 'FFF', 'ффф', 'ФФФ', '123', 'ёёё', 'ЁЁЁ'])(
-    'value:%s: invalid',
+    'Value "%s" невалидно',
     (value) => {
       const validate = containsDifferentCases();
 
@@ -31,7 +31,7 @@ describe('containsDifferentCases', () => {
     },
   );
 
-  it('params.message: позволяет переопределить message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const validate = containsDifferentCases({ message: 'my message' });
 
     const error = validate('aa');

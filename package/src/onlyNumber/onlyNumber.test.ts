@@ -5,7 +5,7 @@ import { ONLY_NUMBER_ERROR_CODE } from './constants';
 
 describe('onlyNumber', () => {
   it.each<string>(['123', '0000000', '1', '0', '91999099'])(
-    'value:%s: valid',
+    'Value "%s" валидно',
     (value) => {
       const validate = onlyNumber();
 
@@ -31,7 +31,7 @@ describe('onlyNumber', () => {
     '10-122',
     '2+2',
     '12`/?*',
-  ])('value:%s: invalid', (value) => {
+  ])('Value "%s" невалидно', (value) => {
     const validate = onlyNumber();
 
     const error = validate(value);
@@ -39,7 +39,7 @@ describe('onlyNumber', () => {
     expect(error?.cause.code).toEqual(ONLY_NUMBER_ERROR_CODE);
   });
 
-  it('params.message: позволяет переопределить message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const validate = onlyNumber({ message: 'my message' });
 
     const error = validate('123aa');

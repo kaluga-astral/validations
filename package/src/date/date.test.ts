@@ -6,7 +6,7 @@ import { DATE_TYPE_ERROR_INFO, INVALID_DATE_ERROR_INFO } from './constants';
 
 describe('date', () => {
   it.each<unknown>(['string', {}, Symbol(), 22, NaN])(
-    'Invalid type for: %s',
+    'Value "%s" невалидно',
     (value) => {
       const error = date()(value);
 
@@ -15,7 +15,7 @@ describe('date', () => {
   );
 
   it.each<unknown>([new Date(), new Date('01.01.2000')])(
-    'Valid for: %s',
+    'Value "%s" валидно',
     (value) => {
       const result = date()(value);
 
@@ -23,7 +23,7 @@ describe('date', () => {
     },
   );
 
-  it('Для Invalid Date отдельная ошибка', () => {
+  it('Invalid Date обрабатывается отдельно', () => {
     const value = new Date('Invalid Date');
 
     const error = date()(value);
@@ -31,7 +31,7 @@ describe('date', () => {
     expect(error?.cause.code).toBe(INVALID_DATE_ERROR_INFO.code);
   });
 
-  it('Выполняет композицию для переданных rules', () => {
+  it('Для переданных rules выполняется композиция', () => {
     const validate = date(min(new Date()), (_, ctx) =>
       ctx.createError({
         message: 'custom error',

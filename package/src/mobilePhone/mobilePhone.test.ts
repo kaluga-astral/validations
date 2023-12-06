@@ -2,7 +2,7 @@ import { MOBILE_PHONE_ERROR_INFO } from './constants';
 import { mobilePhone } from './mobilePhone';
 
 describe('mobilePhone', () => {
-  it.each<string>(['79999999999'])('Valid for: %s', (value) => {
+  it.each<string>(['79999999999'])('Value "%s" валидно', (value) => {
     expect(mobilePhone()(value)).toBeUndefined();
   });
 
@@ -15,13 +15,13 @@ describe('mobilePhone', () => {
     '7 (999) 99-99-999',
     '7 (999) 999-99-99',
     '7(999)999-99-99',
-  ])('Invalid for: %s', (value) => {
+  ])('Value "%s" невалидно', (value) => {
     const error = mobilePhone()(value);
 
     expect(error?.cause.code).toBe(MOBILE_PHONE_ERROR_INFO.code);
   });
 
-  it('Valid custom message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const customMessage = 'CustomMessage';
 
     const error = mobilePhone({ message: customMessage })('q');
@@ -29,7 +29,7 @@ describe('mobilePhone', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Exclude позволяет отключить проверку для определенных value', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 
