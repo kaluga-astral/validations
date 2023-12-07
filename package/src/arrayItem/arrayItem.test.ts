@@ -8,7 +8,7 @@ import { array } from '../array';
 import { arrayItem } from './arrayItem';
 
 describe('arrayItem', () => {
-  it('Каждый элемент массива ошибок соответствует результату выполнения правила валидации для item', () => {
+  it('Ошибка валидации содержит соотношение элемента массива и результата его валидации', () => {
     const errorCode = createErrorCode('error');
 
     const validateArray = array(
@@ -34,7 +34,7 @@ describe('arrayItem', () => {
     );
   });
 
-  it('Не возвращает ошибку, если все item валидные', () => {
+  it('Результат undefined, если все item валидные', () => {
     const validateArray = array(arrayItem(() => undefined));
 
     const result = validateArray([1, 'string', 3]);

@@ -3,7 +3,7 @@ import { ogrnUL } from './ogrnUL';
 
 describe('ogrnUL', () => {
   it.each<string>(['8104338364837', '1214000000092'])(
-    'Valid for: %s',
+    'Value "%s" валидно',
     (value) => {
       expect(ogrnUL()(value)).toBeUndefined();
     },
@@ -16,7 +16,7 @@ describe('ogrnUL', () => {
   });
 
   it.each<string>(['a', '1175958000004', '1-22-33-5555555-6'])(
-    'Invalid for: %s',
+    'Value "%s" невалидно',
     (value) => {
       const error = ogrnUL()(value);
 
@@ -24,7 +24,7 @@ describe('ogrnUL', () => {
     },
   );
 
-  it('Valid custom message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const customMessage = 'CustomMessage';
 
     const error = ogrnUL({ message: customMessage })('q');
@@ -32,7 +32,7 @@ describe('ogrnUL', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Exclude позволяет отключить проверку для определенных value', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 

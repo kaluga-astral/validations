@@ -9,7 +9,7 @@ import {
 
 describe('KPP', () => {
   it.each<string>(['249443332', '082645444', '0826AD444', '0826ZE444'])(
-    'Valid for: %s',
+    'Value "%s" валидно',
     (value) => {
       const validate = kpp();
       const result = validate(value);
@@ -33,7 +33,7 @@ describe('KPP', () => {
   });
 
   it.each<string>(['a', '95145370511', '156-573-259 92'])(
-    'Invalid for: %s',
+    'Value "%s" невалидно',
     (value) => {
       const validate = kpp();
       const error = validate(value);
@@ -42,7 +42,7 @@ describe('KPP', () => {
     },
   );
 
-  it('Valid custom message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const customMessage = 'CustomMessage';
     const validate = kpp({ message: customMessage });
     const error = validate('321321');
@@ -50,7 +50,7 @@ describe('KPP', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Exclude позволяет отключить проверку для определенных value', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 

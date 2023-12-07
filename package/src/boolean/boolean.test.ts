@@ -3,7 +3,7 @@ import { boolean } from './boolean';
 
 describe('boolean', () => {
   it.each<unknown>(['string', new Date(), {}, Symbol(), 22])(
-    'Invalid for: %s',
+    'Value "%s" невалидно',
     (value) => {
       const error = boolean()(value);
 
@@ -11,7 +11,7 @@ describe('boolean', () => {
     },
   );
 
-  it('Valid for true', () => {
+  it('Для value=true ошибка не возвращается', () => {
     const result = boolean()(true);
 
     expect(result).toBeUndefined();

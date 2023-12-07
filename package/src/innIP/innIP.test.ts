@@ -2,17 +2,17 @@ import { INN_IP_ERROR_INFO } from './constants';
 import { innIP } from './innIP';
 
 describe('innIP', () => {
-  it.each<string>(['384212952720'])('Valid for: %s', (value) => {
+  it.each<string>(['384212952720'])('Value "%s" валидно', (value) => {
     expect(innIP()(value)).toBeUndefined();
   });
 
-  it('Возвращает ошибку, если ИНН ИП состоит целиком из нулей', () => {
+  it('ИНН ИП, состоящее целиком из нулей невалидно', () => {
     const error = innIP()('000000000000');
 
     expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);
   });
 
-  it('Возвращает ошибку, если ИНН ИП начинается с "00" ', () => {
+  it('ИНН ИП, начинающийся на "00" невалиден', () => {
     const error = innIP()('004212952720');
 
     expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);
@@ -33,13 +33,13 @@ describe('innIP', () => {
     '000000000010',
     '010000000000',
     '000000000100',
-  ])('Invalid for: %s', (value) => {
+  ])('Value "%s" невалидно', (value) => {
     const error = innIP()(value);
 
     expect(error?.cause.code).toBe(INN_IP_ERROR_INFO.code);
   });
 
-  it('Valid custom message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const customMessage = 'CustomMessage';
 
     const error = innIP({ message: customMessage })('123');
@@ -47,7 +47,7 @@ describe('innIP', () => {
     expect(error?.message).toBe(customMessage);
   });
 
-  it('Valid exclude value', () => {
+  it('Exclude позволяет отключить проверку для определенных value', () => {
     const isExclude = (value: unknown) => {
       const excluded: unknown[] = ['exclude'];
 

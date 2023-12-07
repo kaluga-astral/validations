@@ -8,7 +8,7 @@ import { optional } from '../optional';
 import { deepPartial } from './deepPartial';
 
 describe('deepPartial', () => {
-  it('Делает partial все вложенные объекты в схеме', () => {
+  it('Все вложенные объекты в схеме становятся partial', () => {
     const validate = deepPartial(
       object<{ name: string; surname: string; lastName: string; info: {} }>({
         name: string(),
@@ -30,7 +30,7 @@ describe('deepPartial', () => {
     expect(result).toBeUndefined();
   });
 
-  it('Делает partial все вложенные объекты даже, если они находятся в массиве', () => {
+  it('Все вложенные объекты становятся partial даже, если они находятся в массиве', () => {
     const validate = deepPartial(
       object<{ name: string; info: {} }>({
         name: string(),

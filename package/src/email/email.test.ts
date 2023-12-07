@@ -11,7 +11,7 @@ const getLongEmail = () => `${'a'.repeat(EMAIL_MAX_LENGTH)}@test.com`;
 
 describe('email', () => {
   it.each<string>(['a', '@mail.ru', 'mail.ru', 'test@.ru', 'test.ru@'])(
-    'Invalid for: %s',
+    'Value "%s" невалидно',
     (value) => {
       const validate = email();
       const error = validate(value);
@@ -26,7 +26,7 @@ describe('email', () => {
     'test-t@test.ru',
     'test.t@test.ru',
     'test_t@test.ru',
-  ])('Valid for: %s', (value) => {
+  ])('Value "%s" валидно', (value) => {
     const validate = email();
     const result = validate(value);
 
@@ -40,7 +40,7 @@ describe('email', () => {
     expect(error?.message).toBe(LENGTH_EMAIL_ERROR_INFO.message);
   });
 
-  it('Validate custom message', () => {
+  it('Дефолтный message переопределяется через параметры', () => {
     const customMessage = 'CustomMessage';
     const validate = email({ message: customMessage });
     const error = validate('test@');
