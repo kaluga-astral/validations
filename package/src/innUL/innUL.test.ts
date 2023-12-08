@@ -12,7 +12,7 @@ describe('innUL', () => {
     expect(error?.cause.code).toBe(INN_UL_ERROR_INFO.code);
   });
 
-  it('Возвращает ошибку, если ИНН ЮЛ начинается с "00" ', () => {
+  it('Возвращает ошибку, если ИНН ЮЛ начинается с "00"', () => {
     const error = innUL()('0008168971');
 
     expect(error?.cause.code).toBe(INN_UL_ERROR_INFO.code);

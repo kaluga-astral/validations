@@ -1,11 +1,11 @@
 import isPlainObject from 'is-plain-obj';
-import { DeepPartial } from 'utility-types';
+import { type DeepPartial } from 'utility-types';
 
 import {
-  ErrorMap,
-  Guard,
-  ValidationContext,
-  ValidationRule,
+  type ErrorMap,
+  type Guard,
+  type ValidationContext,
+  type ValidationRule,
   callRule as callRecursiveRule,
   createContext,
   createErrorMap,

@@ -1,4 +1,4 @@
-import { ValidationRule, compose, createGuard } from '../core';
+import { type ValidationRule, compose, createGuard } from '../core';
 
 import {
   INFINITY_NUMBER_ERROR_INFO,

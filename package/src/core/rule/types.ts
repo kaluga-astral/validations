@@ -1,5 +1,5 @@
-import { ValidationContext } from '../context';
-import { ValidationResult } from '../types';
+import { type ValidationContext } from '../context';
+import { type ValidationResult } from '../types';
 
 /**
  * @description Самостоятельное правило для валидации. Может использоваться вне guard'ов

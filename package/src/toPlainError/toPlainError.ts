@@ -1,8 +1,8 @@
 import {
   ValidationArrayError,
   ValidationErrorMap,
-  ValidationResult,
-  ValidationSimpleError,
+  type ValidationResult,
+  type ValidationSimpleError,
 } from '../core';
 
 import { generateArrayPath, generateObjectPath } from './utils';

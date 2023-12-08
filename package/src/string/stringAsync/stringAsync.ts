@@ -1,6 +1,6 @@
 import {
-  AsyncValidationRule,
-  ValidationRule,
+  type AsyncValidationRule,
+  type ValidationRule,
   composeAsync,
   createGuard,
 } from '../../core';

@@ -1,4 +1,4 @@
-import { ErrorInfo, createErrorCode } from '../core';
+import { type ErrorInfo, createErrorCode } from '../core';
 
 export const PASSPORT_CODE_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('passportCode'),

@@ -1,8 +1,8 @@
-import { DeepPartial } from 'utility-types';
+import { type DeepPartial } from 'utility-types';
 
-import { ValidationContext } from '../types';
+import { type ValidationContext } from '../types';
 import { createSimpleError } from '../../errors';
-import { ValidationTypes } from '../../types';
+import { type ValidationTypes } from '../../types';
 
 type Params<TLastSchemaValues extends Record<string, unknown>> = {
   /**

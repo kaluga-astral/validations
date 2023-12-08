@@ -1,4 +1,4 @@
-import { ErrorInfo, createErrorCode } from '../core';
+import { type ErrorInfo, createErrorCode } from '../core';
 
 export const SNILS_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('snils'),

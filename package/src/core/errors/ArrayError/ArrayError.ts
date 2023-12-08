@@ -1,5 +1,8 @@
-import { ValidationResult } from '../../types';
-import { ValidationErrorData, ValidationSimpleError } from '../SimpleError';
+import { type ValidationResult } from '../../types';
+import {
+  type ValidationErrorData,
+  ValidationSimpleError,
+} from '../SimpleError';
 
 /**
  * @description Доп. поля для ошибок элементов массива

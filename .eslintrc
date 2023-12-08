@@ -6,5 +6,15 @@
       "error",
       { "devDependencies": true, "packageDir": ["./", "./"] }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": "**/*.test.tsx",
+      "extends": ["@astral/eslint-config-react-vitest"]
+    },
+    {
+      "files": "**/*.test.ts",
+      "extends": ["@astral/eslint-config-vitest"]
+    }
+  ]
 }

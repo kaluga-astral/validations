@@ -1,5 +1,8 @@
-import { ValidationErrorMap, ValidationObjectErrorCause } from '../ErrorMap';
-import { ValidationSimpleError } from '../../SimpleError';
+import {
+  ValidationErrorMap,
+  type ValidationObjectErrorCause,
+} from '../ErrorMap';
+import { type ValidationSimpleError } from '../../SimpleError';
 
 /**
  * @description Создает map ошибок валидаций. Ошибка предназначена для генерации результата валидации объекта

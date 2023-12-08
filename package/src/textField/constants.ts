@@ -1,4 +1,4 @@
-import { ErrorInfo, createErrorCode } from '../core';
+import { type ErrorInfo, createErrorCode } from '../core';
 
 export const TEXT_FIELD_REGEXP =
   /^[a-zA-Zа-яА-Я0-9\s!@#$%^&*()-_=+\\|[\]{};:'",.<>/?]+$/;

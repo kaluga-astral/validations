@@ -1,4 +1,4 @@
-import { ErrorMap } from '../../core';
+import { type ErrorMap } from '../../core';
 
 /**
  * @description Проверяет есть ли errorMap ошибки

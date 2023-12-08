@@ -1,4 +1,9 @@
-import { ValidationRule, ValidationTypes, compose, createRule } from '../core';
+import {
+  type ValidationRule,
+  type ValidationTypes,
+  compose,
+  createRule,
+} from '../core';
 
 type Transformer<TValue, TResult> = (value: TValue) => TResult;
 

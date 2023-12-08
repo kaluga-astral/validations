@@ -1,11 +1,11 @@
 import {
-  AsyncIndependentValidationRule,
-  AsyncValidationRule,
-  IndependentValidationRule,
-  ValidationRule,
+  type AsyncIndependentValidationRule,
+  type AsyncValidationRule,
+  type IndependentValidationRule,
+  type ValidationRule,
   callAsyncRule,
 } from '../rule';
-import { ValidationContext } from '../context';
+import { type ValidationContext } from '../context';
 
 /**
  * Объединяет переданные асинхронные правила в цепочку правил, останавливает выполнение цепочки, если появилась ошибка. Выполняет правила слева направо

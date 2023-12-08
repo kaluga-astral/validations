@@ -2,7 +2,7 @@ import { object } from '../object';
 import { array } from '../array';
 import { arrayItem } from '../arrayItem';
 import { STRING_TYPE_ERROR_INFO, string } from '../string';
-import { ErrorInfo } from '../core';
+import { type ErrorInfo } from '../core';
 
 import { toPlainError } from './toPlainError';
 

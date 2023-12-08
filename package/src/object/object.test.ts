@@ -1,6 +1,6 @@
 import {
   REQUIRED_ERROR_INFO,
-  ValidationErrorMap,
+  type ValidationErrorMap,
   createErrorCode,
   createErrorMap,
   createSimpleError,

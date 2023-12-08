@@ -1,4 +1,4 @@
-import { CommonRuleParams, createRule, isStringOfZeros } from '../core';
+import { type CommonRuleParams, createRule, isStringOfZeros } from '../core';
 
 import {
   DEFAULT_CHECKED_SUM,

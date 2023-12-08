@@ -1,4 +1,4 @@
-import { CommonRuleParams, createRule } from '../core';
+import { type CommonRuleParams, createRule } from '../core';
 import { innTwelveSymbols } from '../innTwelveSymbols';
 
 import { INN_FL_ERROR_INFO } from './constants';

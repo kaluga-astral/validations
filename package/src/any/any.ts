@@ -1,4 +1,4 @@
-import { ValidationRule, compose, createRule } from '../core';
+import { type ValidationRule, compose, createRule } from '../core';
 
 /**
  * @description Выключает любые проверки и валидирует value

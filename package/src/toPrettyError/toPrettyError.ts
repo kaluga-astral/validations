@@ -1,5 +1,5 @@
-import { ValidationResult } from '../core';
-import { PlainValidationResult, toPlainError } from '../toPlainError';
+import { type ValidationResult } from '../core';
+import { type PlainValidationResult, toPlainError } from '../toPlainError';
 
 /**
  * @description Преобразует ошибку валидации в формат для вывода (например, в консоль)

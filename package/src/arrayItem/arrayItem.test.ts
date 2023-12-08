@@ -1,5 +1,5 @@
 import {
-  ValidationArrayError,
+  type ValidationArrayError,
   createErrorCode,
   createSimpleError,
 } from '../core';

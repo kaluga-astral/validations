@@ -1,4 +1,4 @@
-import { CommonRuleParams, createRule } from '../core';
+import { type CommonRuleParams, createRule } from '../core';
 
 import { MOBILE_PHONE_ERROR_INFO, MOBILE_PHONE_REGEX } from './constants';
 

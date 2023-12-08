@@ -1,6 +1,6 @@
 import {
-  ValidationRule,
-  ValidationTypes,
+  type ValidationRule,
+  type ValidationTypes,
   compose,
   createArrayError,
   createRule,

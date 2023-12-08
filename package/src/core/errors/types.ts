@@ -1,6 +1,6 @@
-import { ValidationErrorMap } from './ErrorMap';
-import { ValidationSimpleError } from './SimpleError';
-import { ValidationArrayError } from './ArrayError';
+import { type ValidationErrorMap } from './ErrorMap';
+import { type ValidationSimpleError } from './SimpleError';
+import { type ValidationArrayError } from './ArrayError';
 
 /**
  * @description Уникальный код ошибки валидации

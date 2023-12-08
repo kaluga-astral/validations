@@ -1,4 +1,4 @@
-import { CommonRuleParams, createRule, isStringOfZeros } from '../core';
+import { type CommonRuleParams, createRule, isStringOfZeros } from '../core';
 
 import { OGRN_IP_ERROR_INFO, OGRN_IP_LENGTH } from './constants';
 

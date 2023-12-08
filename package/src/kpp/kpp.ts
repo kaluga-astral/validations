@@ -1,6 +1,6 @@
 import {
-  CommonRuleParams,
-  ErrorInfo,
+  type CommonRuleParams,
+  type ErrorInfo,
   createRule,
   isNoDoubleZeroStart,
   isStringOfZeros,

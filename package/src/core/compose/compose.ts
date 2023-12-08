@@ -1,6 +1,10 @@
-import { ValidationResult } from '../types';
-import { IndependentValidationRule, ValidationRule, callRule } from '../rule';
-import { ValidationContext } from '../context';
+import { type ValidationResult } from '../types';
+import {
+  type IndependentValidationRule,
+  type ValidationRule,
+  callRule,
+} from '../rule';
+import { type ValidationContext } from '../context';
 
 /**
  * @description Объединяет переданные правила в цепочку правил, останавливает выполнение цепочки, если появилась ошибка. Выполняет правила слева направо

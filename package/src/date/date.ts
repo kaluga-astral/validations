@@ -1,4 +1,4 @@
-import { ValidationRule, compose, createGuard } from '../core';
+import { type ValidationRule, compose, createGuard } from '../core';
 
 import { DATE_TYPE_ERROR_INFO, INVALID_DATE_ERROR_INFO } from './constants';
 

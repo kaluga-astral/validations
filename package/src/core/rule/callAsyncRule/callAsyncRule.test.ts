@@ -1,4 +1,4 @@
-import { AsyncValidationRule } from '../types';
+import { type AsyncValidationRule } from '../types';
 import { createContext } from '../../context';
 import { REJECT_PROMISE_ERROR_INFO } from '../../errors';
 
@@ -11,7 +11,7 @@ describe('callAsyncRule', () => {
 
     const result = await callAsyncRule(rule, '', createContext(undefined, ''));
 
-    expect(result).toBe(undefined);
+    expect(result).toBeUndefined();
   });
 
   it('Если в одном из правил произошла ошибка, то promise не отклонится и вернется внутренняя ошибка', async () => {
