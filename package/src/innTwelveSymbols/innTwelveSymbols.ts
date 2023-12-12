@@ -1,4 +1,4 @@
-import { CommonRuleParams, createRule } from '../core';
+import { type CommonRuleParams, createRule } from '../core';
 
 import {
   FIRST_INN_12_SYMBOLS_DECODING,

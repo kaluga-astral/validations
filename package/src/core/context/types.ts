@@ -1,6 +1,6 @@
-import { DeepPartial, DeepReadonly } from 'utility-types';
+import { type DeepPartial, type DeepReadonly } from 'utility-types';
 
-import { createSimpleError } from '../errors';
+import { type createSimpleError } from '../errors';
 
 /**
  * @description Контекст, который доступен в каждом правиле

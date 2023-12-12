@@ -1,4 +1,4 @@
-import { ValidationContext, createRule, resetTime } from '../core';
+import { type ValidationContext, createRule, resetTime } from '../core';
 
 import {
   ARRAY_MAX_ERROR_CODE,

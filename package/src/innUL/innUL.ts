@@ -1,5 +1,5 @@
 import {
-  CommonRuleParams,
+  type CommonRuleParams,
   createRule,
   isNoDoubleZeroStart,
   isStringOfZeros,

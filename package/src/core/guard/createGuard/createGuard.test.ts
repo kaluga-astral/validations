@@ -1,6 +1,9 @@
 import { expect } from 'vitest';
 
-import { IndependentValidationRule, REQUIRED_ERROR_INFO } from '../../rule';
+import {
+  type IndependentValidationRule,
+  REQUIRED_ERROR_INFO,
+} from '../../rule';
 import { createErrorCode } from '../../errors';
 import { optional } from '../../../optional';
 import { createContext } from '../../context';

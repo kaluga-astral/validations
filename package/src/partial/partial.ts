@@ -1,4 +1,4 @@
-import { object } from '../object';
+import { type object } from '../object';
 
 /**
  * @description Выключает проверку на required для всех полей объекта

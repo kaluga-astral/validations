@@ -1,4 +1,4 @@
-import { ValidationRule, compose, createGuard } from '../core';
+import { type ValidationRule, compose, createGuard } from '../core';
 
 import { STRING_TYPE_ERROR_INFO } from './constants';
 import { isString } from './utils';

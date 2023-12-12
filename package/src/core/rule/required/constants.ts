@@ -1,4 +1,4 @@
-import { ErrorInfo, createErrorCode } from '../../errors';
+import { type ErrorInfo, createErrorCode } from '../../errors';
 
 export const REQUIRED_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('required'),

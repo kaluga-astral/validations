@@ -1,5 +1,8 @@
-import { ValidationArrayError, ValidationArrayErrorCause } from '../ArrayError';
-import { ValidationSimpleError } from '../../SimpleError';
+import {
+  ValidationArrayError,
+  type ValidationArrayErrorCause,
+} from '../ArrayError';
+import { type ValidationSimpleError } from '../../SimpleError';
 
 /**
  * @description Создает array ошибок. Ошибка предназначена для результата валидации массива

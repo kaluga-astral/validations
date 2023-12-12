@@ -1,6 +1,6 @@
-import { ValidationResult } from '../../types';
+import { type ValidationResult } from '../../types';
 import { required } from '../../rule';
-import { ValidationContext, createContext } from '../../context';
+import { type ValidationContext, createContext } from '../../context';
 
 export type GuardDefOptions<AddDefOptions extends Record<string, unknown>> =
   Partial<AddDefOptions> & {

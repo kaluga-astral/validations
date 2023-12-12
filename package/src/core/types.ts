@@ -1,4 +1,4 @@
-import { ValidationError } from './errors';
+import { type ValidationError } from './errors';
 
 /**
  * @description Результат работы валидации

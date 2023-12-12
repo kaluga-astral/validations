@@ -1,4 +1,4 @@
-import { Guard, createRule } from '../core';
+import { type Guard, createRule } from '../core';
 
 /**
  * @description Делает partial все object в схеме, независимо от уровня вложенности правил

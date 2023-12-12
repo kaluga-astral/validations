@@ -1,5 +1,8 @@
-import { ValidationErrorData, ValidationSimpleError } from '../SimpleError';
-import { ValidationResult } from '../../types';
+import {
+  type ValidationErrorData,
+  ValidationSimpleError,
+} from '../SimpleError';
+import { type ValidationResult } from '../../types';
 
 /**
  * @description Map, которое содержит результат валидации свойств

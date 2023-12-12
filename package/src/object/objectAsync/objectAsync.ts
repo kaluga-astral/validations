@@ -1,13 +1,13 @@
 import isPlainObject from 'is-plain-obj';
-import { DeepPartial } from 'utility-types';
+import { type DeepPartial } from 'utility-types';
 
 import {
-  AsyncGuard,
-  AsyncValidationRule,
-  ErrorMap,
-  Guard,
-  ValidationContext,
-  ValidationRule,
+  type AsyncGuard,
+  type AsyncValidationRule,
+  type ErrorMap,
+  type Guard,
+  type ValidationContext,
+  type ValidationRule,
   callAsyncRule as callAsyncRecursiveRule,
   createContext,
   createErrorMap,

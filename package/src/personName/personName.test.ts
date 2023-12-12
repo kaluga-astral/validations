@@ -58,7 +58,7 @@ describe('personName', () => {
     expect(personName()('и'.repeat(200))).toBeUndefined();
   });
 
-  it('Допускается максимальное количество символов - 200', () => {
+  it('Имя невалидно, если количество символов больше 200', () => {
     const error = personName()('и'.repeat(201));
 
     expect(error?.cause.code).toBe(PERSON_NAME_ERROR_INFO.code);

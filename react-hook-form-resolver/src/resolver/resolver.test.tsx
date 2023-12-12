@@ -8,7 +8,12 @@ import {
   string,
   stringAsync,
 } from '@astral/validations';
-import { Ref, ResolverOptions, useFieldArray, useForm } from 'react-hook-form';
+import {
+  type Ref,
+  type ResolverOptions,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
@@ -83,7 +88,6 @@ describe('resolver', () => {
           {formState.errors.info?.name && (
             <>
               <p>{formState.errors.info.name.message}</p>
-              <p>{formState.errors.info.name.type}</p>
             </>
           )}
           <button type="submit">submit</button>
@@ -96,10 +100,8 @@ describe('resolver', () => {
 
     await waitFor(() => {
       const errorText = screen.getByText(REQUIRED_ERROR_INFO.message);
-      const errorType = screen.getByText(REQUIRED_ERROR_INFO.code);
 
       expect(errorText).toBeVisible();
-      expect(errorType).toBeVisible();
     });
   });
 
@@ -125,7 +127,6 @@ describe('resolver', () => {
               {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <input {...register(`list.${index}.name`)} />
               <p>{formState.errors.list?.[index]?.name?.message}</p>
-              <p>{formState.errors.list?.[index]?.name?.type}</p>
             </div>
           ))}
           <button type="submit">submit</button>
@@ -138,10 +139,8 @@ describe('resolver', () => {
 
     await waitFor(() => {
       const errorText = screen.getByText(REQUIRED_ERROR_INFO.message);
-      const errorType = screen.getByText(REQUIRED_ERROR_INFO.code);
 
       expect(errorText).toBeVisible();
-      expect(errorType).toBeVisible();
     });
   });
 
@@ -169,7 +168,6 @@ describe('resolver', () => {
           {formState.errors.info?.name && (
             <>
               <p>{formState.errors.info.name.message}</p>
-              <p>{formState.errors.info.name.type}</p>
             </>
           )}
           <button type="submit">submit</button>

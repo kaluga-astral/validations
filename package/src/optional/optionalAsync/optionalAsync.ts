@@ -1,7 +1,7 @@
 import {
-  AsyncIndependentValidationRule,
-  AsyncValidationRule,
-  ValidationRule,
+  type AsyncIndependentValidationRule,
+  type AsyncValidationRule,
+  type ValidationRule,
   callAsyncRule,
   createContext,
 } from '../../core';

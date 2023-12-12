@@ -1,5 +1,5 @@
 import { onlyNumber } from '../onlyNumber';
-import { CommonRuleParams, createRule } from '../core';
+import { type CommonRuleParams, createRule } from '../core';
 
 import {
   PASSPORT_NUMBER_ERROR_INFO,

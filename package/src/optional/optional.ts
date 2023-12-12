@@ -1,6 +1,6 @@
 import {
-  IndependentValidationRule,
-  ValidationRule,
+  type IndependentValidationRule,
+  type ValidationRule,
   callRule,
   createContext,
 } from '../core';

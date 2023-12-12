@@ -2,7 +2,7 @@ import { expect } from 'vitest';
 
 import { createErrorCode } from '../../errors';
 
-import { CommonRuleParams, createRule } from './createRule';
+import { type CommonRuleParams, createRule } from './createRule';
 
 describe('createRule', () => {
   it('Создает правило валидации, которое возвращает ошибку', () => {

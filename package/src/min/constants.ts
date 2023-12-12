@@ -1,4 +1,4 @@
-import { ErrorCode, createErrorCode } from '../core';
+import { type ErrorCode, createErrorCode } from '../core';
 
 export const STRING_MIN_ERROR_CODE: ErrorCode = createErrorCode('string-min');
 

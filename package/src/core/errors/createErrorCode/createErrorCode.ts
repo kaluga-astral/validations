@@ -1,4 +1,4 @@
-import { ErrorCode } from '../types';
+import { type ErrorCode } from '../types';
 
 /**
  * @description Создает уникальный код ошибки

@@ -1,4 +1,4 @@
-import { ValidationRule, compose, createGuard } from '../core';
+import { type ValidationRule, compose, createGuard } from '../core';
 
 import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
 

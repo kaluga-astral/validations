@@ -1,4 +1,9 @@
-import { ValidationRule, ValidationTypes, compose, createGuard } from '../core';
+import {
+  type ValidationRule,
+  type ValidationTypes,
+  compose,
+  createGuard,
+} from '../core';
 
 import { ARRAY_TYPE_ERROR_INFO } from './constants';
 

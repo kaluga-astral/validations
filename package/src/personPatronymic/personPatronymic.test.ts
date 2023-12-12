@@ -65,7 +65,7 @@ describe('personPatronymic', () => {
     expect(personPatronymic()('и'.repeat(200))).toBeUndefined();
   });
 
-  it('Допускается максимальное количество символов - 200', () => {
+  it('Отчество невалидно, если количество символов больше 200', () => {
     const error = personPatronymic()('и'.repeat(201));
 
     expect(error?.cause.code).toBe(PERSON_PATRONYMIC_ERROR_INFO.code);

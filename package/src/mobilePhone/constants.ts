@@ -1,4 +1,4 @@
-import { ErrorInfo, createErrorCode } from '../core';
+import { type ErrorInfo, createErrorCode } from '../core';
 
 export const MOBILE_PHONE_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('mobilePhone'),

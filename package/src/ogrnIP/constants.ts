@@ -1,4 +1,4 @@
-import { ErrorInfo, createErrorCode } from '../core';
+import { type ErrorInfo, createErrorCode } from '../core';
 
 export const OGRN_IP_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('ogrnIP'),

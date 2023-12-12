@@ -1,6 +1,6 @@
-import { ValidationRule } from '../types';
-import { ValidationResult } from '../../types';
-import { ValidationContext } from '../../context';
+import { type ValidationRule } from '../types';
+import { type ValidationResult } from '../../types';
+import { type ValidationContext } from '../../context';
 
 /**
  * Позволяет рекурсивно вызывать правила. Rule может возвращать другой rule

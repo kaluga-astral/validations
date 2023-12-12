@@ -23,7 +23,7 @@ describe('required', () => {
     Object.create({}),
     Object.create(null),
   ])('Value "%s" валидно', (value) => {
-    expect(required()(value)).toBe(undefined);
+    expect(required()(value)).toBeUndefined();
   });
 
   it.each<unknown>(['', '     ', false, null, undefined])(

@@ -1,6 +1,6 @@
-import { AsyncValidationRule, ValidationRule } from '../types';
-import { ValidationResult } from '../../types';
-import { ValidationContext } from '../../context';
+import { type AsyncValidationRule, type ValidationRule } from '../types';
+import { type ValidationResult } from '../../types';
+import { type ValidationContext } from '../../context';
 import { REJECT_PROMISE_ERROR_INFO } from '../../errors';
 import { logger } from '../../logger';
 

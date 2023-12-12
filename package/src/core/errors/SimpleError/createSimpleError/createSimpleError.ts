@@ -1,5 +1,5 @@
 import { ValidationSimpleError } from '../SimpleError';
-import { ErrorInfo } from '../../types';
+import { type ErrorInfo } from '../../types';
 
 /**
  * @description Создает простую ошибки валидации. Используется в обычных rules

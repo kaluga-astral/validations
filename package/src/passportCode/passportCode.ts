@@ -1,4 +1,8 @@
-import { CommonRuleParams, createRule, isNoDoubleZeroStart } from '../core';
+import {
+  type CommonRuleParams,
+  createRule,
+  isNoDoubleZeroStart,
+} from '../core';
 import { onlyNumber } from '../onlyNumber';
 
 import {

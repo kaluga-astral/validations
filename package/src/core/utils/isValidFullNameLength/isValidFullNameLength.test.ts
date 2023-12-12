@@ -9,11 +9,11 @@ describe('isValidFullNameLength', () => {
     expect(isValidFullNameLength('а'.repeat(201))).toBeTruthy();
   });
 
-  it('Допускается минимальное количество символов - 1', () => {
+  it('Имя невалидно, если его длина равна 1', () => {
     expect(isValidFullNameLength('а')).toBeFalsy();
   });
 
-  it('Допускается максимальное количество символов - 200', () => {
+  it('Имя невалидно, если его длина равна 200', () => {
     expect(isValidFullNameLength('а'.repeat(200))).toBeFalsy();
   });
 });

@@ -1,4 +1,4 @@
-import { ErrorCode, createErrorCode } from '../core';
+import { type ErrorCode, createErrorCode } from '../core';
 
 export const BIRTH_DATE_MAX_ERROR_CODE: ErrorCode =
   createErrorCode('birth-date-max');

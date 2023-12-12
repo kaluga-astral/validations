@@ -1,6 +1,6 @@
 import {
-  ValidationResult,
-  ValidationRule,
+  type ValidationResult,
+  type ValidationRule,
   callRule,
   createRule,
 } from '../core';
