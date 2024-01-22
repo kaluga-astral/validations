@@ -13,7 +13,7 @@
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.1.0"
+    "@hookform/resolvers": "3.1.0"
   },
   "peerDependencies": {
     "react-hook-form": "7.x.x",
