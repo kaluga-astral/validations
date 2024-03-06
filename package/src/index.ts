@@ -38,6 +38,12 @@ export { deepPartial } from './deepPartial';
 export { partial } from './partial';
 
 export {
+  minYearsOld,
+  BIRTH_DATE_MIN_ERROR_CODE,
+  BIRTH_DATE_MAX_ERROR_CODE,
+} from './minYearsOld';
+
+export {
   min,
   STRING_MIN_ERROR_CODE,
   ARRAY_MIN_ERROR_CODE,
