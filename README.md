@@ -71,6 +71,7 @@
 - [Common](#common)
   - [optional](#optional)
   - [when. Условная валидация](#when-условная-валидация)
+  - [enabled. Условная валидация](#enabled-условная-валидация)
   - [transform](#transform)
   - [or](#or)
 - [Async](#async)
@@ -1599,6 +1600,57 @@ const validate = object<Values>({
     is: (_, ctx) => ctx.values?.name === 'Vasya',
     then: object<ValuesInfo>({ surname: string() }),
     otherwise: any(),
+  }),
+});
+
+// { info: 'Обязательно' }
+toPrettyError(
+  validate({ name: 'Vasya' })
+);
+
+// undefined
+validate({ name: 'Kolya' });
+```
+---
+
+## enabled. Условная валидация
+
+Позволяет определять условные валидации без выбора альтернативной схемы. Является упрощением when с otherwise = any().
+
+```ts
+type Values = { name: string; isAgree: boolean };
+
+const validate = object<Values>({
+  name: enabled({
+    is: (_, ctx) => Boolean(ctx.values?.isAgree),
+    then: string(),
+  }),
+  isAgree: optional(boolean()),
+});
+
+// undefined
+validate({ isAgree: false, name: '' });
+
+// { name: 'Обязательно' }
+toPrettyError(
+  validate({ isAgree: true, name: '' })
+);
+```
+
+Enabled для ветки объекта:
+```ts
+type ValuesInfo = { surname: string };
+
+type Values = {
+  name: string;
+  info?: ValuesInfo;
+};
+
+const validate = object<Values>({
+  name: string(),
+  info: enabled({
+    is: (_, ctx) => ctx.values?.name === 'Vasya',
+    then: object<ValuesInfo>({ surname: string() }),
   }),
 });
 
