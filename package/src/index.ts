@@ -161,3 +161,5 @@ export { when } from './when';
 export { toPrettyError } from './toPrettyError';
 
 export { transform } from './transform';
+
+export { enabled } from './enabled';
