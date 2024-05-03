@@ -7,10 +7,10 @@ import { REQUIRED_ERROR_INFO } from '../core';
 import { enabled } from './enabled';
 
 describe('enabled', () => {
-  it('схема валидации используется при is=true', () => {
+  it('Правило валидации используется при is=true', () => {
     const validate = enabled({
       is: () => true,
-      schema: string(),
+      then: string(),
     });
 
     const error = validate(20);
@@ -18,10 +18,10 @@ describe('enabled', () => {
     expect(error?.cause.code).toBe(STRING_TYPE_ERROR_INFO.code);
   });
 
-  it('схема валидации не используется при is=false', () => {
+  it('Правило валидации игнорируется при is=false', () => {
     const validate = enabled({
       is: () => false,
-      schema: string(),
+      then: string(),
     });
 
     const error = validate('string');
@@ -29,13 +29,13 @@ describe('enabled', () => {
     expect(error).toBeUndefined();
   });
 
-  it('валидация позволяет указывать условные типы для object', () => {
+  it('Валидация позволяет указывать условные типы для object', () => {
     type Values = { name: string; isAgree: boolean };
 
     const validate = object<Values>({
       name: enabled({
         is: (_, ctx) => Boolean(ctx.values?.isAgree),
-        schema: string(),
+        then: string(),
       }),
       isAgree: optional(boolean()),
     });
@@ -49,10 +49,10 @@ describe('enabled', () => {
     expect(result2?.cause.code).toBe(REQUIRED_ERROR_INFO.code);
   });
 
-  it('схема позволяет кастомному правилу возвращать guard', () => {
+  it('Схема позволяет кастомному правилу возвращать guard', () => {
     const validate = enabled({
       is: () => true,
-      schema: () => string(),
+      then: () => string(),
     });
 
     const error = validate(20);

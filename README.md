@@ -1623,7 +1623,7 @@ type Values = { name: string; isAgree: boolean };
 const validate = object<Values>({
   name: enabled({
     is: (_, ctx) => Boolean(ctx.values?.isAgree),
-    schema: string(),
+    then: string(),
   }),
   isAgree: optional(boolean()),
 });
@@ -1650,7 +1650,7 @@ const validate = object<Values>({
   name: string(),
   info: enabled({
     is: (_, ctx) => ctx.values?.name === 'Vasya',
-    schema: object<ValuesInfo>({ surname: string() }),
+    then: object<ValuesInfo>({ surname: string() }),
   }),
 });
 
