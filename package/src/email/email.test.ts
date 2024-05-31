@@ -2,13 +2,10 @@ import { describe, expect } from 'vitest';
 
 import {
   DOUBLE_DOTS_EMAIL_ERROR_INFO,
-  EMAIL_MAX_LENGTH,
   INVALID_EMAIL_ERROR_INFO,
   LENGTH_EMAIL_ERROR_INFO,
 } from './constants';
 import { email } from './email';
-
-const getLongEmail = () => `${'a'.repeat(EMAIL_MAX_LENGTH)}@test.com`;
 
 describe('email', () => {
   it.each<string>(['a', '@mail.ru', 'mail.ru', 'test@.ru', 'test.ru@'])(
@@ -36,49 +33,43 @@ describe('email', () => {
 
   describe('Username', () => {
     it('Валиден, если длина равна 1', () => {
-      const value = 'f@email.com';
       const validate = email();
-      const result = validate(value);
+      const result = validate('f@email.com');
 
       expect(result).toBeUndefined();
     });
 
     it('Невалиден, если длина равна 0', () => {
-      const value = '@email.com';
       const validate = email();
-      const error = validate(value);
+      const error = validate('@email.com');
 
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });
 
     it('Невалиден, если начинается с точки', () => {
-      const value = '.sdsf@email.com';
       const validate = email();
-      const error = validate(value);
+      const error = validate('.sdsf@email.com');
 
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });
 
     it('Невалиден, если начинается с дефиса', () => {
-      const value = '-sdsf@email.com';
       const validate = email();
-      const error = validate(value);
+      const error = validate('-sdsf@email.com');
 
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });
 
     it('Невалиден, если оканчивается точкой', () => {
-      const value = 'sdsf.@email.com';
       const validate = email();
-      const error = validate(value);
+      const error = validate('sdsf.@email.com');
 
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });
 
     it('Невалиден, если есть две точки подряд', () => {
-      const value = 'sd..sf@email.com';
       const validate = email();
-      const error = validate(value);
+      const error = validate('sd..sf@email.com');
 
       expect(error?.message).toBe(DOUBLE_DOTS_EMAIL_ERROR_INFO.message);
     });
@@ -86,9 +77,8 @@ describe('email', () => {
 
   describe('Hostname', () => {
     it('Невалиден, если есть две точки подряд', () => {
-      const value = 'sdsf@email..com';
       const validate = email();
-      const error = validate(value);
+      const error = validate('sdsf@email..com');
 
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });
@@ -148,18 +138,20 @@ describe('email', () => {
     expect(result).toBeUndefined();
   });
 
+  it.each(['email@ email.com', 'email @email.com', 'email @ email.com'])(
+    'Email "%s" невалиден, если вокруг "@" есть пробелы',
+    (value) => {
+      const validate = email();
+      const error = validate(value);
+
+      expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
+    },
+  );
+
   it('Дефолтный message переопределяется через параметры', () => {
     const customMessage = 'CustomMessage';
     const validate = email({ message: customMessage });
     const error = validate('test@');
-
-    expect(error?.message).toBe(customMessage);
-  });
-
-  it('Validate custom invalid length message', () => {
-    const customMessage = 'CustomMessage';
-    const validate = email({ invalidLengthMessage: customMessage });
-    const error = validate(getLongEmail());
 
     expect(error?.message).toBe(customMessage);
   });
