@@ -1,5 +1,5 @@
 // Скопировано из https://github.com/react-hook-form/resolvers/blob/master/src/validateFieldsNatively.ts
-// Причина копирования: в @hookform/resolvers react-hook-form указан как peerDev с крышкой. Из-за этого происходит рассинхрон с @astral/form
+// Причина копирования: в @hookform/resolvers react-hook-form указан как peerDep с крышкой. Из-за этого происходит рассинхрон с @astral/form
 import {
   type FieldError,
   type FieldErrors,
