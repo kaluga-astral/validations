@@ -64,7 +64,7 @@ export const email = <TLastSchemaValues extends Record<string, unknown>>(
 
     if (username.includes('..')) {
       return ctx.createError({
-        ...INVALID_EMAIL_ERROR_INFO,
+        ...DOUBLE_DOTS_EMAIL_ERROR_INFO,
         message:
           params?.doubleDotsErrorMessage ||
           DOUBLE_DOTS_EMAIL_ERROR_INFO.message,
