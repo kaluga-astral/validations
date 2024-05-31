@@ -10,7 +10,8 @@ import {
   type Resolver,
   get,
 } from 'react-hook-form';
-import { validateFieldsNatively } from '@hookform/resolvers';
+
+import { validateFieldsNatively } from '../utils';
 
 /**
  * @description Позволяет выполнять object или objectAsync валидацию для формы react-hook-form

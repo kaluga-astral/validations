@@ -12,15 +12,12 @@
     "lint": "eslint --fix --quiet",
     "lint:all": "eslint \"**/*.{ts,tsx}\" --fix --quiet"
   },
-  "dependencies": {
-    "@hookform/resolvers": "3.1.0"
-  },
   "peerDependencies": {
-    "react-hook-form": "7.x.x",
+    "react-hook-form": "7.49.2",
     "@astral/validations": "4.x.x"
   },
   "devDependencies": {
-    "react-hook-form": "^7.43.9",
+    "react-hook-form": "7.49.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@testing-library/react": "^14.0.0",
