@@ -1,4 +1,4 @@
-import { describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
   DOUBLE_DOTS_EMAIL_ERROR_INFO,
