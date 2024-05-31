@@ -59,7 +59,7 @@ describe('email', () => {
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });
 
-    it('Невалиден, если начинается с тире', () => {
+    it('Невалиден, если начинается с дефиса', () => {
       const value = '-sdsf@email.com';
       const validate = email();
       const error = validate(value);
@@ -89,6 +89,44 @@ describe('email', () => {
       const value = 'sdsf@email..com';
       const validate = email();
       const error = validate(value);
+
+      expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
+    });
+
+    it.each(['l.com', 'sds.c'])(
+      'Невалиден, если доменная зона "%s" имеет менее двух символов',
+      (value) => {
+        const validate = email();
+        const error = validate(`email@${value}`);
+
+        expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
+      },
+    );
+
+    it('Валиден, если доменная зона состоит из двух символов', () => {
+      const validate = email();
+      const result = validate('email@ld.lo');
+
+      expect(result).toBeUndefined();
+    });
+
+    it('Невалиден, если начинается с дефиса', () => {
+      const validate = email();
+      const error = validate('email@-ld.lo');
+
+      expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
+    });
+
+    it('Невалиден, если 3 и 4 символ - это дефис', () => {
+      const validate = email();
+      const error = validate('email@aa--a.com');
+
+      expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
+    });
+
+    it('Невалиден, если точка в начале домена', () => {
+      const validate = email();
+      const error = validate('email@.aaa.com');
 
       expect(error?.message).toBe(INVALID_EMAIL_ERROR_INFO.message);
     });

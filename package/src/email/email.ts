@@ -35,11 +35,13 @@ export const email = <TLastSchemaValues extends Record<string, unknown>>(
   params?: EmailParams,
 ) =>
   createRule<string, TLastSchemaValues>((value, ctx) => {
+    const invalidEmailError = ctx.createError({
+      ...INVALID_EMAIL_ERROR_INFO,
+      message: params?.message || INVALID_EMAIL_ERROR_INFO.message,
+    });
+
     if (!EMAIL_REGEXP.test(value)) {
-      return ctx.createError({
-        ...INVALID_EMAIL_ERROR_INFO,
-        message: params?.message || INVALID_EMAIL_ERROR_INFO.message,
-      });
+      return invalidEmailError;
     }
 
     if (value.length > EMAIL_MAX_LENGTH) {
@@ -53,17 +55,11 @@ export const email = <TLastSchemaValues extends Record<string, unknown>>(
     const [username, hostname] = value.split('@');
 
     if (username.startsWith('.') || username.startsWith('-')) {
-      return ctx.createError({
-        ...INVALID_EMAIL_ERROR_INFO,
-        message: params?.message || INVALID_EMAIL_ERROR_INFO.message,
-      });
+      return invalidEmailError;
     }
 
     if (username.endsWith('.')) {
-      return ctx.createError({
-        ...INVALID_EMAIL_ERROR_INFO,
-        message: params?.message || INVALID_EMAIL_ERROR_INFO.message,
-      });
+      return invalidEmailError;
     }
 
     if (username.includes('..')) {
@@ -73,6 +69,10 @@ export const email = <TLastSchemaValues extends Record<string, unknown>>(
           params?.doubleDotsErrorMessage ||
           DOUBLE_DOTS_EMAIL_ERROR_INFO.message,
       });
+    }
+
+    if (hostname[2] === '-' && hostname[3] === '-') {
+      return invalidEmailError;
     }
 
     return undefined;
