@@ -33,11 +33,20 @@ describe('email', () => {
     expect(result).toBeUndefined();
   });
 
-  it('Validate default invalid length message', () => {
+  it('Email невалиден, если длина больше 254', () => {
+    const value = `${'a'.repeat(254)}@email.com`;
     const validate = email();
-    const error = validate(getLongEmail());
+    const error = validate(value);
 
     expect(error?.message).toBe(LENGTH_EMAIL_ERROR_INFO.message);
+  });
+
+  it('Email валиден, если длина равна 254', () => {
+    const value = `${'a'.repeat(244)}@email.com`;
+    const validate = email();
+    const result = validate(value);
+
+    expect(result).toBeUndefined();
   });
 
   it('Дефолтный message переопределяется через параметры', () => {
