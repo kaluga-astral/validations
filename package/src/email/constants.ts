@@ -13,3 +13,8 @@ export const LENGTH_EMAIL_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('email-length'),
   message: 'E-mail слишком длинный',
 };
+
+export const DOUBLE_DOTS_EMAIL_ERROR_INFO: ErrorInfo = {
+  code: createErrorCode('email-double-dots'),
+  message: 'Две точки подряд недопустимы',
+};

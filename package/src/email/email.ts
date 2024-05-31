@@ -1,6 +1,7 @@
 import { createRule } from '../core';
 
 import {
+  DOUBLE_DOTS_EMAIL_ERROR_INFO,
   EMAIL_MAX_LENGTH,
   EMAIL_REGEXP,
   INVALID_EMAIL_ERROR_INFO,
@@ -16,6 +17,10 @@ type EmailParams = {
    * @description Замена стандартного сообщения ошибки при превышении допустимого количества символов.
    */
   invalidLengthMessage?: string;
+  /**
+   * @description Замена стандартного сообщения ошибки для повторяющихся точек.
+   */
+  doubleDotsErrorMessage?: string;
 };
 
 /**
@@ -42,6 +47,31 @@ export const email = <TLastSchemaValues extends Record<string, unknown>>(
         ...LENGTH_EMAIL_ERROR_INFO,
         message:
           params?.invalidLengthMessage || LENGTH_EMAIL_ERROR_INFO.message,
+      });
+    }
+
+    const [username, hostname] = value.split('@');
+
+    if (username.startsWith('.') || username.startsWith('-')) {
+      return ctx.createError({
+        ...INVALID_EMAIL_ERROR_INFO,
+        message: params?.message || INVALID_EMAIL_ERROR_INFO.message,
+      });
+    }
+
+    if (username.endsWith('.')) {
+      return ctx.createError({
+        ...INVALID_EMAIL_ERROR_INFO,
+        message: params?.message || INVALID_EMAIL_ERROR_INFO.message,
+      });
+    }
+
+    if (username.includes('..')) {
+      return ctx.createError({
+        ...INVALID_EMAIL_ERROR_INFO,
+        message:
+          params?.doubleDotsErrorMessage ||
+          DOUBLE_DOTS_EMAIL_ERROR_INFO.message,
       });
     }
 
