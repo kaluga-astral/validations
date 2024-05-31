@@ -22,7 +22,9 @@ const setCustomValidity = (
   }
 };
 
-// Native validation (web only)
+/**
+ * Native validation (web only)
+ */
 export const validateFieldsNatively = <TFieldValues extends FieldValues>(
   errors: FieldErrors,
   options: ResolverOptions<TFieldValues>,
