@@ -37,11 +37,11 @@ export interface Guard<
   /**
    * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
-   * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
+   * @example string(inn()).define({ requiredMessage: 'ИНН не может быть пустым' })
    */
-  define(
+  define<TDefineLastSchemaValues extends Record<string, unknown> = {}>(
     options: GuardDefOptions<AddDefOptions>,
-  ): Guard<TLastSchemaValues, AddDefOptions>;
+  ): Guard<TDefineLastSchemaValues, AddDefOptions>;
 }
 
 /**
