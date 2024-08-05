@@ -2,7 +2,7 @@ import { type ErrorInfo, createErrorCode } from '../core';
 
 export const INN_UL_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('innUL'),
-  message: 'Некорректный ИНН ЮЛ',
+  message: 'Проверьте ИНН',
 };
 
 export const INN_UL_LENGTH = 10;
