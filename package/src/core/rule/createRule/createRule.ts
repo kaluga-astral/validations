@@ -3,17 +3,17 @@ import { type ValidationContext, createContext } from '../../context';
 import { type IndependentValidationRule } from '../types';
 
 /**
- * @description Единые параметры для всех правил
+ * Единые параметры для всех правил
  */
 export type CommonRuleParams<ValidationType extends ValidationTypes> = {
   /**
-   * @description Функция, позволяющая для каждого правила указать исключение
+   * Функция, позволяющая для каждого правила указать исключение
    */
   exclude?: (value: ValidationType, ctx: ValidationContext) => boolean;
 };
 
 /**
- * @description Функция, которая позволяет определять частную логику для guard
+ * Функция, которая позволяет определять частную логику для guard
  */
 type RuleExecutor<
   ValidationType extends ValidationTypes,
@@ -24,7 +24,7 @@ type RuleExecutor<
 ) => ValidationResult;
 
 /**
- * @description Создает правила валидации, которые можно использовать внутри guard или по отдельности
+ * Создает правила валидации, которые можно использовать внутри guard или по отдельности
  * @param executor - функция, которая позволяет определять частную логику для guard
  * @param commonParams - единые параметры для всех rule
  * @example

@@ -4,13 +4,13 @@ import { CONTAINS_DIFFERENT_CASES_ERROR_CODE } from './constants';
 
 type ContainsDifferentCasesParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет на наличие в строке символов разных регистров
+ * Проверяет на наличие в строке символов разных регистров
  * @example
  * ```ts
  *  const validate = string(containsDifferentCases());

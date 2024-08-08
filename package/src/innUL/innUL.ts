@@ -9,7 +9,7 @@ import { INN_UL_DECODING, INN_UL_ERROR_INFO, INN_UL_LENGTH } from './constants';
 
 type InnULParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
@@ -25,7 +25,7 @@ const calcCheckSumForInnUl = (arrSymbols: string[]) =>
   10;
 
 /**
- * @description Проверяет валиден ли ИНН ЮЛ
+ * Проверяет валиден ли ИНН ЮЛ
  * @example
  * ```ts
  * const validate = string(innUL());

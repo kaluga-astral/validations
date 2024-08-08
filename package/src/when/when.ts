@@ -7,7 +7,7 @@ import {
 
 type Params<TLastSchemaValues extends Record<string, unknown>> = {
   /**
-   * @description Условие для выбора ветки
+   * Условие для выбора ветки
    */
   is: (value: unknown, ctx: ValidationContext<TLastSchemaValues>) => boolean;
   /**
@@ -21,7 +21,7 @@ type Params<TLastSchemaValues extends Record<string, unknown>> = {
 };
 
 /**
- * @description Позволяет указывать условные валидации
+ * Позволяет указывать условные валидации
  * @example
  * ```ts
  * type Values = { name: string; isAgree: boolean };

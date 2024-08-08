@@ -8,7 +8,7 @@ import {
 type Transformer<TValue, TResult> = (value: TValue) => TResult;
 
 /**
- * @description Трансформирует value в новый тип для валидации
+ * Трансформирует value в новый тип для валидации
  * @param transformer - функция трансформации value в новый тип
  * @param rules - правила, которые будут вызваны после трансформации value
  * @example

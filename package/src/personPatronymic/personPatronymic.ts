@@ -11,13 +11,13 @@ import { PERSON_PATRONYMIC_ERROR_INFO } from './constants';
 
 type PersonPatronymicParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валидно ли отчество
+ * Проверяет валидно ли отчество
  * @example
  * ```ts
  * const validate = string(personPatronymic());

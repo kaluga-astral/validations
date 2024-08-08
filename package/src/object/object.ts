@@ -17,7 +17,7 @@ import { isEmptyErrors } from './isEmptyErrors';
 import { OBJECT_TYPE_ERROR_INFO } from './constants';
 
 /**
- * @description Специальный итерфейс Guard для object. В данном интерфейсе ctx required
+ * Специальный итерфейс Guard для object. В данном интерфейсе ctx required
  * Переопределение необходимо для того, чтобы ts показывал, что ctx required в кастомных правилах
  */
 interface ObjectPropGuard<TLastSchemaValues extends Record<string, unknown>> {
@@ -30,20 +30,20 @@ interface ObjectPropGuard<TLastSchemaValues extends Record<string, unknown>> {
 
 type AdditionalDefOptions = {
   /**
-   * @description Делает все свойства объекта partial
+   * Делает все свойства объекта partial
    */
   isPartial?: boolean;
 };
 
 /**
- * @description Возможные значения, принимаемые схемой
+ * Возможные значения, принимаемые схемой
  */
 export type SchemaValue<TValue extends Record<string, unknown>> =
   | ObjectPropGuard<TValue>
   | ValidationRule<unknown, TValue>;
 
 /**
- * @description Схема правил валдиации для объекта
+ * Схема правил валдиации для объекта
  */
 export type Schema<TValue extends Record<string, unknown>> = Record<
   keyof TValue,
@@ -51,7 +51,7 @@ export type Schema<TValue extends Record<string, unknown>> = Record<
 >;
 
 /**
- * @description Guard для объекта
+ * Guard для объекта
  * @param schema - схема валидации объекта
  * @example
  * ```ts

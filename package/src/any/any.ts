@@ -1,7 +1,7 @@
 import { type ValidationRule, compose, createRule } from '../core';
 
 /**
- * @description Выключает любые проверки и валидирует value
+ * Выключает любые проверки и валидирует value
  * @param rules - правила, валидирующие любые значения
  * @example
  * ```ts

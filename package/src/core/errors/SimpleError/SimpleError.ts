@@ -1,7 +1,7 @@
 import { type ErrorCode } from '../types';
 
 /**
- * @description Причина ошибки валидации
+ * Причина ошибки валидации
  */
 export type ValidationErrorData<AddCause extends Record<string, unknown>> = {
   cause: AddCause & {
@@ -10,7 +10,7 @@ export type ValidationErrorData<AddCause extends Record<string, unknown>> = {
 };
 
 /**
- * @description Простая ошибка правил валидации. Не имеет вложенных ошибок
+ * Простая ошибка правил валидации. Не имеет вложенных ошибок
  */
 export class ValidationSimpleError<
   AddCause extends Record<string, unknown> = {},

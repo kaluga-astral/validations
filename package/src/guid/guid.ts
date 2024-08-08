@@ -4,13 +4,13 @@ import { GUID_REGEXP, INVALID_GUID_ERROR_INFO } from './constants';
 
 type GuidParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валидность GUID.
+ * Проверяет валидность GUID.
  * @example
  * ```ts
  *  const validate = string(guid());

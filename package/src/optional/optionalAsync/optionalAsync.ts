@@ -9,7 +9,7 @@ import {
 // TODO: необходимо добавить возможность использовать вложенные guards
 
 /**
- * @description Выключает проверку на required в guard. Предназначен для асинхронных правил.
+ * Выключает проверку на required в guard. Предназначен для асинхронных правил.
  * @example object({ name: optionalAsync(stringAsync(min(22))) })
  */
 export const optionalAsync =

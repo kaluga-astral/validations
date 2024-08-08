@@ -5,7 +5,7 @@ import {
 import { type ValidationSimpleError } from '../../SimpleError';
 
 /**
- * @description Создает map ошибок валидаций. Ошибка предназначена для генерации результата валидации объекта
+ * Создает map ошибок валидаций. Ошибка предназначена для генерации результата валидации объекта
  */
 export const createErrorMap = (
   errorMap: ValidationObjectErrorCause['errorMap'],

@@ -4,7 +4,7 @@ import { INTEGER_ERROR_INFO } from './constants';
 
 type IntegerParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };

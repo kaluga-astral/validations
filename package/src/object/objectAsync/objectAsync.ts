@@ -18,7 +18,7 @@ import { isEmptyErrors } from '../isEmptyErrors';
 import { OBJECT_TYPE_ERROR_INFO } from '../constants';
 
 /**
- * @description Специальный итерфейс Guard для object. В данном интерфейсе ctx required
+ * Специальный итерфейс Guard для object. В данном интерфейсе ctx required
  * Переопределение необходимо для того, чтобы ts показывал, что ctx required в кастомных правилах
  */
 interface ObjectPropGuard<TLastSchemaValues extends Record<string, unknown>> {
@@ -40,13 +40,13 @@ interface AsyncObjectPropGuard<
 
 type AdditionalDefOptions = {
   /**
-   * @description Делает все свойства объекта partial
+   * Делает все свойства объекта partial
    */
   isPartial?: boolean;
 };
 
 /**
- * @description Возможные значения, принимаемые схемой
+ * Возможные значения, принимаемые схемой
  */
 export type AsyncSchemaValue<TValue extends Record<string, unknown>> =
   | ObjectPropGuard<TValue>
@@ -55,7 +55,7 @@ export type AsyncSchemaValue<TValue extends Record<string, unknown>> =
   | AsyncValidationRule<unknown, TValue>;
 
 /**
- * @description Схема правил валдиации для объекта
+ * Схема правил валдиации для объекта
  */
 export type AsyncSchema<TValue extends Record<string, unknown>> = Record<
   keyof TValue,
@@ -65,7 +65,7 @@ export type AsyncSchema<TValue extends Record<string, unknown>> = Record<
 // TODO: необходимо реализовать переиспользование логики между object и objectAsync
 
 /**
- * @description Guard для объекта, который поддерживает асинхронную валидацию
+ * Guard для объекта, который поддерживает асинхронную валидацию
  * @example
  * ```ts
  * type Values = {
