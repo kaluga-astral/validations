@@ -4,13 +4,13 @@ import { CONTAINS_NUMBERS_ERROR_CODE } from './constants';
 
 type ContainsNumbersParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет на наличие чисел в строке
+ * Проверяет на наличие чисел в строке
  * @example
  * ```ts
  *  const validate = string(containsNumbers());

@@ -4,13 +4,13 @@ import { OGRN_IP_ERROR_INFO, OGRN_IP_LENGTH } from './constants';
 
 type OgrnIPParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валиден ли ОГРН ИП
+ * Проверяет валиден ли ОГРН ИП
  * @example
  * ```ts
  * const validate = string(ogrnIP());

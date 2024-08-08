@@ -4,13 +4,13 @@ import { ONLY_NUMBER_ERROR_CODE } from './constants';
 
 type OnlyNumberParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет на наличие только чисел в строке
+ * Проверяет на наличие только чисел в строке
  * @example
  * ```ts
  *  const validate = string(onlyNumber());

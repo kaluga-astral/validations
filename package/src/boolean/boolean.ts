@@ -3,7 +3,7 @@ import { type ValidationRule, compose, createGuard } from '../core';
 import { BOOLEAN_TYPE_ERROR_INFO } from './constants';
 
 /**
- * @description Guard для boolean. Проверяет значение на тип boolean
+ * Guard для boolean. Проверяет значение на тип boolean
  * @param rules - правила, валидирующие boolean или unknown value
  * @example
  * ```ts

@@ -4,7 +4,7 @@ import { MOBILE_PHONE_ERROR_INFO, MOBILE_PHONE_REGEX } from './constants';
 
 type MobilePhoneParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };

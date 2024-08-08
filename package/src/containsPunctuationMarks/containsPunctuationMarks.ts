@@ -4,13 +4,13 @@ import { CONTAINS_PUNCTUATION_MARKS_ERROR_CODE } from './constants';
 
 type ContainsPunctuationMarksParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет на наличие в строке знаков пунктуации !$%&’()+,-./:;<=>?@[]^_{|}”
+ * Проверяет на наличие в строке знаков пунктуации !$%&’()+,-./:;<=>?@[]^_{|}”
  * @example
  * ```ts
  *  const validate = string(containsPunctuationMarks());

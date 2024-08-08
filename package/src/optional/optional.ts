@@ -6,7 +6,7 @@ import {
 } from '../core';
 
 /**
- * @description Выключает проверку на required в guard
+ * Выключает проверку на required в guard
  * @example object({ name: optional(string(min(22))) })
  */
 export const optional =

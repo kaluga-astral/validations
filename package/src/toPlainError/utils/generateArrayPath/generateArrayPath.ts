@@ -1,5 +1,5 @@
 /**
- * @description Гененирует path для массива
+ * Гененирует path для массива
  */
 export const generateArrayPath = (index: number, prevPath?: string): string => {
   if (prevPath) {

@@ -1,7 +1,7 @@
 import { type Guard, createRule } from '../core';
 
 /**
- * @description Делает partial все object в схеме, независимо от уровня вложенности правил
+ * Делает partial все object в схеме, независимо от уровня вложенности правил
  * @param guard - любой guard
  * @example
  * ```ts

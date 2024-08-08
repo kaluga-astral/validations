@@ -4,13 +4,13 @@ import { PATTERN_ERROR_CODE } from './constants';
 
 type PatternParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет строку на соответствие регулярному выражению.
+ * Проверяет строку на соответствие регулярному выражению.
  * @param regex - регулярное выражение
  * @example
  * ```ts

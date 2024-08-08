@@ -14,7 +14,7 @@ import {
 import { validateFieldsNatively } from '../utils';
 
 /**
- * @description Позволяет выполнять object или objectAsync валидацию для формы react-hook-form
+ * Позволяет выполнять object или objectAsync валидацию для формы react-hook-form
  * @param validateBySchema
  * @example
  * ```tsx

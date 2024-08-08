@@ -5,13 +5,13 @@ import { INN_FL_ERROR_INFO } from './constants';
 
 type InnFLParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валиден ли ИНН ФЛ
+ * Проверяет валиден ли ИНН ФЛ
  * @example
  * ```ts
  * const validate = string(innFL());

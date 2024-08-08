@@ -4,13 +4,13 @@ import { STRING_LENGTH_ERROR_CODE } from './constants';
 
 type LengthParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет значение на соответствие длине. Работает с: string
+ * Проверяет значение на соответствие длине. Работает с: string
  * @param len - целевой кол-во символов
  * @example
  *  // Длина строки должна быть 5 символов

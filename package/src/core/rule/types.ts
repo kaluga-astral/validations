@@ -2,7 +2,7 @@ import { type ValidationContext } from '../context';
 import { type ValidationResult } from '../types';
 
 /**
- * @description Самостоятельное правило для валидации. Может использоваться вне guard'ов
+ * Самостоятельное правило для валидации. Может использоваться вне guard'ов
  */
 export type IndependentValidationRule<
   TValue,
@@ -13,7 +13,7 @@ export type IndependentValidationRule<
 ) => ValidationResult;
 
 /**
- * @description Самостоятельное асинхронное правило для валидации. Может использоваться вне guard'ов
+ * Самостоятельное асинхронное правило для валидации. Может использоваться вне guard'ов
  */
 export type AsyncIndependentValidationRule<
   TValue,
@@ -24,7 +24,7 @@ export type AsyncIndependentValidationRule<
 ) => Promise<ValidationResult>;
 
 /**
- * @description Правило для валидации, работающее исключительно с guard'ами
+ * Правило для валидации, работающее исключительно с guard'ами
  */
 export type ValidationRule<
   TValue,
@@ -35,7 +35,7 @@ export type ValidationRule<
 ) => ValidationResult | ValidationRule<TValue, TLastSchemaValues>;
 
 /**
- * @description Асинхронное правило для валидации, работающее исключительно с guard'ами
+ * Асинхронное правило для валидации, работающее исключительно с guard'ами
  */
 export type AsyncValidationRule<
   TValue,
@@ -50,7 +50,7 @@ export type AsyncValidationRule<
 >;
 
 /**
- * @description Композиционное правило валидации, умеющее работать с любыми значениями.
+ * Композиционное правило валидации, умеющее работать с любыми значениями.
  * В основном используется для композиционных правил, которые принимают rule, умеющие валидировать разные значения (optional, transform...)
  */
 export type UniversalCompositionalValidationRule<

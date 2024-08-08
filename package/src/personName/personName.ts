@@ -11,13 +11,13 @@ import { PERSON_NAME_ERROR_INFO } from './constants';
 
 type PersonNameParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валидно ли имя
+ * Проверяет валидно ли имя
  * @example
  * ```ts
  * const validate = string(personName());

@@ -4,7 +4,7 @@ import { POSITIVE_NUMBER_ERROR_INFO } from './constants';
 
 type PositiveNumberParams = {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };

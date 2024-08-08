@@ -8,7 +8,7 @@ import {
 
 type SnilsParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
@@ -33,7 +33,7 @@ const compareCheckSum = (calculatedCheckSum: number, checkSum: number) => {
 };
 
 /**
- * @description Проверяет валиден ли СНИЛС
+ * Проверяет валиден ли СНИЛС
  * @example
  * ```ts
  * const validate = string(snils());

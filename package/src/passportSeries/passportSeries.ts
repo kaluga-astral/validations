@@ -13,13 +13,13 @@ import {
 
 type PassportSeriesParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валидна ли серия паспорта
+ * Проверяет валидна ли серия паспорта
  * @example
  * ```ts
  * const validate = string(passportSeries());

@@ -4,13 +4,13 @@ import { OGRN_UL_ERROR_INFO, OGRN_UL_LENGTH } from './constants';
 
 type OgrnULParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валиден ли ОГРН ЮЛ
+ * Проверяет валиден ли ОГРН ЮЛ
  * @example
  * ```ts
  * const validate = string(ogrnIP());

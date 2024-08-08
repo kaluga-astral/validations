@@ -5,17 +5,17 @@ import { type ValidationContext, createContext } from '../../context';
 export type GuardDefOptions<AddDefOptions extends Record<string, unknown>> =
   Partial<AddDefOptions> & {
     /**
-     * @description Переопределяет дефолтное сообщения ошибки для required
+     * Переопределяет дефолтное сообщения ошибки для required
      * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
      */
     requiredErrorMessage?: string;
     /**
-     * @description Переопределяет сообщение об ошибке типа
+     * Переопределяет сообщение об ошибке типа
      * @example string.define({ typeErrorMessage: 'ИНН не может быть числом' })(inn())
      */
     typeErrorMessage?: string;
     /**
-     * @description Позволяет выключать проверку на required
+     * Позволяет выключать проверку на required
      * @default false
      */
     isOptional?: boolean;
@@ -24,7 +24,7 @@ export type GuardDefOptions<AddDefOptions extends Record<string, unknown>> =
 export type GuardValue = unknown;
 
 /**
- * @description Интерфейс функции guard, которая в прототипе содержит метод define
+ * Интерфейс функции guard, которая в прототипе содержит метод define
  */
 export interface Guard<
   TLastSchemaValues extends Record<string, unknown> = {},
@@ -35,7 +35,7 @@ export interface Guard<
     ctx?: ValidationContext<TLastSchemaValues>,
   ): ValidationResult;
   /**
-   * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
+   * Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
    * @example string(inn()).define({ requiredMessage: 'ИНН не может быть пустым' })
    */
@@ -45,7 +45,7 @@ export interface Guard<
 }
 
 /**
- * @description Интерфейс асинхронной функции guard, которая в прототипе содержит метод define
+ * Интерфейс асинхронной функции guard, которая в прототипе содержит метод define
  */
 export interface AsyncGuard<
   TLastSchemaValues extends Record<string, unknown> = {},
@@ -56,7 +56,7 @@ export interface AsyncGuard<
     ctx?: ValidationContext<TLastSchemaValues>,
   ): Promise<ValidationResult>;
   /**
-   * @description Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
+   * Функция для создания нового guard с переопределенными дефолтными параметрами. Возвращает новый guard
    * @param options - параметры, позволяющие переопределить дефолтные настройки guard
    * @example string.define({ requiredMessage: 'ИНН не может быть пустым' })(inn())
    */
@@ -66,7 +66,7 @@ export interface AsyncGuard<
 }
 
 /**
- * @description Функция, которая позволяет определять частную логику для guard
+ * Функция, которая позволяет определять частную логику для guard
  */
 type GuardExecutor<
   TLastSchemaValues extends Record<string, unknown>,
@@ -78,7 +78,7 @@ type GuardExecutor<
 ) => ValidationResult;
 
 /**
- * @description Функция, которая позволяет определять частную логику для guard
+ * Функция, которая позволяет определять частную логику для guard
  */
 type AsyncGuardExecutor<
   TLastSchemaValues extends Record<string, unknown>,
@@ -90,7 +90,7 @@ type AsyncGuardExecutor<
 ) => Promise<ValidationResult>;
 
 /**
- * @description Создает guard. Guard - функция, проверяющая тип значения
+ * Создает guard. Guard - функция, проверяющая тип значения
  * По-дефолту проверяет value на required. Для выключения required необходимо использовать optional().
  * После первого вызова guard в прототипу функции становится доступен метод define, который позволяет переопределить дефолтное поведение guard (например, изменить текст для required правила)
  * @example
