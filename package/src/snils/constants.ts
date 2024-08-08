@@ -2,7 +2,7 @@ import { type ErrorInfo, createErrorCode } from '../core';
 
 export const SNILS_ERROR_INFO: ErrorInfo = {
   code: createErrorCode('snils'),
-  message: 'Некорректный СНИЛС',
+  message: 'Проверьте СНИЛС',
 };
 
 export const RESTRICTED_VALUES = ['00000000000'];
