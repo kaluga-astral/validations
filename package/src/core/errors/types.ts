@@ -3,12 +3,12 @@ import { type ValidationSimpleError } from './SimpleError';
 import { type ValidationArrayError } from './ArrayError';
 
 /**
- * @description Уникальный код ошибки валидации
+ * Уникальный код ошибки валидации
  */
 export type ErrorCode = string;
 
 /**
- * @description Информация, которая есть для каждой ошибки
+ * Информация, которая есть для каждой ошибки
  */
 export type ErrorInfo = {
   code: ErrorCode;
@@ -16,7 +16,7 @@ export type ErrorInfo = {
 };
 
 /**
- * @description Union возможных ошибок
+ * Union возможных ошибок
  */
 export type ValidationError =
   | ValidationSimpleError

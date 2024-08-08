@@ -15,13 +15,13 @@ import {
 
 type KPPParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валидность кода КПП
+ * Проверяет валидность кода КПП
  * @example
  * ```ts
  * const validate = string(kpp());

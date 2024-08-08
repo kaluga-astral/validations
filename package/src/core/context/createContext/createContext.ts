@@ -16,7 +16,7 @@ type Params<TLastSchemaValues extends Record<string, unknown>> = {
 };
 
 /**
- * @description Создает context валидации. Используется внутри фабрик guard и rule
+ * Создает context валидации. Используется внутри фабрик guard и rule
  * @default по-дефолту сбрасывает все флаги в false
  */
 export function createContext<

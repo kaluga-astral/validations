@@ -13,7 +13,7 @@ type CommonThreshold = number | Date;
 
 type MaxParams<ValidationType> = {
   /**
-   * @description Сообщение ошибки
+   * Сообщение ошибки
    */
   getMessage?: (
     threshold: CommonThreshold,
@@ -23,7 +23,7 @@ type MaxParams<ValidationType> = {
 };
 
 /**
- * @description Проверяет значение на соответствие максимуму. Работает с: string, array, Date, number
+ * Проверяет значение на соответствие максимуму. Работает с: string, array, Date, number
  * @param threshold - верхний доступный порог value
  * @example
  * ```ts

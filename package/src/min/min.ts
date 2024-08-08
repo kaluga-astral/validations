@@ -13,7 +13,7 @@ type CommonThreshold = number | Date;
 
 type MinParams<ValidationType> = {
   /**
-   * @description Сообщение ошибки
+   * Сообщение ошибки
    */
   getMessage?: (
     threshold: CommonThreshold,
@@ -23,7 +23,7 @@ type MinParams<ValidationType> = {
 };
 
 /**
- * @description Проверяет значение на соответствие минимуму. Работает с: string, array, Date, number
+ * Проверяет значение на соответствие минимуму. Работает с: string, array, Date, number
  * @param threshold - нижний доступный порог value
  * @example
  * ```ts

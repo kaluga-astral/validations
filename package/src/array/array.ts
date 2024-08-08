@@ -8,7 +8,7 @@ import {
 import { ARRAY_TYPE_ERROR_INFO } from './constants';
 
 /**
- * @description Guard для массива. Проверяет value на соответствие типу array
+ * Guard для массива. Проверяет value на соответствие типу array
  * @param rules - правила валидаций, применяющиеся ко всему массиву
  * @example
  * ```ts

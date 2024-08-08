@@ -12,7 +12,7 @@ type AdditionalDefOptions = {
 };
 
 /**
- * @description Guard для number. Проверяет значение на тип number и NaN, Infinity
+ * Guard для number. Проверяет значение на тип number и NaN, Infinity
  * Для NaN и Infinity возвращаются отдельные ошибки
  * @param rules - правила, валидирующие number или unknown value
  * @example

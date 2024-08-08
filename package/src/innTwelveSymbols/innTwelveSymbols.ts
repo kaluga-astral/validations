@@ -9,7 +9,7 @@ import {
 
 type InnTwelveSymbolsParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
@@ -37,7 +37,7 @@ const secondCheckSumForInnTwelveSymbols = (arrSymbols: string[]) =>
   10;
 
 /**
- * @description Проверяет, валиден ли ИНН из 12 символов
+ * Проверяет, валиден ли ИНН из 12 символов
  * @example
  * ```ts
  * const validate = string(innTwelveSymbols());

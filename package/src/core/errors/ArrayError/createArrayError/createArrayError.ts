@@ -5,7 +5,7 @@ import {
 import { type ValidationSimpleError } from '../../SimpleError';
 
 /**
- * @description Создает array ошибок. Ошибка предназначена для результата валидации массива
+ * Создает array ошибок. Ошибка предназначена для результата валидации массива
  */
 export const createArrayError = (
   errorArray: ValidationArrayErrorCause['errorArray'],

@@ -2,7 +2,7 @@ import { type ValidationResult } from '../core';
 import { type PlainValidationResult, toPlainError } from '../toPlainError';
 
 /**
- * @description Преобразует ошибку валидации в формат для вывода (например, в консоль)
+ * Преобразует ошибку валидации в формат для вывода (например, в консоль)
  * @param validationResult
  * @example
  * ```ts

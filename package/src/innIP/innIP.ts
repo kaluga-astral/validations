@@ -10,13 +10,13 @@ import { INN_IP_ERROR_INFO } from './constants';
 
 type InnIPParams = CommonRuleParams<string> & {
   /**
-   * @description Замена стандартного сообщения ошибки.
+   * Замена стандартного сообщения ошибки.
    */
   message?: string;
 };
 
 /**
- * @description Проверяет валиден ли ИНН ИП
+ * Проверяет валиден ли ИНН ИП
  * @example
  * ```ts
  * const validate = string(innIP());

@@ -7,7 +7,7 @@ type AdditionalDefOptions = {
 };
 
 /**
- * @description Guard для Date object. Проверяет значение на соответствие объекту Date и на валидность даты
+ * Guard для Date object. Проверяет значение на соответствие объекту Date и на валидность даты
  * @param rules - правила, валидирующие Date или unknown value
  * @example
  * ```ts

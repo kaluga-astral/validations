@@ -3,14 +3,14 @@ import { createRule } from '../createRule';
 import { REQUIRED_ERROR_INFO } from './constants';
 
 /**
- * @description Проверяет value на пустоту. Если значение пустое, то возвращает ошибку.
+ * Проверяет value на пустоту. Если значение пустое, то возвращает ошибку.
  * Правило универсально для всех типов данных
  */
 export const required = ({
   message,
 }: {
   /**
-   * @description Кастомное сообщение ошибки
+   * Кастомное сообщение ошибки
    * @default Обязательно
    */
   message?: string;

@@ -5,18 +5,18 @@ import {
 } from '../SimpleError';
 
 /**
- * @description Доп. поля для ошибок элементов массива
+ * Доп. поля для ошибок элементов массива
  */
 export type ValidationArrayErrorCause = {
   /**
-   * @description Массив ошибок элементов валидируемого массива.
+   * Массив ошибок элементов валидируемого массива.
    * Индекс errorArray соответвует индексу валидируемого элемента массива
    */
   errorArray: Array<ValidationResult>;
 };
 
 /**
- * @description Array ошибок для массива
+ * Array ошибок для массива
  */
 export class ValidationArrayError extends ValidationSimpleError<ValidationArrayErrorCause> {
   constructor(

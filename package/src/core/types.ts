@@ -1,12 +1,12 @@
 import { type ValidationError } from './errors';
 
 /**
- * @description Результат работы валидации
+ * Результат работы валидации
  */
 export type ValidationResult = ValidationError | undefined;
 
 /**
- * @description Доступные для валидации типы value
+ * Доступные для валидации типы value
  */
 export type ValidationTypes =
   | unknown

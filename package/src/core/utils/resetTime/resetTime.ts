@@ -1,5 +1,5 @@
 /**
- * @description Сбрасывает время для даты в 0
+ * Сбрасывает время для даты в 0
  * @param date
  */
 export const resetTime = (date: Date): Date => {

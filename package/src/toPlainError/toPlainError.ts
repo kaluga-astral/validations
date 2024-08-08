@@ -28,7 +28,7 @@ type FormatSimpleErrorFunc<TPlainSimpleError> = (
 ) => TPlainSimpleError;
 
 /**
- * @description Результат валидации, преобразованный в простые структуры данных (исходные - это инстансы error)
+ * Результат валидации, преобразованный в простые структуры данных (исходные - это инстансы error)
  */
 export type PlainValidationResult<TPlainSimpleError> =
   | undefined
@@ -76,7 +76,7 @@ function toPlainErrorMap<TPlainSimpleError>(
 }
 
 /**
- * @description Форматирует все ошибки валидации в простые объекты. Необходим для интеграции с другими библиотеками
+ * Форматирует все ошибки валидации в простые объекты. Необходим для интеграции с другими библиотеками
  * @param validationResult
  * @param formatErrorInfo - позволяет отформатировать объект ошибки при его формировании
  * @param path - путь до ошибки в схеме

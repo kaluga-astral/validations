@@ -1,7 +1,7 @@
 import { type object } from '../object';
 
 /**
- * @description Выключает проверку на required для всех полей объекта
+ * Выключает проверку на required для всех полей объекта
  * @param objectGuard
  * @example partial(object({ name: string() }))
  */
