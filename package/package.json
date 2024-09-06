@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "is-plain-obj": "^4.1.0",
-    "utility-types": "^3.10.0"
+    "utility-types": "^3.10.0",
+    "@astral/utils": "^1.0.0"
   }
 }

@@ -12,7 +12,7 @@ export type ErrorCode = string;
  */
 export type ErrorInfo = {
   code: ErrorCode;
-  message: string;
+  message: string | ((...ars: any) => string);
 };
 
 /**

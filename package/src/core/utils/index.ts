@@ -1,13 +1,23 @@
-export * from './isStringOfZeros';
+export * from './declensionDay';
 
-export * from './isNoDoubleZeroStart';
+export * from './declensionMonth';
 
-export * from './resetTime';
+export * from './declensionYear';
 
-export * from './isStartsWithAndEndsWithLetter';
-
-export * from './isHasConsecutiveChars';
+export * from './isDateEarlier';
 
 export * from './isFullNameValidCharacters';
 
+export * from './isHasConsecutiveChars';
+
+export * from './isNoDoubleZeroStart';
+
+export * from './isStartsWithAndEndsWithLetter';
+
+export * from './isStringOfZeros';
+
 export * from './isValidFullNameLength';
+
+export * from './normalizeDate';
+
+export * from './resetTime';
