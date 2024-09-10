@@ -1,3 +1,5 @@
+import { isDate } from '@astral/utils';
+
 import { createRule, isDateEarlier } from '../core';
 
 import {
@@ -51,7 +53,7 @@ type RangeDateParams = {
 };
 
 /**
- * Проверяет даты интревала на обязательность заполнения, валидность значений и хронологический порядок
+ * Проверяет даты интервала на обязательность заполнения, валидность значений и хронологический порядок
  * @example
  * ```ts
  * const validate = object(rangeDate());
@@ -100,14 +102,14 @@ export const rangeDate = <TLastSchemaValues extends Record<string, unknown>>(
       });
     }
 
-    if (value?.start && Number.isNaN(Number(value.start))) {
+    if (value?.start && !isDate(value.start)) {
       return ctx.createError({
         message: RANGE_DATE_START_INVALID_ERROR_INFO.message,
         code: RANGE_DATE_START_INVALID_ERROR_INFO.code,
       });
     }
 
-    if (value?.end && Number.isNaN(Number(value.end))) {
+    if (value?.end && !isDate(value.end)) {
       return ctx.createError({
         message: RANGE_DATE_END_INVALID_ERROR_INFO.message,
         code: RANGE_DATE_END_INVALID_ERROR_INFO.code,

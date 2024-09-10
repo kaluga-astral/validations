@@ -12,6 +12,4 @@ export * from './isStringOfZeros';
 
 export * from './isValidFullNameLength';
 
-export * from './normalizeDate';
-
 export * from './resetTime';

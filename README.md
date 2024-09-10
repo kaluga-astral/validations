@@ -995,7 +995,7 @@ validate(new Date('10.10.2005'));
 
 ### rangeDate
 
-Проверяет даты интревала на обязательность заполнения, валидность значений и хронологический порядок
+Проверяет даты интервала на обязательность заполнения, валидность значений и хронологический порядок
 
 ```ts
 import { rangeDate } from '@astral/validations';
@@ -1043,9 +1043,10 @@ validate({
 
 ---
 
-### rangeDateInterval
+#### rangeDateInterval
 
-Проверяет значение интревала на максимально допустимое значение 
+Позволяет ограничить интервал на конкретное значение.
+По умолчанию значение задается в днях, но использую опцию `unit` возможна установка значения в месяцах и годах
 
 ```ts
 import { rangeDateInterval } from '@astral/validations';
@@ -1064,11 +1065,26 @@ validate({
   end: new Date('2024.09.12'),
 });
 
+const validateMonthInterval = object(rangeDateInterval({ limit: 2, unit: 'month' }));
+
+// { message: 'Период не может превышать 2 месяца' }
+validateMonthInterval({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.12.24'),
+});
+
+// undefined
+validateMonthInterval({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.09.12'),
+});
+
+
 ```
 
 ---
 
-### rangeDateMinMax
+#### rangeDateMinMax
 
 Проверяет даты на минимальное и максимальное допустимое значение
 
@@ -1099,9 +1115,9 @@ validate({
 
 ---
 
-### rangeDateNotEqual
+#### rangeDateNotEqual
 
-Проверяет даты интревала на совпадение
+Проверяет даты интервала на совпадение даты начала и окончания
 
 ```ts
 import { rangeDateNotEqual } from '@astral/validations';

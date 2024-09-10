@@ -1,3 +1,5 @@
+import { isDate } from '@astral/utils';
+
 import { createRule, isDateEarlier } from '../core';
 import {
   RANGE_DATE_END_INVALID_ERROR_INFO,
@@ -50,14 +52,14 @@ export const rangeDateMinMax = <
       return undefined;
     }
 
-    if (value?.start && Number.isNaN(Number(value.start))) {
+    if (value?.start && !isDate(value.start)) {
       return ctx.createError({
         message: RANGE_DATE_START_INVALID_ERROR_INFO.message,
         code: RANGE_DATE_START_INVALID_ERROR_INFO.code,
       });
     }
 
-    if (value?.end && Number.isNaN(Number(value.end))) {
+    if (value?.end && !isDate(value.end)) {
       return ctx.createError({
         message: RANGE_DATE_END_INVALID_ERROR_INFO.message,
         code: RANGE_DATE_END_INVALID_ERROR_INFO.code,

@@ -1,4 +1,4 @@
-import { addDays, addMonths, addYears } from '@astral/utils';
+import { addDays, addMonths, addYears, isDate } from '@astral/utils';
 
 import { createRule, isDateEarlier } from '../core';
 
@@ -31,7 +31,7 @@ const selectAddingStrategy = (unit: DateUnit) => {
 };
 
 /**
- * Проверяет значение интревала на максимально допустимое значение
+ * Позволяет ограничить интервал на конкретное значение. Установка интревала возможна в следующих единицах: день, месяц и год.
  * @example
  * ```ts
  * const validate = object(rangeDateInterval({ limit: 14 }));
@@ -50,7 +50,7 @@ export const rangeDateInterval = <
       return undefined;
     }
 
-    if (Number.isNaN(Number(value.start)) || Number.isNaN(Number(value.end))) {
+    if (!isDate(value.start) || !isDate(value.end)) {
       return undefined;
     }
 

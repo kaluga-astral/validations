@@ -1,8 +1,5 @@
-import { normalizeDate } from '../normalizeDate';
+import { resetTime } from '../resetTime';
 
 export const isDateEarlier = (dateA: Date, dateB: Date) => {
-  const normalizetDateA = normalizeDate(dateA);
-  const normalizeDateB = normalizeDate(dateB);
-
-  return normalizetDateA.getTime() < normalizeDateB.getTime();
+  return resetTime(dateA).getTime() < resetTime(dateB).getTime();
 };

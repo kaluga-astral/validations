@@ -1,4 +1,6 @@
-import { createRule, normalizeDate } from '../core';
+import { isDate } from '@astral/utils';
+
+import { createRule, resetTime } from '../core';
 
 import { RANGE_DATE_NOT_EQUAL_ERROR_INFO } from './constants';
 
@@ -12,14 +14,11 @@ type RangeDateNotEqualParams = {
 };
 
 const isDateEqual = (dateA: Date, dateB: Date) => {
-  const normalizeDateA = normalizeDate(dateA);
-  const normalizeDateB = normalizeDate(dateB);
-
-  return normalizeDateA.getTime() === normalizeDateB.getTime();
+  return resetTime(dateA).getTime() === resetTime(dateB).getTime();
 };
 
 /**
- * Проверяет даты интревала на совпадение
+ * Проверяет даты интервала на совпадение даты начала и окончания
  * @example
  * ```ts
  * const validate = object(rangeDateNotEqual());
@@ -36,7 +35,7 @@ export const rangeDateNotEqual = <
       return undefined;
     }
 
-    if (Number.isNaN(Number(value.start)) || Number.isNaN(Number(value.end))) {
+    if (!isDate(value.start) || !isDate(value.end)) {
       return undefined;
     }
 
