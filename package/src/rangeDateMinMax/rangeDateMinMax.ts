@@ -42,7 +42,7 @@ export const rangeDateMinMax = <
   params?: RangeDateMinMaxParams,
 ) =>
   createRule<RangeDateValue, TLastSchemaValues>((value, ctx) => {
-    if (!value.start && !value.end) {
+    if (!value.start || !value.end) {
       return undefined;
     }
 
