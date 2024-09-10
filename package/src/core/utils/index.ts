@@ -1,9 +1,3 @@
-export * from './declensionDay';
-
-export * from './declensionMonth';
-
-export * from './declensionYear';
-
 export * from './isDateEarlier';
 
 export * from './isFullNameValidCharacters';

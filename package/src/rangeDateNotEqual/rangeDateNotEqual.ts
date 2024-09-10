@@ -36,6 +36,10 @@ export const rangeDateNotEqual = <
       return undefined;
     }
 
+    if (Number.isNaN(Number(value.start)) || Number.isNaN(Number(value.end))) {
+      return undefined;
+    }
+
     if (isDateEqual(value.start, value.end)) {
       return ctx.createError({
         message: params?.message || RANGE_DATE_NOT_EQUAL_ERROR_INFO.message,

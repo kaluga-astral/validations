@@ -52,6 +52,10 @@
     - [min](#min-date)
     - [max](#max-date)
     - [minYearsOld](#min-years-old-date)
+    - [rangeDate](#range-date)
+    - [rangeDateInterval](#range-date-interval)
+    - [rangeDateMinMax](#range-date-minmax)
+    - [rangeDateNotEqual](#range-date-notequal)
   - [boolean](#boolean)
   - [object](#object)
     - [partial](#partial)
@@ -984,6 +988,139 @@ validate(new Date('15.11.2022'));
 
 // undefined
 validate(new Date('10.10.2005'));
+
+```
+
+---
+
+### rangeDate
+
+Проверяет даты интревала на обязательность заполнения, валидность значений и хронологический порядок
+
+```ts
+import { rangeDate } from '@astral/validations';
+
+const validate = rangeDate();
+
+// { message: 'Укажите период' }
+validate({});
+
+// { message: 'Укажите дату окончания' }
+validate({
+  start: new Date('2024.09.05'),
+})
+
+// { message: 'Укажите дату начала' }
+validate({
+  end: new Date('2024.09.24'),
+})
+
+// { message: 'Дата начала некорректная' }
+validate({
+  start: new Date('2024.99.99'),
+  end: new Date('2024.09.24'),
+})
+
+// { message: 'Дата окончания некорректная' }
+validate({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.99.99'),
+})
+
+// { message: 'Дата окончания не может быть раньше даты начала' }
+validate({
+  start: new Date('2024.09.24'),
+  end: new Date('2024.09.05'),
+})
+
+// undefined
+validate({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.09.24'),
+});
+
+```
+
+---
+
+### rangeDateInterval
+
+Проверяет значение интревала на максимально допустимое значение 
+
+```ts
+import { rangeDateInterval } from '@astral/validations';
+
+const validate = object(rangeDateInterval({ limit: 14, }));
+
+// { message: 'Период не может превышать 14 дней' }
+validate({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.09.24'),
+});
+
+// undefined
+validate({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.09.12'),
+});
+
+```
+
+---
+
+### rangeDateMinMax
+
+Проверяет даты на минимальное и максимальное допустимое значение
+
+```ts
+import { rangeDateMinMax } from '@astral/validations';
+
+const validate = object(rangeDateMinMax({ start: { min: { limit: new Date('2024.09.05') }}, end: { max: { limit: new Date('2024.09.15') } } }))
+
+// { message: 'Дата начала должна быть позже 05.09.2024' }
+validate({
+  start: new Date('2024.09.01'),
+  end: new Date('2024.09.10'),
+});
+
+// { message: 'Дата окончания должна быть раньше 15.09.2024}' }
+validate({
+  start: new Date('2024.09.06'),
+  end: new Date('2024.09.20'),
+});
+
+// undefined
+validate({
+  start: new Date('2024.09.06'),
+  end: new Date('2024.09.14'),
+});
+
+```
+
+---
+
+### rangeDateNotEqual
+
+Проверяет даты интревала на совпадение
+
+```ts
+import { rangeDateNotEqual } from '@astral/validations';
+
+const validate = object(
+  rangeDateNotEqual(),
+);
+
+// { message: 'Даты начала и окончания не могут совпадать' }
+validate({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.09.05'),
+});
+
+// undefined
+validate({
+  start: new Date('2024.09.05'),
+  end: new Date('2024.09.06'),
+});
 
 ```
 

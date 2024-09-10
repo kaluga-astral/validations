@@ -24,15 +24,8 @@ type RangeDateMinMaxParams = {
   end?: { min?: LimitOptions; max?: LimitOptions };
 };
 
-const formatDateToView = (value: Date) => {
-  const date = value.getDate();
-  const month = value.getMonth() + 1;
-  const year = value.getFullYear();
-
-  const formattedDate = date < 10 ? `0${date}` : date;
-  const formattedMonth = month < 10 ? `0${month}` : month;
-
-  return `${formattedDate}.${formattedMonth}.${year}`;
+const formatDateToView = (date: Date) => {
+  return new Intl.DateTimeFormat('ru-RU').format(date);
 };
 
 /**
@@ -50,6 +43,10 @@ export const rangeDateMinMax = <
 ) =>
   createRule<RangeDateValue, TLastSchemaValues>((value, ctx) => {
     if (!value.start && !value.end) {
+      return undefined;
+    }
+
+    if (Number.isNaN(Number(value.start)) || Number.isNaN(Number(value.end))) {
       return undefined;
     }
 

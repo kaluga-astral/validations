@@ -3,7 +3,7 @@ import { addDays, addMonths, addYears } from '@astral/utils';
 import { createRule, isDateEarlier } from '../core';
 
 import { RANGE_DATE_INTERVAL_ERROR_INFO } from './constants';
-import type { DateUnit, DefaultMessage, RangeDateValue } from './types';
+import type { DateUnit, RangeDateValue } from './types';
 
 type RangeDateIntervalParams = {
   limit: number;
@@ -31,7 +31,7 @@ const selectAddingStrategy = (unit: DateUnit) => {
 };
 
 /**
- * Проверяет значение интревала на ограничение
+ * Проверяет значение интревала на максимально допустимое значение
  * @example
  * ```ts
  * const validate = object(rangeDateInterval({ limit: 14 }));
@@ -50,16 +50,15 @@ export const rangeDateInterval = <
       return undefined;
     }
 
+    if (Number.isNaN(Number(value.start)) || Number.isNaN(Number(value.end))) {
+      return undefined;
+    }
+
     const addLimits = selectAddingStrategy(unit);
 
     if (!isDateEarlier(value.end, addLimits(value.start, limit))) {
       return ctx.createError({
-        message:
-          message ||
-          (RANGE_DATE_INTERVAL_ERROR_INFO.message as DefaultMessage)(
-            limit,
-            unit,
-          ),
+        message: message || RANGE_DATE_INTERVAL_ERROR_INFO.message(limit, unit),
         code: RANGE_DATE_INTERVAL_ERROR_INFO.code,
       });
     }
