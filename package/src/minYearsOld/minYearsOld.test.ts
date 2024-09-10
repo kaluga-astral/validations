@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { expect, vi } from 'vitest';
 
 import { date } from '../date';
 
@@ -9,6 +9,15 @@ import {
 import { minYearsOld } from './minYearsOld';
 
 describe('minYearsOld', () => {
+  beforeAll(() => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2024-02-10'));
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it.each<{ value: Date; age: number }>([
     { value: new Date('10.10.2009'), age: 14 },
     { value: new Date('10.10.2000'), age: 16 },

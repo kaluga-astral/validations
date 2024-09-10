@@ -1,4 +1,8 @@
 import { createRule, isDateEarlier } from '../core';
+import {
+  RANGE_DATE_END_INVALID_ERROR_INFO,
+  RANGE_DATE_START_INVALID_ERROR_INFO,
+} from '../rangeDate';
 
 import {
   RANGE_DATE_MAX_ERROR_INFO,
@@ -42,12 +46,22 @@ export const rangeDateMinMax = <
   params?: RangeDateMinMaxParams,
 ) =>
   createRule<RangeDateValue, TLastSchemaValues>((value, ctx) => {
-    if (!value.start || !value.end) {
+    if (!value.start && !value.end) {
       return undefined;
     }
 
-    if (Number.isNaN(Number(value.start)) || Number.isNaN(Number(value.end))) {
-      return undefined;
+    if (value?.start && Number.isNaN(Number(value.start))) {
+      return ctx.createError({
+        message: RANGE_DATE_START_INVALID_ERROR_INFO.message,
+        code: RANGE_DATE_START_INVALID_ERROR_INFO.code,
+      });
+    }
+
+    if (value?.end && Number.isNaN(Number(value.end))) {
+      return ctx.createError({
+        message: RANGE_DATE_END_INVALID_ERROR_INFO.message,
+        code: RANGE_DATE_END_INVALID_ERROR_INFO.code,
+      });
     }
 
     // Если дата начала раньше заданной минимальной
