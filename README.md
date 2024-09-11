@@ -1046,12 +1046,12 @@ validate({
 #### rangeDateInterval
 
 Позволяет ограничить интервал на конкретное значение.
-По умолчанию значение задается в днях, но использую опцию `unit` возможна установка значения в месяцах и годах
+По умолчанию значение интервала задаётся в днях, но с помощью опции unit можно задать значение в месяцах или годах.
 
 ```ts
 import { rangeDateInterval } from '@astral/validations';
 
-const validate = object(rangeDateInterval({ limit: 14, }));
+const validate = object(rangeDateInterval({ limit: 14 }));
 
 // { message: 'Период не может превышать 14 дней' }
 validate({
