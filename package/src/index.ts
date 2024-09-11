@@ -163,3 +163,29 @@ export { toPrettyError } from './toPrettyError';
 export { transform } from './transform';
 
 export { enabled } from './enabled';
+
+export {
+  rangeDate,
+  RANGE_DATE_END_EARLIER_START_ERROR_INFO,
+  RANGE_DATE_END_INVALID_ERROR_INFO,
+  RANGE_DATE_END_REQUIRED_ERROR_INFO,
+  RANGE_DATE_REQUIRED_ERROR_INFO,
+  RANGE_DATE_START_INVALID_ERROR_INFO,
+  RANGE_DATE_START_REQUIRED_ERROR_INFO,
+} from './rangeDate';
+
+export {
+  rangeDateInterval,
+  RANGE_DATE_INTERVAL_ERROR_INFO,
+} from './rangeDateInterval';
+
+export {
+  rangeDateMinMax,
+  RANGE_DATE_MAX_ERROR_INFO,
+  RANGE_DATE_MIN_ERROR_INFO,
+} from './rangeDateMinMax';
+
+export {
+  rangeDateNotEqual,
+  RANGE_DATE_NOT_EQUAL_ERROR_INFO,
+} from './rangeDateNotEqual';
