@@ -34,7 +34,7 @@ const selectAddingStrategy = (unit: DateUnit) => {
  * Позволяет ограничить интервал на конкретное значение. Установка интревала возможна в следующих единицах: день, месяц и год.
  * @example
  * ```ts
- * const validate = object(rangeDateInterval({ limit: 14 }));
+ * const validate = rangeDate(rangeDateInterval({ limit: 14 }));
  * validate({ start: new Date('2024.08.15'), end: new Date('2024.09.05') });
  * ```
  */

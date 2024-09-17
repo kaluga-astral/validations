@@ -38,7 +38,7 @@ const formatDateToView = (date: Date) => {
  * Проверяет даты на минимальное и максимальное допустимое значение
  * @example
  * ```ts
- * const validate = object(rangeDateMinMax({ start: { min: { limit: new Date(2023, 0, 1) }}, end: { max: { limit: new Date() } } }));
+ * const validate = rangeDate(rangeDateMinMax({ start: { min: { limit: new Date(2023, 0, 1) }}, end: { max: { limit: new Date() } } }));
  * validate({ start: new Date(), end: new Date() });
  * ```
  */

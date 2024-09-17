@@ -20,7 +20,7 @@ describe('rangeDate', () => {
     });
 
     it('Если дата начала не указана и задана как необязательная', () => {
-      const result = rangeDate({ required: { start: false } })({
+      const result = rangeDate().define({ required: { start: false } })({
         end: new Date('2024.09.05'),
       });
 
@@ -28,7 +28,7 @@ describe('rangeDate', () => {
     });
 
     it('Если дата окончания не указана и задана как необязательная', () => {
-      const result = rangeDate({ required: { end: false } })({
+      const result = rangeDate().define({ required: { end: false } })({
         start: new Date('2024.09.05'),
       });
 
@@ -36,7 +36,9 @@ describe('rangeDate', () => {
     });
 
     it('Если дата не указаны и заданы как необязательные', () => {
-      const result = rangeDate({ required: { start: false, end: false } })({});
+      const result = rangeDate().define({
+        required: { start: false, end: false },
+      })({});
 
       expect(result).toBeUndefined();
     });
@@ -104,7 +106,9 @@ describe('rangeDate', () => {
     it('Для даты начала', () => {
       const customMessage = 'CustomMessage';
 
-      const error = rangeDate({ messages: { startRequired: customMessage } })({
+      const error = rangeDate().define({
+        messages: { startRequired: customMessage },
+      })({
         end: new Date('2024.09.04'),
       });
 
@@ -114,7 +118,9 @@ describe('rangeDate', () => {
     it('Для даты окончания', () => {
       const customMessage = 'CustomMessage';
 
-      const error = rangeDate({ messages: { endRequired: customMessage } })({
+      const error = rangeDate().define({
+        messages: { endRequired: customMessage },
+      })({
         start: new Date('2024.09.05'),
       });
 
@@ -124,9 +130,9 @@ describe('rangeDate', () => {
     it('Если дата окончания раньше даты начала', () => {
       const customMessage = 'CustomMessage';
 
-      const error = rangeDate({ messages: { endEarlierStart: customMessage } })(
-        { start: new Date('2024.09.05'), end: new Date('2024.09.04') },
-      );
+      const error = rangeDate().define({
+        messages: { endEarlierStart: customMessage },
+      })({ start: new Date('2024.09.05'), end: new Date('2024.09.04') });
 
       expect(error?.message).toBe(customMessage);
     });
