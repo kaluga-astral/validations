@@ -52,10 +52,10 @@
     - [min](#min-date)
     - [max](#max-date)
     - [minYearsOld](#min-years-old-date)
-    - [rangeDate](#rangeDate)
-      - [rangeDateInterval](#rangeDateInterval)
-      - [rangeDateMinMax](#rangeDateMinMax)
-      - [rangeDateNotEqual](#rangeDateNotEqual)
+  - [rangeDate](#rangeDate)
+    - [rangeDateInterval](#rangeDateInterval)
+    - [rangeDateMinMax](#rangeDateMinMax)
+    - [rangeDateNotEqual](#rangeDateNotEqual)
   - [boolean](#boolean)
   - [object](#object)
     - [partial](#partial)
@@ -995,7 +995,8 @@ validate(new Date('10.10.2005'));
 
 ### rangeDate
 
-Проверяет даты интервала на обязательность заполнения, валидность значений и хронологический порядок
+- Проверяет даты интервала на обязательность заполнения, валидность значений и хронологический порядок
+- Выполняет композицию правил, переданных в параметры
 
 ```ts
 import { rangeDate } from '@astral/validations';
@@ -1039,6 +1040,24 @@ validate({
   end: new Date('2024.09.24'),
 });
 
+
+const customValidate = (...rules: DateRangeRule[]) => dateRange(...rules).define({
+  required: { start: false, end: false },
+  message: {
+    startRequired: 'Укажите начало периода'
+  }
+})
+
+// undefined
+customValidate({
+  start: new Date('2024.09.05'),
+});
+
+// { message: 'Укажите начало периода' }
+validate({
+  end: new Date('2024.09.05'),
+})
+
 ```
 
 ---
@@ -1051,7 +1070,7 @@ validate({
 ```ts
 import { rangeDateInterval } from '@astral/validations';
 
-const validate = object(rangeDateInterval({ limit: 14 }));
+const validate = rangeDate(rangeDateInterval({ limit: 14 }));
 
 // { message: 'Период не может превышать 14 дней' }
 validate({
@@ -1065,7 +1084,7 @@ validate({
   end: new Date('2024.09.12'),
 });
 
-const validateMonthInterval = object(rangeDateInterval({ limit: 2, unit: 'month' }));
+const validateMonthInterval = rangeDate(rangeDateInterval({ limit: 2, unit: 'month' }));
 
 // { message: 'Период не может превышать 2 месяца' }
 validateMonthInterval({
@@ -1091,7 +1110,7 @@ validateMonthInterval({
 ```ts
 import { rangeDateMinMax } from '@astral/validations';
 
-const validate = object(rangeDateMinMax({ start: { min: { limit: new Date('2024.09.05') }}, end: { max: { limit: new Date('2024.09.15') } } }))
+const validate = rangeDate(rangeDateMinMax({ start: { min: { limit: new Date('2024.09.05') }}, end: { max: { limit: new Date('2024.09.15') } } }))
 
 // { message: 'Дата начала должна быть позже 05.09.2024' }
 validate({
@@ -1122,7 +1141,7 @@ validate({
 ```ts
 import { rangeDateNotEqual } from '@astral/validations';
 
-const validate = object(
+const validate = rangeDate(
   rangeDateNotEqual(),
 );
 
@@ -1179,7 +1198,7 @@ validate(null)
   - Value не является простым объектом
   - Свойства не соответсвуют переданной схеме валидации
 - Возвращаем объект ошибок, соответсвующих ошибкам для свойств объекта
-- Требует схему для валидации, свойства которой должны соответсвовать валидируемому values
+- Требует схему для валидации, свойства которой должны соответствовать валидируемому values
 
 ```ts
 import {

@@ -21,7 +21,7 @@ const isDateEqual = (dateA: Date, dateB: Date) => {
  * Проверяет даты интервала на совпадение даты начала и окончания
  * @example
  * ```ts
- * const validate = object(rangeDateNotEqual());
+ * const validate = rangeDate(rangeDateNotEqual());
  * validate({ start: new Date(), end: new Date() });
  * ```
  */
