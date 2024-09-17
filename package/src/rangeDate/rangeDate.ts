@@ -69,8 +69,8 @@ type RangeDateParams = {
 export const rangeDate = <TLastSchemaValues extends Record<string, unknown>>(
   ...rules: ValidationRule<RangeDateValue, TLastSchemaValues>[]
 ) =>
-  createGuard<TLastSchemaValues, RangeDateParams, RangeDateValue>(
-    (value, ctx, params) => {
+  createGuard<TLastSchemaValues, RangeDateParams>(
+    (externalValue, ctx, params) => {
       const { required, messages }: RangeDateParams = {
         ...(params || {}),
         required: {
@@ -84,6 +84,11 @@ export const rangeDate = <TLastSchemaValues extends Record<string, unknown>>(
               : true,
         },
       };
+
+      // Приводим тип, чтобы не усложнять код и не дублировать часть проверок
+      // Существующие проверки покрывают все кейсы
+      // Иначе необходимо делать проверку на объект и наличие полей start и end с учетом вариативности
+      const value = externalValue as RangeDateValue;
 
       if (required?.start && required?.end && !value.start && !value.end) {
         return ctx.createError({

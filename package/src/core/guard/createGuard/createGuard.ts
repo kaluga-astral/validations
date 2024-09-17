@@ -71,9 +71,8 @@ export interface AsyncGuard<
 type GuardExecutor<
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown>,
-  TValue = unknown,
 > = (
-  value: TValue,
+  value: unknown,
   ctx: ValidationContext<TLastSchemaValues>,
   defOptions: GuardDefOptions<AddDefOptions>,
 ) => ValidationResult;
@@ -84,9 +83,8 @@ type GuardExecutor<
 type AsyncGuardExecutor<
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown>,
-  TValue = unknown,
 > = (
-  value: TValue,
+  value: unknown,
   ctx: ValidationContext<TLastSchemaValues>,
   defOptions: GuardDefOptions<AddDefOptions>,
 ) => Promise<ValidationResult>;
@@ -110,34 +108,31 @@ type AsyncGuardExecutor<
 export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
-  TValue = unknown,
 >(
-  executor: GuardExecutor<TLastSchemaValues, AddDefOptions, TValue>,
+  executor: GuardExecutor<TLastSchemaValues, AddDefOptions>,
 ): Guard<TLastSchemaValues, AddDefOptions>;
 
 export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
-  TValue = unknown,
 >(
-  executor: AsyncGuardExecutor<TLastSchemaValues, AddDefOptions, TValue>,
+  executor: AsyncGuardExecutor<TLastSchemaValues, AddDefOptions>,
 ): AsyncGuard<TLastSchemaValues, AddDefOptions>;
 
 export function createGuard<
   TLastSchemaValues extends Record<string, unknown>,
   AddDefOptions extends Record<string, unknown> = {},
-  TValue = unknown,
 >(
   executor:
-    | GuardExecutor<TLastSchemaValues, AddDefOptions, TValue>
-    | AsyncGuardExecutor<TLastSchemaValues, AddDefOptions, TValue>,
+    | GuardExecutor<TLastSchemaValues, AddDefOptions>
+    | AsyncGuardExecutor<TLastSchemaValues, AddDefOptions>,
 ) {
   // выделено в отдельную именованную функцию для того, чтобы ее можно было рекурсивно вызывать в define
   const createInnerGuard = (
     defOptions: GuardDefOptions<AddDefOptions> = {},
   ) => {
     const guard = (
-      value: TValue,
+      value: unknown,
       prevCtx?: ValidationContext<TLastSchemaValues>,
     ) => {
       const actualDefOptions: GuardDefOptions<AddDefOptions> = {

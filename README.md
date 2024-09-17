@@ -1040,6 +1040,24 @@ validate({
   end: new Date('2024.09.24'),
 });
 
+
+const customValidate = (...rules: DateRangeRule[]) => dateRange(...rules).define({
+  required: { start: false, end: false },
+  message: {
+    startRequired: 'Укажите начало периода'
+  }
+})
+
+// undefined
+customValidate({
+  start: new Date('2024.09.05'),
+});
+
+// { message: 'Укажите начало периода' }
+validate({
+  end: new Date('2024.09.05'),
+})
+
 ```
 
 ---
@@ -1180,7 +1198,7 @@ validate(null)
   - Value не является простым объектом
   - Свойства не соответсвуют переданной схеме валидации
 - Возвращаем объект ошибок, соответсвующих ошибкам для свойств объекта
-- Требует схему для валидации, свойства которой должны соответсвовать валидируемому values
+- Требует схему для валидации, свойства которой должны соответствовать валидируемому values
 
 ```ts
 import {
